@@ -9,8 +9,8 @@ import { hero } from "@/content/home"
 import { easeCut as cut, easeSnap as snap } from "@/lib/motion"
 
 /**
- * The page's opening move, kept snappy: a saw line whips across the frame,
- * the cut snaps open to reveal the stone, and the headline punches up.
+ * The page's opening move, kept snappy: the picture pours in from the top
+ * like a load tipping out of a truck bed, then the headline punches up.
  */
 export function Hero({ media }: { media: Media }) {
   const ref = useRef<HTMLElement>(null)
@@ -26,36 +26,24 @@ export function Hero({ media }: { media: Media }) {
     <section
       ref={ref}
       aria-label="Introduction"
-      className="on-bluestone relative isolate flex min-h-[100svh] items-end overflow-hidden bg-bluestone text-honed"
+      className="on-slate relative isolate flex min-h-[100svh] items-end overflow-hidden bg-slate text-limewash"
     >
-      {/* The saw line */}
-      <motion.span
-        aria-hidden="true"
-        className="absolute inset-x-0 top-1/2 z-10 h-px origin-left bg-honed/80"
-        initial={{ scaleX: 0, opacity: 1 }}
-        animate={{ scaleX: 1, opacity: 0 }}
-        transition={{
-          scaleX: { ...t(0.42), ease: cut },
-          opacity: t(0.18, 0.46),
-        }}
-      />
-
-      {/* The stone, revealed by the cut opening */}
+      {/* The yard, poured in from the top */}
       <motion.div
         className="absolute inset-0 -z-10"
-        initial={{ clipPath: "inset(50% 0% 50% 0%)" }}
+        initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
         animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
-        transition={{ ...t(0.7, 0.36), ease: cut }}
+        transition={{ ...t(0.75, 0.05), ease: cut }}
       >
         <motion.div className="absolute inset-0" style={{ scale: mediaScale, y: mediaY }}>
           <MediaFrame
             media={media}
-            alt="Limestone slabs stacked in the yard"
+            alt="Gravel piles and a loader at the limestone yard"
             tone={{ base: "#8e8a80", vein: "#5d5a52", grain: "#3f3d38" }}
             preload
           />
         </motion.div>
-        {/* Legibility: a bluestone wash from the lower left where the copy sits */}
+        {/* Legibility: a slate wash from the lower left where the copy sits */}
         <div className="absolute inset-0 bg-[linear-gradient(to_top,rgb(35_41_44/0.92)_0%,rgb(35_41_44/0.55)_38%,rgb(35_41_44/0.05)_70%),linear-gradient(to_right,rgb(35_41_44/0.5),transparent_60%)]" />
       </motion.div>
 
@@ -67,7 +55,7 @@ export function Hero({ media }: { media: Media }) {
                 className="block"
                 initial={{ y: "105%" }}
                 animate={{ y: "0%" }}
-                transition={{ ...t(0.55, 0.72 + i * 0.06), ease: snap }}
+                transition={{ ...t(0.55, 0.45 + i * 0.06), ease: snap }}
               >
                 {line}
               </motion.span>
@@ -79,19 +67,19 @@ export function Hero({ media }: { media: Media }) {
           className="mt-10 flex flex-col gap-8 md:mt-12 md:flex-row md:items-end md:justify-between"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...t(0.4, 1.0), ease: snap }}
+          transition={{ ...t(0.4, 0.75), ease: snap }}
         >
-          <p className="type-lede max-w-[38ch] text-honed/85">{hero.body}</p>
+          <p className="type-lede max-w-[38ch] text-limewash/85">{hero.body}</p>
           <div className="flex flex-wrap gap-3">
             <Link
               href={hero.primaryCta.href}
-              className="press inline-flex h-12 items-center rounded-full bg-honed px-7 text-bluestone hover:bg-lichen-light"
+              className="press inline-flex h-12 items-center rounded-full bg-loader px-7 text-slate hover:bg-limewash"
             >
               {hero.primaryCta.label}
             </Link>
             <Link
               href={hero.secondaryCta.href}
-              className="press inline-flex h-12 items-center rounded-full border border-honed/40 px-7 hover:border-honed hover:bg-honed/10"
+              className="press inline-flex h-12 items-center rounded-full border border-limewash/40 px-7 hover:border-limewash hover:bg-limewash/10"
             >
               {hero.secondaryCta.label}
             </Link>

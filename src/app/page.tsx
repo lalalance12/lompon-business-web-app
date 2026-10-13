@@ -1,56 +1,58 @@
 import Link from "next/link"
-import { Check } from "lucide-react"
+import { Truck, Warehouse } from "lucide-react"
 import { image, video } from "@/lib/media"
 import { cn } from "@/lib/utils"
 import { site } from "@/content/site"
-import { applications, hero, intro, process, visitBand, waysToBuy } from "@/content/home"
-import { delivery } from "@/content/delivery"
-import { materials } from "@/content/materials"
-import { stoneMedia, stones, getStone } from "@/content/stones"
+import { hero, intro, journey, pricesTeaser, screening, usesSection, visitBand, waysToBuy } from "@/content/home"
+import { materials, sackMaterials, tonMaterials } from "@/content/materials"
+import { cheapestDelivery, formatPeso, fromPrice, priceList } from "@/content/prices"
+import { useCases, jobMedia } from "@/content/uses"
 import { projectMedia, projects } from "@/content/projects"
 import { Hero } from "@/components/home/hero"
-import { SlabRack } from "@/components/home/slab-rack"
+import { UseCaseExplorer } from "@/components/home/use-case-explorer"
+import { ScreeningScene } from "@/components/home/screening-scene"
+import { DeliveryJourney } from "@/components/home/delivery-journey"
 import { MediaFrame } from "@/components/media/media-frame"
-import { DumpTruck } from "@/components/materials/dump-truck"
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal"
 import { SectionHeading, TextLink } from "@/components/shared/section-heading"
 
-// Varied spans so the applications read as a composed spread, not a card grid.
-const applicationLayout = [
-  { span: "md:col-span-7 md:row-span-2", frame: "aspect-[4/5] md:aspect-auto md:flex-1" },
-  { span: "md:col-span-5", frame: "aspect-[16/10]" },
-  { span: "md:col-span-5", frame: "aspect-[16/10]" },
-  { span: "md:col-span-4", frame: "aspect-[4/3]" },
-  { span: "md:col-span-4", frame: "aspect-[4/3]" },
-  { span: "md:col-span-4", frame: "aspect-[4/3]" },
-]
+const byMaterial = (slug: string) => materials.find((m) => m.slug === slug)!
 
-// Texture colours for the application placeholders, matched to what each shows.
-const applicationTones = [
-  stones[0].tone,
-  materials.find((m) => m.slug === "road-base")!.tone,
-  materials.find((m) => m.slug === "gravel")!.tone,
-  materials.find((m) => m.slug === "boulders")!.tone,
-  materials.find((m) => m.slug === "fine-limestone")!.tone,
-  materials.find((m) => m.slug === "cooked-limestone")!.tone,
-]
-
-const buyTones = [stones[1].tone, materials.find((m) => m.slug === "gravel")!.tone, materials.find((m) => m.slug === "fine-limestone")!.tone]
+/** "₱750 a ton" / "₱200 a sack" */
+function priceLabel(slug: string) {
+  const p = fromPrice(slug)
+  return p ? `${formatPeso(p.amount)} a ${p.unit}` : "Ask for price"
+}
 
 const hoverZoom = "transition-transform duration-500 ease-snap group-hover:scale-[1.04]"
 
 export default function HomePage() {
-  const featured = stones
-    .filter((s) => s.featured)
-    .map((s) => ({
-      slug: s.slug,
-      name: s.name,
-      family: s.family,
-      origin: s.origin,
-      summary: s.summary,
-      tone: s.tone,
-      cover: image(stoneMedia.cover(s.slug)),
-    }))
+  const explorerUses = useCases.map((u) => ({
+    slug: u.slug,
+    title: u.title,
+    body: u.body,
+    tone: u.tone,
+    media: image(jobMedia(u.slug)),
+    products: u.products.map((slug) => ({ slug, name: byMaterial(slug).name, price: priceLabel(slug) })),
+  }))
+
+  // Screen decks, top to bottom: what each screen holds back, then what falls through
+  const decks = ["boulders", "gravel", "pebbles", "limestone-fines"].map((slug) => {
+    const m = byMaterial(slug)
+    return { slug, name: m.name, size: m.size, price: formatPeso(priceList.perTon[slug]) }
+  })
+
+  const tonFrom = Math.min(...tonMaterials.map((m) => priceList.perTon[m.slug]))
+  const sackFrom = Math.min(...sackMaterials.map((m) => priceList.perSack[m.slug].bulk))
+  const buyFrom = { ton: tonFrom, sack: sackFrom }
+  const buyLists = { ton: tonMaterials, sack: sackMaterials }
+
+  const highlights = [
+    { label: "Road base", value: formatPeso(priceList.perTon["road-base"]), unit: "per ton", href: "/prices#tons" },
+    { label: "Crushed gravel", value: formatPeso(priceList.perTon.gravel), unit: "per ton", href: "/prices#tons" },
+    { label: "Fine limestone", value: formatPeso(priceList.perSack["fine-limestone"].each), unit: "per 40 kg sack", href: "/prices#sacks" },
+    { label: "Delivery", value: formatPeso(cheapestDelivery), unit: "per trip, from", href: "/prices#delivery" },
+  ]
 
   const recent = projects.slice(0, 3)
 
@@ -76,7 +78,7 @@ export default function HomePage() {
       <Hero media={video(hero.video, hero.poster)} />
 
       {/* Intro */}
-      <section className="page-gutter page-width py-24 md:py-36">
+      <section className="page-gutter page-width py-24 md:py-32">
         <div className="grid gap-14 md:grid-cols-12">
           <Reveal className="md:col-span-8">
             <p className="type-h2">{intro.statement}</p>
@@ -100,193 +102,156 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Three ways to buy */}
-      <section id="buy" aria-labelledby="buy-heading" className="page-gutter page-width scroll-mt-24 pb-24 md:pb-36">
+      {/* 1. What it's used for */}
+      <section id="uses" aria-labelledby="uses-heading" className="page-gutter page-width scroll-mt-24 pb-24 md:pb-32">
+        <SectionHeading id="uses-heading" title={usesSection.title} body={usesSection.body} className="mb-10 md:mb-14" />
+        <UseCaseExplorer uses={explorerUses} />
+      </section>
+
+      {/* Scroll scene: sorted by size */}
+      <div className="bg-limewash">
+        <ScreeningScene title={screening.title} body={screening.body} decks={decks} />
+      </div>
+
+      {/* 2. How to buy */}
+      <section id="buy" aria-labelledby="buy-heading" className="page-gutter page-width scroll-mt-24 py-24 md:py-32">
         <SectionHeading
           id="buy-heading"
-          title="Three ways to buy"
-          body="Finished stone by the piece, crushed stone by the ton, and lime by the sack. All from the same yard."
+          title="How to buy"
+          body="Two ways to buy, two ways to get it home. Collect from the yard with your own truck, or book one of ours."
           className="mb-12 md:mb-16"
         />
-        <RevealGroup className="grid gap-x-6 gap-y-14 md:grid-cols-3" stagger={0.07}>
-          {waysToBuy.map((way, i) => (
+        <RevealGroup className="grid gap-x-6 gap-y-14 md:grid-cols-2" stagger={0.08}>
+          {waysToBuy.map((way) => (
             <RevealItem key={way.title}>
               <Link href={way.href} className="group flex h-full flex-col">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-sm">
                   <MediaFrame
                     media={image(way.media)}
                     alt={way.title}
-                    tone={buyTones[i]}
-                    sizes="(min-width: 768px) 33vw, 100vw"
+                    tone={byMaterial(way.unit === "ton" ? "gravel" : "fine-limestone").tone}
+                    sizes="(min-width: 768px) 50vw, 100vw"
                     imageClassName={hoverZoom}
                   />
+                  <span className="absolute top-4 left-4 rounded-full bg-loader px-4 py-2 text-sm text-slate">
+                    From {formatPeso(buyFrom[way.unit])} a {way.unit}
+                  </span>
                 </div>
                 <h3 className="type-h2 mt-6">{way.title}</h3>
-                <p className="mt-2 text-silt">{way.body}</p>
-                <ul className="mt-5 space-y-1.5 border-t border-border pt-5">
-                  {way.items.map((item) => (
-                    <li key={item}>{item}</li>
+                <p className="mt-2 max-w-[48ch] text-silt">{way.body}</p>
+                <ul className="mt-5 flex flex-wrap gap-1.5">
+                  {buyLists[way.unit].map((m) => (
+                    <li key={m.slug} className="rounded-full border border-border px-3 py-1 text-sm text-silt">
+                      {m.name}
+                    </li>
                   ))}
                 </ul>
-                <span className="press mt-6 inline-flex h-11 w-fit items-center rounded-full border border-bluestone/25 px-5 text-[0.9375rem] group-hover:border-bluestone group-hover:bg-bluestone group-hover:text-honed">
+                <span className="press mt-6 inline-flex h-11 w-fit items-center rounded-full border border-slate/25 px-5 text-[0.9375rem] group-hover:border-slate group-hover:bg-slate group-hover:text-limewash">
                   {way.cta}
                 </span>
               </Link>
             </RevealItem>
           ))}
         </RevealGroup>
+
+        <RevealGroup as="div" className="mt-16 grid gap-4 border-t border-border pt-10 sm:grid-cols-2" stagger={0.06}>
+          <RevealItem as="div" className="flex gap-4">
+            <Warehouse className="mt-1 size-6 shrink-0 text-ochre" aria-hidden="true" />
+            <div>
+              <h3 className="text-lg">Pick up at the yard</h3>
+              <p className="mt-1 text-silt">Drive in during opening hours. We load your truck for free and weigh it on the way out.</p>
+            </div>
+          </RevealItem>
+          <RevealItem as="div" className="flex gap-4">
+            <Truck className="mt-1 size-6 shrink-0 text-ochre" aria-hidden="true" />
+            <div>
+              <h3 className="text-lg">Delivery by dump truck</h3>
+              <p className="mt-1 text-silt">
+                A separate service, from {formatPeso(cheapestDelivery)} a trip. Watch a load go from our yard to a site just below.
+              </p>
+            </div>
+          </RevealItem>
+        </RevealGroup>
       </section>
 
-      {/* Delivery */}
-      <section aria-labelledby="delivery-heading" className="on-bluestone bg-bluestone py-24 text-honed md:py-36">
-        <div className="page-gutter page-width grid items-center gap-14 md:grid-cols-12 md:gap-10">
-          <Reveal className="md:col-span-5">
-            <h2 id="delivery-heading" className="type-h2 max-w-[16ch]">{delivery.title}</h2>
-            <p className="type-lede mt-5 max-w-[44ch] text-fossil">{delivery.lede}</p>
-            <div className="mt-10 grid gap-8 border-t border-honed/15 pt-8 sm:grid-cols-2">
-              {[delivery.options.delivery, delivery.options.pickup].map((o) => (
-                <div key={o.title}>
-                  <h3 className="text-lg">{o.title}</h3>
-                  <ul className="mt-3 space-y-2 text-sm text-fossil">
-                    {o.points.slice(0, 2).map((p) => (
-                      <li key={p} className="flex gap-2">
-                        <Check className="mt-0.5 size-4 shrink-0 text-lichen-light" aria-hidden="true" />
-                        <span>{p}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link href="/delivery" className="press inline-flex h-12 items-center rounded-full bg-honed px-7 text-bluestone hover:bg-lichen-light">
-                How delivery works
-              </Link>
-              <Link href="/visit?delivery=1#inquiry" className="press inline-flex h-12 items-center rounded-full border border-honed/40 px-7 hover:border-honed">
-                Book a dump truck
-              </Link>
-            </div>
-          </Reveal>
-          <div className="md:col-span-7">
-            <DumpTruck tone="dark" />
-          </div>
-        </div>
-      </section>
+      {/* Scroll scene: a delivery from yard to site */}
+      <DeliveryJourney title={journey.title} body={journey.body} stages={journey.stages} tons={journey.exampleTons} />
 
-      {/* The slab rack */}
-      <section aria-labelledby="stones-heading" className="page-gutter page-width py-24 md:py-36">
+      {/* 3. What it costs */}
+      <section id="prices" aria-labelledby="prices-heading" className="page-gutter page-width scroll-mt-24 py-24 md:py-32">
         <SectionHeading
-          id="stones-heading"
-          title="Cut stone"
-          body="Nine limestones stocked as full slabs and cut tiles, finished in our own shed."
-          link={{ href: "/stones", label: `See all ${stones.length} stones` }}
-          className="mb-10 md:mb-14"
+          id="prices-heading"
+          title={pricesTeaser.title}
+          body={pricesTeaser.body}
+          link={{ href: "/prices", label: "Full price list" }}
+          className="mb-12"
         />
-        <SlabRack stones={featured} />
+        <RevealGroup className="grid gap-px overflow-hidden rounded-sm bg-border sm:grid-cols-2 lg:grid-cols-4" stagger={0.06}>
+          {highlights.map((h) => (
+            <RevealItem key={h.label} className="bg-chalk">
+              <Link href={h.href} className="group flex h-full flex-col p-6 transition-colors duration-200 hover:bg-loader md:p-8">
+                <span className="text-silt group-hover:text-slate">{h.label}</span>
+                <span className="type-figure mt-6 text-5xl">{h.value}</span>
+                <span className="mt-1 text-sm text-silt group-hover:text-slate">{h.unit}</span>
+              </Link>
+            </RevealItem>
+          ))}
+        </RevealGroup>
+        <Reveal className="mt-10 flex flex-wrap items-center gap-3">
+          <Link href="/prices#estimate" className="press inline-flex h-12 items-center rounded-full bg-slate px-7 text-limewash hover:bg-loader hover:text-slate">
+            Estimate my order
+          </Link>
+          <p className="text-sm text-silt">Prices updated {priceList.updated}. A general guide; we confirm before you pay.</p>
+        </Reveal>
       </section>
 
-      {/* Applications */}
-      <section className="bg-honed py-24 md:py-36">
+      {/* Projects */}
+      <section className="bg-limewash py-24 md:py-32">
         <div className="page-gutter page-width">
           <SectionHeading
-            title="Where it goes"
-            body="From kitchen floors to sea walls. These are the jobs our stone, gravel and lime go into most often."
+            title="Recent jobs"
+            body="Roads, riverbanks, filled lots and farms supplied from our yard."
+            link={{ href: "/projects", label: "All projects" }}
             className="mb-12 md:mb-16"
           />
-          <RevealGroup className="grid gap-x-6 gap-y-12 md:grid-cols-12 md:gap-y-14">
-            {applications.map((app, i) => (
-              <RevealItem key={app.title} className={cn("flex flex-col", applicationLayout[i].span)}>
-                <div className={cn("relative overflow-hidden rounded-sm", applicationLayout[i].frame)}>
-                  <MediaFrame
-                    media={image(app.media)}
-                    alt={app.title}
-                    tone={applicationTones[i]}
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                  />
-                </div>
-                <h3 className="type-h3 mt-5">{app.title}</h3>
-                <p className="mt-1.5 text-silt">{app.body}</p>
-              </RevealItem>
-            ))}
+          <RevealGroup className="grid gap-x-6 gap-y-12 md:grid-cols-12" stagger={0.07}>
+            {recent.map((p, i) => {
+              const material = byMaterial(p.materialSlug)
+              return (
+                <RevealItem
+                  key={p.slug}
+                  className={cn(i === 0 ? "md:col-span-7 md:row-span-2" : "md:col-span-5", "flex flex-col")}
+                >
+                  <Link href={`/projects#${p.slug}`} className="group flex flex-1 flex-col">
+                    <div
+                      className={cn(
+                        "relative overflow-hidden rounded-sm",
+                        i === 0 ? "aspect-[4/5] md:aspect-auto md:flex-1" : "aspect-[16/10]"
+                      )}
+                    >
+                      <MediaFrame
+                        media={image(projectMedia(p.slug, 1))}
+                        alt={p.title}
+                        tone={material.tone}
+                        sizes="(min-width: 768px) 50vw, 100vw"
+                        imageClassName={hoverZoom}
+                      />
+                    </div>
+                    <h3 className="type-h3 mt-5">{p.title}</h3>
+                    <p className="mt-1 text-silt">
+                      {p.quantity} of {material.name.toLowerCase()}
+                    </p>
+                  </Link>
+                </RevealItem>
+              )
+            })}
           </RevealGroup>
         </div>
       </section>
 
-      {/* Process — a real sequence, so numbered */}
-      <section className="page-gutter page-width py-24 md:py-36">
-        <div className="grid gap-14 md:grid-cols-12 md:gap-10">
-          <div className="md:col-span-6 lg:col-span-5">
-            <SectionHeading title={process.title} body={process.body} />
-            <RevealGroup as="ol" className="mt-12 border-t border-border" stagger={0.06}>
-              {process.steps.map((step, i) => (
-                <RevealItem key={step.title} className="grid grid-cols-[3.5rem_1fr] gap-x-4 border-b border-border py-6">
-                  <span className="font-display text-3xl leading-none text-lichen" aria-hidden="true">
-                    {i + 1}
-                  </span>
-                  <div>
-                    <h3 className="text-lg">{step.title}</h3>
-                    <p className="mt-1 text-silt">{step.body}</p>
-                  </div>
-                </RevealItem>
-              ))}
-            </RevealGroup>
-          </div>
-          <Reveal className="relative min-h-[28rem] overflow-hidden rounded-sm md:col-span-6 md:col-start-7" delay={0.08}>
-            <MediaFrame
-              media={video(process.video, process.poster)}
-              alt="Stone being crushed, cut and loaded at the yard"
-              tone={{ base: "#6c706d", vein: "#4a4e4c", grain: "#2f3332" }}
-              sizes="(min-width: 768px) 50vw, 100vw"
-            />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section className="page-gutter page-width pb-24 md:pb-36">
-        <SectionHeading
-          title="Recent work"
-          body="A few of the homes, hotels and public spaces finished in our stone."
-          link={{ href: "/projects", label: "All projects" }}
-          className="mb-12 md:mb-16"
-        />
-        <RevealGroup className="grid gap-x-6 gap-y-12 md:grid-cols-12" stagger={0.07}>
-          {recent.map((p, i) => {
-            const stone = getStone(p.stoneSlug)
-            return (
-              <RevealItem
-                key={p.slug}
-                className={cn(i === 0 ? "md:col-span-7 md:row-span-2" : "md:col-span-5", "flex flex-col")}
-              >
-                <Link href={`/projects#${p.slug}`} className="group flex flex-1 flex-col">
-                  <div
-                    className={cn(
-                      "relative overflow-hidden rounded-sm",
-                      i === 0 ? "aspect-[4/5] md:aspect-auto md:flex-1" : "aspect-[16/10]"
-                    )}
-                  >
-                    <MediaFrame
-                      media={image(projectMedia(p.slug, 1))}
-                      alt={p.title}
-                      tone={stone?.tone}
-                      sizes="(min-width: 768px) 50vw, 100vw"
-                      imageClassName={hoverZoom}
-                    />
-                  </div>
-                  <h3 className="type-h3 mt-5">{p.title}</h3>
-                  <p className="mt-1 text-silt">
-                    {stone?.name}, {p.application.toLowerCase()}
-                  </p>
-                </Link>
-              </RevealItem>
-            )
-          })}
-        </RevealGroup>
-      </section>
-
       {/* Visit */}
-      <section className="page-gutter page-width pb-24 md:pb-36">
-        <Reveal className="grid overflow-hidden rounded-sm bg-honed md:grid-cols-2">
+      <section className="page-gutter page-width py-24 md:py-32">
+        <Reveal className="grid overflow-hidden rounded-sm bg-limewash md:grid-cols-2">
           <div className="flex flex-col justify-between gap-12 p-8 md:p-14">
             <div>
               <h2 className="type-h2 max-w-[14ch]">{visitBand.title}</h2>
@@ -308,7 +273,7 @@ export default function HomePage() {
               </dl>
             </div>
             <div className="flex flex-wrap items-center gap-3">
-              <Link href="/visit" className="press inline-flex h-12 items-center rounded-full bg-bluestone px-7 text-honed hover:bg-lichen">
+              <Link href="/visit" className="press inline-flex h-12 items-center rounded-full bg-slate px-7 text-limewash hover:bg-loader hover:text-slate">
                 Plan a visit
               </Link>
               <TextLink href={site.contact.directionsUrl}>Get directions</TextLink>
