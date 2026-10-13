@@ -3,7 +3,7 @@
 import { motion, type Variants } from "motion/react"
 import { quick } from "@/lib/motion"
 
-type Tag = "div" | "section" | "ul" | "ol" | "li" | "article"
+type Tag = "div" | "section" | "ul" | "ol" | "li" | "article" | "tbody" | "tr"
 
 const rise: Variants = {
   hidden: { opacity: 0, y: 18 },

@@ -2,6 +2,7 @@ import Link from "next/link"
 import { TriangleAlert } from "lucide-react"
 import { image } from "@/lib/media"
 import { materialMedia, type Material } from "@/content/materials"
+import { formatPeso, priceList } from "@/content/prices"
 import { MediaFrame } from "@/components/media/media-frame"
 import { RevealItem } from "@/components/motion/reveal"
 import { SizeScale } from "./size-scale"
@@ -9,7 +10,24 @@ import { SizeScale } from "./size-scale"
 const askHref = (m: Material) => `/visit?product=${m.slug}#inquiry`
 
 function Price({ material }: { material: Material }) {
-  return <p className="text-[0.9375rem]">{material.price ?? "Ask for today's price"}</p>
+  if (material.unit === "ton") {
+    const perTon = priceList.perTon[material.slug]
+    if (perTon === undefined) return <p className="text-[0.9375rem]">Ask for today&apos;s price</p>
+    return (
+      <p>
+        <span className="type-figure text-2xl">{formatPeso(perTon)}</span>
+        <span className="text-silt"> per ton at the yard</span>
+      </p>
+    )
+  }
+  const sack = priceList.perSack[material.slug]
+  if (!sack) return <p className="text-[0.9375rem]">Ask for today&apos;s price</p>
+  return (
+    <p>
+      <span className="type-figure text-2xl">{formatPeso(sack.each)}</span>
+      <span className="text-silt"> per sack, {formatPeso(sack.bulk)} from {priceList.bulkFrom} sacks</span>
+    </p>
+  )
 }
 
 function Uses({ uses }: { uses: string[] }) {
@@ -51,7 +69,7 @@ export function TonRow({ material }: { material: Material }) {
         <div>
           <p className="flex items-baseline justify-between gap-4">
             <span className="text-sm text-silt">Piece size</span>
-            <span className="font-display text-xl">{material.size}</span>
+            <span className="type-figure text-xl">{material.size}</span>
           </p>
           {material.sizeMm && <SizeScale range={material.sizeMm} className="mt-2" />}
         </div>
@@ -61,7 +79,7 @@ export function TonRow({ material }: { material: Material }) {
         <Price material={material} />
         <Link
           href={askHref(material)}
-          className="press mt-auto inline-flex h-11 w-fit items-center rounded-full border border-bluestone/25 px-5 text-[0.9375rem] hover:border-bluestone hover:bg-bluestone hover:text-honed"
+          className="press mt-auto inline-flex h-11 w-fit items-center rounded-full border border-slate/25 px-5 text-[0.9375rem] hover:border-slate hover:bg-slate hover:text-limewash"
         >
           Ask about {material.name.toLowerCase()}
         </Link>
@@ -81,7 +99,7 @@ export function SackPanel({ material }: { material: Material }) {
           tone={material.tone}
           sizes="(min-width: 768px) 50vw, 100vw"
         />
-        <span className="absolute bottom-3 left-3 rounded-full bg-bluestone px-3 py-1.5 text-sm text-honed">
+        <span className="absolute bottom-3 left-3 rounded-full bg-slate px-3 py-1.5 text-sm text-limewash">
           {material.size}
         </span>
       </div>
@@ -104,7 +122,7 @@ export function SackPanel({ material }: { material: Material }) {
         </div>
         <Link
           href={askHref(material)}
-          className="press mt-6 inline-flex h-12 w-fit items-center rounded-full bg-bluestone px-6 text-honed hover:bg-lichen"
+          className="press mt-6 inline-flex h-12 w-fit items-center rounded-full bg-slate px-6 text-limewash hover:bg-loader hover:text-slate"
         >
           Order {material.name.toLowerCase()}
         </Link>
