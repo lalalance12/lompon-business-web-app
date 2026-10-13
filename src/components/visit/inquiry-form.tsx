@@ -4,9 +4,10 @@ import { useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { AnimatePresence, motion } from "motion/react"
 import { cn } from "@/lib/utils"
+import { cta } from "@/lib/cta"
 import { quick, snapSpring } from "@/lib/motion"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Field } from "@/components/shared/field"
 import { Textarea } from "@/components/ui/textarea"
 import {
   Select,
@@ -110,26 +111,22 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
       noValidate
       className="grid gap-6 sm:grid-cols-2"
     >
-      <div className="grid gap-2 sm:col-span-2">
-        <Label htmlFor="name">Name</Label>
+      <Field label="Name" htmlFor="name" className="sm:col-span-2">
         <Input id="name" name="name" autoComplete="name" className={fieldClass} aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
         <FieldError id="name-error" message={errors.name} />
-      </div>
+      </Field>
 
-      <div className="grid gap-2">
-        <Label htmlFor="phone">Phone</Label>
+      <Field label="Phone" htmlFor="phone">
         <Input id="phone" name="phone" type="tel" autoComplete="tel" className={fieldClass} aria-invalid={!!errors.contact} aria-describedby="contact-help" />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="email">Email</Label>
+      </Field>
+      <Field label="Email" htmlFor="email">
         <Input id="email" name="email" type="email" autoComplete="email" className={fieldClass} aria-invalid={!!errors.contact} aria-describedby="contact-help" />
-      </div>
+      </Field>
       <p id="contact-help" className={cn("-mt-3 text-sm sm:col-span-2", errors.contact ? "text-destructive" : "text-silt")}>
         {errors.contact ?? "Give us at least one way to reach you."}
       </p>
 
-      <div className="grid gap-2">
-        <Label htmlFor="product">What you need</Label>
+      <Field label="What you need" htmlFor="product">
         <Select value={product} onValueChange={setProduct}>
           <SelectTrigger id="product" className={`${fieldClass} w-full data-[size=default]:h-12`}>
             <SelectValue />
@@ -147,9 +144,8 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
             ))}
           </SelectContent>
         </Select>
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="quantity">How much</Label>
+      </Field>
+      <Field label="How much" htmlFor="quantity">
         <div className="relative">
           <Input
             id="quantity"
@@ -173,7 +169,7 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
             )}
           </AnimatePresence>
         </div>
-      </div>
+      </Field>
 
       <fieldset className="grid gap-3 sm:col-span-2">
         <legend className="mb-3 text-sm font-medium">How you&apos;ll get it</legend>
@@ -215,8 +211,7 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
             className="overflow-hidden sm:col-span-2"
           >
             <div className="grid gap-6 pt-1 pb-1 sm:grid-cols-[2fr_1fr]">
-              <div className="grid gap-2">
-                <Label htmlFor="address">Delivery address</Label>
+              <Field label="Delivery address" htmlFor="address">
                 <Textarea
                   id="address"
                   name="address"
@@ -228,27 +223,23 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
                   aria-describedby={errors.address ? "address-error" : undefined}
                 />
                 <FieldError id="address-error" message={errors.address} />
-              </div>
-              <div className="grid content-start gap-2">
-                <Label htmlFor="date">Preferred day</Label>
+              </Field>
+              <Field label="Preferred day" htmlFor="date">
                 <Input id="date" name="date" type="date" className={fieldClass} />
-              </div>
+              </Field>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="grid gap-2 sm:col-span-2">
-        <Label htmlFor="message">
-          Anything else <span className="font-normal text-silt">(optional)</span>
-        </Label>
+      <Field label={<>Anything else <span className="font-normal text-silt">(optional)</span></>} htmlFor="message" className="sm:col-span-2">
         <Textarea id="message" name="message" rows={4} className={cn(areaClass, "min-h-28")} placeholder="What it's for, sizes, access to the site…" />
-      </div>
+      </Field>
 
       <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:gap-6">
         <button
           type="submit"
-          className="press inline-flex h-12 items-center justify-center rounded-full bg-slate px-8 text-limewash hover:bg-loader hover:text-slate"
+          className={cta({ tone: "primary", size: "md" })}
         >
           Write the email
         </button>

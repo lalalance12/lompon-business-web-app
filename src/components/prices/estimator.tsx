@@ -5,10 +5,11 @@ import Link from "next/link"
 import { animate, motion, useMotionValue, useTransform } from "motion/react"
 import { TriangleAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { cta } from "@/lib/cta"
 import { easeSnap, snapSpring } from "@/lib/motion"
 import { formatPeso, planTrips, priceList } from "@/content/prices"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Field } from "@/components/shared/field"
 import {
   Select,
   SelectContent,
@@ -108,8 +109,7 @@ export function Estimator({ products }: { products: EstimatorProduct[] }) {
       {/* Inputs */}
       <div className="space-y-7 bg-limewash p-6 md:p-10 lg:col-span-7">
         <div className="grid gap-6 sm:grid-cols-2">
-          <div className="grid gap-2">
-            <Label htmlFor="est-product">Product</Label>
+          <Field label="Product" htmlFor="est-product">
             <Select
               value={slug}
               onValueChange={(v) => {
@@ -134,9 +134,8 @@ export function Estimator({ products }: { products: EstimatorProduct[] }) {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="est-qty">How much</Label>
+          </Field>
+          <Field label="How much" htmlFor="est-qty">
             <div className="relative">
               <Input
                 id="est-qty"
@@ -162,7 +161,7 @@ export function Estimator({ products }: { products: EstimatorProduct[] }) {
                 </button>
               ))}
             </div>
-          </div>
+          </Field>
         </div>
 
         <div className="grid gap-3">
@@ -237,7 +236,7 @@ export function Estimator({ products }: { products: EstimatorProduct[] }) {
         <p className="mt-4 text-sm text-fossil">A guide from our general prices. We confirm the exact price before you pay.</p>
         <Link
           href={`/visit?product=${product.slug}${method === "delivery" ? "&delivery=1" : ""}#inquiry`}
-          className="press mt-auto inline-flex h-12 w-fit items-center rounded-full bg-loader px-7 text-slate hover:bg-limewash max-lg:mt-8"
+          className={cta({ tone: "accent", size: "md", className: "mt-auto max-lg:mt-8" })}
         >
           Send this order
         </Link>
