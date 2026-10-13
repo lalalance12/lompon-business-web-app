@@ -13,8 +13,10 @@ import { UseCaseExplorer } from "@/components/home/use-case-explorer"
 import { ScreeningScene } from "@/components/home/screening-scene"
 import { DeliveryJourney } from "@/components/home/delivery-journey"
 import { MediaFrame } from "@/components/media/media-frame"
+import { MediaCard } from "@/components/shared/media-card"
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal"
 import { SectionHeading, TextLink } from "@/components/shared/section-heading"
+import { cta } from "@/lib/cta"
 
 const byMaterial = (slug: string) => materials.find((m) => m.slug === slug)!
 
@@ -23,8 +25,6 @@ function priceLabel(slug: string) {
   const p = fromPrice(slug)
   return p ? `${formatPeso(p.amount)} a ${p.unit}` : "Ask for price"
 }
-
-const hoverZoom = "transition-transform duration-500 ease-snap group-hover:scale-[1.04]"
 
 export default function HomePage() {
   const explorerUses = useCases.map((u) => ({
@@ -123,22 +123,19 @@ export default function HomePage() {
         />
         <RevealGroup className="grid gap-x-6 gap-y-14 md:grid-cols-2" stagger={0.08}>
           {waysToBuy.map((way) => (
-            <RevealItem key={way.title}>
-              <Link href={way.href} className="group flex h-full flex-col">
-                <div className="relative aspect-[16/10] overflow-hidden rounded-sm">
-                  <MediaFrame
-                    media={image(way.media)}
-                    alt={way.title}
-                    tone={byMaterial(way.unit === "ton" ? "gravel" : "fine-limestone").tone}
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    imageClassName={hoverZoom}
-                  />
-                  <span className="absolute top-4 left-4 rounded-full bg-loader px-4 py-2 text-sm text-slate">
-                    From {formatPeso(buyFrom[way.unit])} a {way.unit}
-                  </span>
-                </div>
-                <h3 className="type-h2 mt-6">{way.title}</h3>
-                <p className="mt-2 max-w-[48ch] text-silt">{way.body}</p>
+            <RevealItem key={way.title} className="flex">
+              <MediaCard
+                href={way.href}
+                media={image(way.media)}
+                alt={way.title}
+                tone={byMaterial(way.unit === "ton" ? "gravel" : "fine-limestone").tone}
+                badge={`From ${formatPeso(buyFrom[way.unit])} a ${way.unit}`}
+                title={way.title}
+                titleSize="h2"
+                description={way.body}
+                lines={2}
+                cta={way.cta}
+              >
                 <ul className="mt-5 flex flex-wrap gap-1.5">
                   {buyLists[way.unit].map((m) => (
                     <li key={m.slug} className="rounded-full border border-border px-3 py-1 text-sm text-silt">
@@ -146,10 +143,7 @@ export default function HomePage() {
                     </li>
                   ))}
                 </ul>
-                <span className="press mt-6 inline-flex h-11 w-fit items-center rounded-full border border-slate/25 px-5 text-[0.9375rem] group-hover:border-slate group-hover:bg-slate group-hover:text-limewash">
-                  {way.cta}
-                </span>
-              </Link>
+              </MediaCard>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -198,7 +192,7 @@ export default function HomePage() {
           ))}
         </RevealGroup>
         <Reveal className="mt-10 flex flex-wrap items-center gap-3">
-          <Link href="/prices#estimate" className="press inline-flex h-12 items-center rounded-full bg-slate px-7 text-limewash hover:bg-loader hover:text-slate">
+          <Link href="/prices#estimate" className={cta({ tone: "primary", size: "md" })}>
             Estimate my order
           </Link>
           <p className="text-sm text-silt">Prices updated {priceList.updated}. A general guide; we confirm before you pay.</p>
@@ -222,26 +216,16 @@ export default function HomePage() {
                   key={p.slug}
                   className={cn(i === 0 ? "md:col-span-7 md:row-span-2" : "md:col-span-5", "flex flex-col")}
                 >
-                  <Link href={`/projects#${p.slug}`} className="group flex flex-1 flex-col">
-                    <div
-                      className={cn(
-                        "relative overflow-hidden rounded-sm",
-                        i === 0 ? "aspect-[4/5] md:aspect-auto md:flex-1" : "aspect-[16/10]"
-                      )}
-                    >
-                      <MediaFrame
-                        media={image(projectMedia(p.slug, 1))}
-                        alt={p.title}
-                        tone={material.tone}
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                        imageClassName={hoverZoom}
-                      />
-                    </div>
-                    <h3 className="type-h3 mt-5">{p.title}</h3>
-                    <p className="mt-1 text-silt">
-                      {p.quantity} of {material.name.toLowerCase()}
-                    </p>
-                  </Link>
+                  <MediaCard
+                    href={`/projects#${p.slug}`}
+                    media={image(projectMedia(p.slug, 1))}
+                    alt={p.title}
+                    tone={material.tone}
+                    frameClassName={i === 0 ? "aspect-[4/5] md:aspect-auto md:flex-1" : "aspect-[16/10]"}
+                    title={p.title}
+                    description={`${p.quantity} of ${material.name.toLowerCase()}`}
+                    lines={1}
+                  />
                 </RevealItem>
               )
             })}
@@ -273,7 +257,7 @@ export default function HomePage() {
               </dl>
             </div>
             <div className="flex flex-wrap items-center gap-3">
-              <Link href="/visit" className="press inline-flex h-12 items-center rounded-full bg-slate px-7 text-limewash hover:bg-loader hover:text-slate">
+              <Link href="/visit" className={cta({ tone: "primary", size: "md" })}>
                 Plan a visit
               </Link>
               <TextLink href={site.contact.directionsUrl}>Get directions</TextLink>
