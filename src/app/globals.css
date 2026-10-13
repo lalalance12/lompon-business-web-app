@@ -190,16 +190,10 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+/* Reduced-motion handling lives in src/lib/motion.ts (RESPECT_REDUCED_MOTION).
+   To honour the system setting for CSS motion too, add a
+   @media (prefers-reduced-motion: reduce) block here that shortens
+   animation and transition durations. */
 
 @keyframes redraw {
   0% {

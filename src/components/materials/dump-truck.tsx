@@ -1,7 +1,8 @@
 "use client"
 
 import { useCallback, useEffect, useRef } from "react"
-import { MotionConfig, useAnimate, useInView, useReducedMotion } from "motion/react"
+import { MotionConfig, useAnimate, useInView } from "motion/react"
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion"
 import { RotateCcw } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { easeSnap } from "@/lib/motion"
@@ -35,7 +36,7 @@ export function DumpTruck(props: { className?: string; tone?: "light" | "dark" }
 function DumpTruckScene({ className, tone = "light" }: { className?: string; tone?: "light" | "dark" }) {
   const [scope, animate] = useAnimate<SVGSVGElement>()
   const inView = useInView(scope, { once: true, amount: 0.4 })
-  const reduce = useReducedMotion()
+  const reduce = usePrefersReducedMotion()
   const running = useRef(false)
 
   /** `requested`: the visitor pressed "Tip again", so play even with reduced motion. */

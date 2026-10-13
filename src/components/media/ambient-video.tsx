@@ -5,9 +5,10 @@ import { Pause, Play } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 /**
- * Muted, looping background video. Plays only while on screen, never
- * autoplays for people who prefer reduced motion, and always offers a
- * pause control (WCAG 2.2.2).
+ * Muted, looping background video. Autoplays while on screen (the site's
+ * owner wants the quarry and delivery loops always visible), pauses when
+ * scrolled away, and always offers a pause control (WCAG 2.2.2) so anyone
+ * bothered by motion can stop it.
  */
 export function AmbientVideo({
   src,
@@ -27,9 +28,6 @@ export function AmbientVideo({
   useEffect(() => {
     const video = ref.current
     if (!video) return
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    if (reduce) return
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !userPaused) video.play().catch(() => {})

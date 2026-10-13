@@ -2,7 +2,8 @@
 
 import { useRef } from "react"
 import Link from "next/link"
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
+import { motion, useScroll, useTransform } from "motion/react"
+import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion"
 import type { Media } from "@/lib/media"
 import { MediaFrame } from "@/components/media/media-frame"
 import { hero } from "@/content/home"
@@ -16,7 +17,7 @@ export function Hero({ media }: { media: Media }) {
   const ref = useRef<HTMLElement>(null)
   // The rendered tree is identical with or without reduced motion (so server and
   // client markup match); reduced motion only collapses timings to zero.
-  const reduce = useReducedMotion() === true
+  const reduce = usePrefersReducedMotion()
   const t = (duration: number, delay = 0) => (reduce ? { duration: 0, delay: 0 } : { duration, delay })
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
   const mediaScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.12])
