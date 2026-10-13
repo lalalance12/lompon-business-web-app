@@ -28,9 +28,9 @@ type Method = "pickup" | "delivery"
 const UNDECIDED = "undecided"
 
 const fieldClass =
-  "h-12 rounded-sm border-input bg-honed px-4 text-base shadow-none focus-visible:border-lichen focus-visible:ring-lichen/25"
+  "h-12 rounded-sm border-input bg-limewash px-4 text-base shadow-none focus-visible:border-ochre focus-visible:ring-loader/40"
 const areaClass =
-  "rounded-sm border-input bg-honed px-4 py-3 text-base shadow-none focus-visible:border-lichen focus-visible:ring-lichen/25"
+  "rounded-sm border-input bg-limewash px-4 py-3 text-base shadow-none focus-visible:border-ochre focus-visible:ring-loader/40"
 
 const methods: { value: Method; label: string }[] = [
   { value: "pickup", label: "Pick up at the yard" },
@@ -41,12 +41,12 @@ const methods: { value: Method; label: string }[] = [
  * The site has no backend, so the form composes an email in the visitor's
  * own mail app, addressed to the yard and ready to send.
  *
- * Prefill from links: ?stone=<slug>, ?product=<slug>, ?delivery=1
+ * Prefill from links: ?product=<slug>, ?delivery=1
  */
 export function InquiryForm({ email, groups }: { email: string; groups: ProductGroup[] }) {
   const params = useSearchParams()
   const all = groups.flatMap((g) => g.options)
-  const wanted = params.get("product") ?? params.get("stone")
+  const wanted = params.get("product")
   const initial = all.find((o) => o.value.endsWith(`:${wanted}`))?.value ?? UNDECIDED
 
   const [product, setProduct] = useState(initial)
@@ -155,7 +155,7 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
             id="quantity"
             name="quantity"
             inputMode="decimal"
-            placeholder={chosen ? "e.g. 10" : "e.g. 10 tons, 20 sacks, 60 m²"}
+            placeholder={chosen ? "e.g. 10" : "e.g. 10 tons or 20 sacks"}
             className={cn(fieldClass, chosen && "pr-20")}
           />
           <AnimatePresence initial={false}>
@@ -187,11 +187,11 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
               onClick={() => setMethod(m.value)}
               className={cn(
                 "press relative h-11 rounded-full px-5 text-[0.9375rem]",
-                method === m.value ? "text-honed" : "text-silt hover:text-bluestone"
+                method === m.value ? "text-limewash" : "text-silt hover:text-slate"
               )}
             >
               {method === m.value && (
-                <motion.span layoutId="method-pill" className="absolute inset-0 rounded-full bg-bluestone" transition={snapSpring} />
+                <motion.span layoutId="method-pill" className="absolute inset-0 rounded-full bg-slate" transition={snapSpring} />
               )}
               <span className="relative">{m.label}</span>
             </button>
@@ -248,7 +248,7 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
       <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:gap-6">
         <button
           type="submit"
-          className="press inline-flex h-12 items-center justify-center rounded-full bg-bluestone px-8 text-honed hover:bg-lichen"
+          className="press inline-flex h-12 items-center justify-center rounded-full bg-slate px-8 text-limewash hover:bg-loader hover:text-slate"
         >
           Write the email
         </button>

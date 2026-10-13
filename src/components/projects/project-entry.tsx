@@ -12,9 +12,10 @@ export type ProjectEntryData = {
   title: string
   location: string
   year: number
-  application: string
+  quantity: string
+  method: "delivery" | "pickup"
   summary: string
-  stone: { slug: string; name: string } | null
+  material: { slug: string; name: string } | null
   images: LightboxItem[]
 }
 
@@ -64,19 +65,21 @@ export function ProjectEntry({ project, flip }: { project: ProjectEntryData; fli
         </p>
         <h2 className="type-h2 mt-2">{project.title}</h2>
         <p className="mt-5 max-w-[46ch] text-silt">{project.summary}</p>
-        <dl className="mt-8 grid grid-cols-[6rem_1fr] gap-x-6 gap-y-3 border-t border-border pt-5 text-[0.9375rem]">
-          <dt className="text-silt">Stone</dt>
+        <dl className="mt-8 grid grid-cols-[7rem_1fr] gap-x-6 gap-y-3 border-t border-border pt-5 text-[0.9375rem]">
+          <dt className="text-silt">Material</dt>
           <dd>
-            {project.stone ? (
-              <Link href={`/stones/${project.stone.slug}`} className="underline decoration-bluestone/30 underline-offset-4 transition-colors hover:decoration-bluestone">
-                {project.stone.name}
+            {project.material ? (
+              <Link href={`/materials#${project.material.slug}`} className="underline decoration-slate/30 underline-offset-4 transition-colors hover:decoration-slate">
+                {project.material.name}
               </Link>
             ) : (
               "—"
             )}
           </dd>
-          <dt className="text-silt">Used for</dt>
-          <dd>{project.application}</dd>
+          <dt className="text-silt">Amount</dt>
+          <dd>{project.quantity}</dd>
+          <dt className="text-silt">Got there by</dt>
+          <dd>{project.method === "delivery" ? "Our dump trucks" : "Collected by the client"}</dd>
         </dl>
       </div>
 

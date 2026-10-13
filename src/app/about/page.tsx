@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { image, video } from "@/lib/media"
 import { about } from "@/content/about"
-import { stones } from "@/content/stones"
+import { materials } from "@/content/materials"
 import { MediaFrame } from "@/components/media/media-frame"
 import { SectionHeading } from "@/components/shared/section-heading"
 
@@ -17,7 +17,7 @@ export default function AboutPage() {
   return (
     <>
       {/* Title over the yard */}
-      <section className="on-bluestone relative isolate flex min-h-[85svh] items-end overflow-hidden bg-bluestone text-honed">
+      <section className="on-slate relative isolate flex min-h-[85svh] items-end overflow-hidden bg-slate text-limewash">
         <div className="absolute inset-0 -z-10">
           <MediaFrame
             media={image(about.heroImage)}
@@ -29,7 +29,7 @@ export default function AboutPage() {
         </div>
         <div className="page-gutter page-width w-full pt-36 pb-14 md:pb-20">
           <h1 className="type-h1 max-w-[16ch]">{about.title}</h1>
-          <p className="type-lede mt-6 max-w-[50ch] text-honed/85">{about.lede}</p>
+          <p className="type-lede mt-6 max-w-[50ch] text-limewash/85">{about.lede}</p>
         </div>
       </section>
 
@@ -56,13 +56,13 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline — a real sequence of years */}
-      <section className="on-bluestone bg-bluestone py-24 text-honed md:py-36">
+      <section className="on-slate bg-slate py-24 text-limewash md:py-36">
         <div className="page-gutter page-width">
           <SectionHeading title="Over the years" className="mb-14" />
-          <ol className="grid gap-px overflow-hidden rounded-sm bg-honed/15 sm:grid-cols-2 lg:grid-cols-4">
+          <ol className="grid gap-px overflow-hidden rounded-sm bg-limewash/15 sm:grid-cols-2 lg:grid-cols-4">
             {about.timeline.map((t) => (
-              <li key={t.year} className="bg-bluestone p-8 pt-10 lg:min-h-64">
-                <p className="font-display text-5xl text-lichen-light">{t.year}</p>
+              <li key={t.year} className="bg-slate p-8 pt-10 lg:min-h-64">
+                <p className="type-figure text-5xl text-loader">{t.year}</p>
                 <p className="mt-6 max-w-[28ch] text-fossil">{t.text}</p>
               </li>
             ))}
@@ -74,7 +74,7 @@ export default function AboutPage() {
       <section className="page-gutter page-width py-24 md:py-36">
         <SectionHeading
           title="The yard"
-          body={`${stones.length} limestones on open racks, a cutting shed and a finishing line, all in one place.`}
+          body="A crusher, screens, a lime kiln, a weighbridge and our own dump trucks, all in one place."
           link={{ href: "/visit", label: "Plan a visit" }}
           className="mb-12"
         />
@@ -91,7 +91,7 @@ export default function AboutPage() {
               <MediaFrame
                 media={image(m)}
                 alt={`The yard, view ${i + 1}`}
-                tone={stones[(i * 3) % stones.length].tone}
+                tone={materials[(i * 2) % materials.length].tone}
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
             </div>
@@ -100,7 +100,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="bg-honed py-24 md:py-36">
+      <section className="bg-limewash py-24 md:py-36">
         <div className="page-gutter page-width">
           <SectionHeading title="Who you will meet" className="mb-12" />
           <ul className="grid gap-x-6 gap-y-12 sm:grid-cols-3">
@@ -121,7 +121,7 @@ export default function AboutPage() {
           </ul>
           <p className="mt-16 max-w-[56ch] text-lg">
             Questions before you visit?{" "}
-            <Link href="/visit#inquiry" className="underline decoration-bluestone/30 underline-offset-4 transition-colors hover:decoration-bluestone">
+            <Link href="/visit#inquiry" className="underline decoration-slate/30 underline-offset-4 transition-colors hover:decoration-slate">
               Send us a message
             </Link>{" "}
             and the right person will get back to you.

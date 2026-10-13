@@ -1,6 +1,7 @@
 /**
  * Bulk limestone: aggregate sold by the ton and lime sold by the sack.
- * Every name, size, price and use is a PLACEHOLDER — see PLACEHOLDERS.md.
+ * Every name, size and use is a PLACEHOLDER — see PLACEHOLDERS.md.
+ * Prices live in prices.ts.
  *
  * Media: /public/media/materials/<slug>.(jpg|webp|…) — a close photo of the
  * pile or the sack. Until then a texture in the material's colours is shown.
@@ -23,8 +24,6 @@ export type Material = {
   uses: string[]
   /** How it is sold, e.g. minimum order or sack weight. */
   sold: string
-  /** Leave empty to show "Ask for today's price". */
-  price?: string
   /** Safety or handling note shown with the product. */
   note?: string
   tone: Tone

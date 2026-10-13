@@ -5,9 +5,9 @@
 export const site = {
   name: "Calcaria Stone Co.", // PLACEHOLDER
   shortName: "Calcaria", // PLACEHOLDER
-  tagline: "Limestone by the slab, the ton and the sack.", // PLACEHOLDER
+  tagline: "Limestone by the ton and by the sack, delivered.", // PLACEHOLDER
   description:
-    "A limestone yard selling cut stone, crushed aggregate and boulders by the ton, and fine and cooked limestone by the sack. Pick up at the yard or have it delivered by dump truck.", // PLACEHOLDER
+    "A limestone yard selling crushed aggregate, road base and boulders by the ton, and fine and cooked limestone by the sack. Pick up at the yard or have it delivered by dump truck.", // PLACEHOLDER
   url: "https://www.example.com", // PLACEHOLDER — your real domain
   established: 1998, // PLACEHOLDER
 
@@ -41,8 +41,8 @@ export const site = {
 } as const
 
 export const nav = [
-  { label: "Cut stone", href: "/stones" },
   { label: "Tons & sacks", href: "/materials" },
+  { label: "Prices", href: "/prices" },
   { label: "Delivery", href: "/delivery" },
   { label: "Projects", href: "/projects" },
   { label: "About", href: "/about" },

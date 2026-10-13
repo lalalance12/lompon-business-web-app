@@ -5,7 +5,7 @@ import { LogoMark } from "./logo"
 
 export function SiteFooter() {
   return (
-    <footer className="on-bluestone bg-bluestone text-honed">
+    <footer className="on-slate bg-slate text-limewash">
       <div className="page-gutter page-width pt-20 pb-10 md:pt-28">
         <div className="grid gap-14 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
@@ -13,13 +13,13 @@ export function SiteFooter() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/visit"
-                className="press inline-flex h-12 items-center rounded-full bg-honed px-6 text-bluestone hover:bg-lichen-light"
+                className="press inline-flex h-12 items-center rounded-full bg-limewash px-6 text-slate hover:bg-loader"
               >
                 Plan a visit
               </Link>
               <a
                 href={site.contact.phoneHref}
-                className="press inline-flex h-12 items-center rounded-full border border-honed/30 px-6 hover:border-honed"
+                className="press inline-flex h-12 items-center rounded-full border border-limewash/30 px-6 hover:border-limewash"
               >
                 {site.contact.phone}
               </a>
@@ -48,10 +48,10 @@ export function SiteFooter() {
               <h2 className="mb-4 text-sm text-fossil">What we sell</h2>
               <ul className="space-y-1">
                 {[
-                  { label: "Cut stone", href: "/stones" },
                   ...tonMaterials.slice(0, 5).map((m) => ({ label: m.name, href: `/materials#${m.slug}` })),
                   { label: "Fine and cooked limestone", href: "/materials#sacks" },
                   { label: "Dump-truck delivery", href: "/delivery" },
+                  { label: "Price list", href: "/prices" },
                 ].map((item) => (
                   <li key={item.href}>
                     <Link href={item.href} className="inline-block py-1 transition-opacity duration-150 hover:opacity-70">
@@ -65,7 +65,7 @@ export function SiteFooter() {
             <div>
               <h2 className="mb-4 text-sm text-fossil">Explore</h2>
               <ul className="space-y-1">
-                {nav.filter((item) => !["/stones", "/materials", "/delivery"].includes(item.href)).map((item) => (
+                {nav.filter((item) => !["/materials", "/prices", "/delivery"].includes(item.href)).map((item) => (
                   <li key={item.href}>
                     <Link href={item.href} className="inline-block py-1 transition-opacity hover:opacity-70">
                       {item.label}
@@ -81,7 +81,7 @@ export function SiteFooter() {
               <ul className="mt-5 flex gap-4 text-sm">
                 {site.social.map((s) => (
                   <li key={s.label}>
-                    <a href={s.href} target="_blank" rel="noreferrer" className="inline-block py-1 text-fossil transition-colors hover:text-honed">
+                    <a href={s.href} target="_blank" rel="noreferrer" className="inline-block py-1 text-fossil transition-colors hover:text-limewash">
                       {s.label}
                     </a>
                   </li>
@@ -91,8 +91,8 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-24 flex flex-col gap-6 border-t border-honed/10 pt-8 md:flex-row md:items-end md:justify-between">
-          <p className="flex items-center gap-3 font-display text-[clamp(2.5rem,9vw,7.5rem)] leading-[0.85] text-honed/90">
+        <div className="mt-24 flex flex-col gap-6 border-t border-limewash/10 pt-8 md:flex-row md:items-end md:justify-between">
+          <p className="flex items-center gap-3 font-display text-[clamp(2.5rem,9vw,7.5rem)] leading-[0.85] text-limewash/90">
             <LogoMark className="h-[0.7em]" />
             {site.shortName}
           </p>
