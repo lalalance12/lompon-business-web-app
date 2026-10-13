@@ -15,13 +15,26 @@ While running `npm run dev`, hover a placeholder to see the exact file path it i
 |---|---|---|
 | `hero.mp4` | Full-screen opening video | 16:9, landscape |
 | `hero-poster.jpg` | Shown before the video loads, or instead of it | Same frame as the video |
-| `process.mp4` | "From block to your site" section (cutting, finishing, the yard) | Tall or 4:5 works best |
+| `buy-cut-stone.jpg`, `buy-tons.jpg`, `buy-sacks.jpg` | "Three ways to buy" cards | Portrait 4:5 |
+| `process.mp4` | "From quarry to your site" section (crushing, cutting, loading) | Tall or 4:5 works best |
 | `process-poster.jpg` | Poster for the process video | |
-| `visit.jpg` | "Come and see the slabs" band | Landscape |
+| `visit.jpg` | "Come to the yard" band | Landscape |
 
 ## Applications — `media/applications/`
 
-`flooring.jpg`, `wall-cladding.jpg`, `pool.jpg`, `paving.jpg`, `stairs.jpg`, `landscaping.jpg`. The first (flooring) is shown large and tall; the rest are landscape.
+`floors-walls.jpg`, `roads.jpg`, `concrete.jpg`, `boulders.jpg`, `farms-gardens.jpg`, `plaster.jpg`. The first is shown large and tall; the rest are landscape.
+
+## Tons and sacks — `media/materials/`
+
+One photo per product, named by its slug: `limestone-fines.jpg`, `pebbles.jpg`, `gravel.jpg`, `road-base.jpg`, `boulders.jpg`, `fill-spall.jpg` (4:3 close-ups of the pile, ideally with a hand or coin for scale), and `fine-limestone.jpg`, `cooked-limestone.jpg` (4:3, the sack).
+
+## Delivery — `media/delivery/`
+
+| File | Where |
+|---|---|
+| `pickup.jpg` | "You collect" panel: a customer's truck being loaded (4:3) |
+| `truck.jpg` | "Before the truck arrives": a dump truck tipping on site (4:3) |
+| `video.mp4` + `video-poster.jpg` | Optional: replaces `truck.jpg` when present |
 
 ## Stones — `media/stones/<stone-slug>/`
 

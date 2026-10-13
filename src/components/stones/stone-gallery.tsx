@@ -37,7 +37,7 @@ export function StoneGallery({
         tone={item.tone}
         sizes={index === 0 ? "(min-width: 768px) 58vw, 100vw" : "(min-width: 768px) 29vw, 50vw"}
         preload={index === 0}
-        imageClassName="transition-transform duration-[1.2s] ease-settle group-hover:scale-[1.03]"
+        imageClassName="transition-transform duration-500 ease-snap group-hover:scale-[1.04]"
       />
       <span className="absolute top-3 right-3 grid size-10 place-items-center rounded-full bg-bluestone/55 text-honed opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
         <Expand className="size-4" aria-hidden="true" />

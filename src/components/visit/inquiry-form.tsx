@@ -2,46 +2,77 @@
 
 import { useState } from "react"
 import { useSearchParams } from "next/navigation"
+import { AnimatePresence, motion } from "motion/react"
+import { cn } from "@/lib/utils"
+import { quick, snapSpring } from "@/lib/motion"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
-type Errors = Partial<Record<"name" | "contact" | "message", string>>
+export type ProductOption = { value: string; name: string; unit: string }
+export type ProductGroup = { label: string; options: ProductOption[] }
+
+type Errors = Partial<Record<"name" | "contact" | "address", string>>
+type Method = "pickup" | "delivery"
+
+const UNDECIDED = "undecided"
 
 const fieldClass =
   "h-12 rounded-sm border-input bg-honed px-4 text-base shadow-none focus-visible:border-lichen focus-visible:ring-lichen/25"
+const areaClass =
+  "rounded-sm border-input bg-honed px-4 py-3 text-base shadow-none focus-visible:border-lichen focus-visible:ring-lichen/25"
+
+const methods: { value: Method; label: string }[] = [
+  { value: "pickup", label: "Pick up at the yard" },
+  { value: "delivery", label: "Deliver by dump truck" },
+]
 
 /**
  * The site has no backend, so the form composes an email in the visitor's
  * own mail app, addressed to the yard and ready to send.
+ *
+ * Prefill from links: ?stone=<slug>, ?product=<slug>, ?delivery=1
  */
-export function InquiryForm({
-  email,
-  stones,
-}: {
-  email: string
-  stones: { slug: string; name: string }[]
-}) {
+export function InquiryForm({ email, groups }: { email: string; groups: ProductGroup[] }) {
   const params = useSearchParams()
-  const initialStone = stones.some((s) => s.slug === params.get("stone")) ? params.get("stone")! : "undecided"
-  const [stone, setStone] = useState(initialStone)
+  const all = groups.flatMap((g) => g.options)
+  const wanted = params.get("product") ?? params.get("stone")
+  const initial = all.find((o) => o.value.endsWith(`:${wanted}`))?.value ?? UNDECIDED
+
+  const [product, setProduct] = useState(initial)
+  const [method, setMethod] = useState<Method>(params.get("delivery") === "1" ? "delivery" : "pickup")
   const [errors, setErrors] = useState<Errors>({})
   const [composed, setComposed] = useState(false)
+
+  const chosen = all.find((o) => o.value === product)
+  const unit = chosen?.unit ?? "amount"
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
-    const name = String(data.get("name") ?? "").trim()
-    const phone = String(data.get("phone") ?? "").trim()
-    const from = String(data.get("email") ?? "").trim()
-    const project = String(data.get("project") ?? "").trim()
-    const message = String(data.get("message") ?? "").trim()
+    const get = (k: string) => String(data.get(k) ?? "").trim()
+    const name = get("name")
+    const phone = get("phone")
+    const from = get("email")
+    const quantity = get("quantity")
+    const address = get("address")
+    const date = get("date")
+    const message = get("message")
 
     const next: Errors = {}
     if (!name) next.name = "Enter your name so we know who to reply to."
     if (!phone && !from) next.contact = "Add a phone number or an email address."
-    if (!message) next.message = "Tell us a little about your project."
+    if (method === "delivery" && !address) next.address = "Add the delivery address so we can price the trip."
     setErrors(next)
     if (Object.keys(next).length) {
       const first = Object.keys(next)[0]
@@ -49,16 +80,20 @@ export function InquiryForm({
       return
     }
 
-    const stoneName = stones.find((s) => s.slug === stone)?.name ?? "Not decided yet"
-    const subject = `Stone inquiry: ${stoneName}`
+    const productName = chosen?.name ?? "Not decided yet"
+    const how = method === "delivery" ? "Dump-truck delivery" : "Pick up at the yard"
+    const subject = `Inquiry: ${productName} (${how.toLowerCase()})`
     const details = [
       `Name: ${name}`,
       phone ? `Phone: ${phone}` : null,
       from ? `Email: ${from}` : null,
-      `Stone: ${stoneName}`,
-      project ? `Project: ${project}` : null,
+      `Product: ${productName}`,
+      quantity ? `Quantity: ${quantity} ${chosen ? unit : ""}`.trim() : null,
+      `Getting it: ${how}`,
+      method === "delivery" ? `Deliver to: ${address}` : null,
+      method === "delivery" && date ? `Preferred date: ${date}` : null,
     ].filter(Boolean)
-    const body = `${details.join("\n")}\n\n${message}`
+    const body = message ? `${details.join("\n")}\n\n${message}` : details.join("\n")
 
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     setComposed(true)
@@ -78,7 +113,7 @@ export function InquiryForm({
       <div className="grid gap-2 sm:col-span-2">
         <Label htmlFor="name">Name</Label>
         <Input id="name" name="name" autoComplete="name" className={fieldClass} aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
-        {errors.name && <p id="name-error" className="text-sm text-destructive">{errors.name}</p>}
+        <FieldError id="name-error" message={errors.name} />
       </div>
 
       <div className="grid gap-2">
@@ -89,46 +124,131 @@ export function InquiryForm({
         <Label htmlFor="email">Email</Label>
         <Input id="email" name="email" type="email" autoComplete="email" className={fieldClass} aria-invalid={!!errors.contact} aria-describedby="contact-help" />
       </div>
-      <p id="contact-help" className={errors.contact ? "-mt-3 text-sm text-destructive sm:col-span-2" : "-mt-3 text-sm text-silt sm:col-span-2"}>
+      <p id="contact-help" className={cn("-mt-3 text-sm sm:col-span-2", errors.contact ? "text-destructive" : "text-silt")}>
         {errors.contact ?? "Give us at least one way to reach you."}
       </p>
 
       <div className="grid gap-2">
-        <Label htmlFor="stone">Stone</Label>
-        <Select value={stone} onValueChange={setStone}>
-          <SelectTrigger id="stone" className={`${fieldClass} w-full data-[size=default]:h-12`}>
+        <Label htmlFor="product">What you need</Label>
+        <Select value={product} onValueChange={setProduct}>
+          <SelectTrigger id="product" className={`${fieldClass} w-full data-[size=default]:h-12`}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="undecided">Not decided yet</SelectItem>
-            {stones.map((s) => (
-              <SelectItem key={s.slug} value={s.slug}>{s.name}</SelectItem>
+            <SelectItem value={UNDECIDED}>Not decided yet</SelectItem>
+            {groups.map((g) => (
+              <SelectGroup key={g.label}>
+                <SelectSeparator />
+                <SelectLabel>{g.label}</SelectLabel>
+                {g.options.map((o) => (
+                  <SelectItem key={o.value} value={o.value}>{o.name}</SelectItem>
+                ))}
+              </SelectGroup>
             ))}
           </SelectContent>
         </Select>
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="project">Project</Label>
-        <Input id="project" name="project" placeholder="e.g. pool deck, 60 m²" className={fieldClass} />
+        <Label htmlFor="quantity">How much</Label>
+        <div className="relative">
+          <Input
+            id="quantity"
+            name="quantity"
+            inputMode="decimal"
+            placeholder={chosen ? "e.g. 10" : "e.g. 10 tons, 20 sacks, 60 m²"}
+            className={cn(fieldClass, chosen && "pr-20")}
+          />
+          <AnimatePresence initial={false}>
+            {chosen && (
+              <motion.span
+                key={unit}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={quick}
+                className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-silt"
+              >
+                {unit}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
 
+      <fieldset className="grid gap-3 sm:col-span-2">
+        <legend className="mb-3 text-sm font-medium">How you&apos;ll get it</legend>
+        <div role="radiogroup" aria-label="How you'll get it" className="inline-flex w-fit flex-wrap rounded-full bg-bedding p-1">
+          {methods.map((m) => (
+            <button
+              key={m.value}
+              type="button"
+              role="radio"
+              aria-checked={method === m.value}
+              onClick={() => setMethod(m.value)}
+              className={cn(
+                "press relative h-11 rounded-full px-5 text-[0.9375rem]",
+                method === m.value ? "text-honed" : "text-silt hover:text-bluestone"
+              )}
+            >
+              {method === m.value && (
+                <motion.span layoutId="method-pill" className="absolute inset-0 rounded-full bg-bluestone" transition={snapSpring} />
+              )}
+              <span className="relative">{m.label}</span>
+            </button>
+          ))}
+        </div>
+        <p className="text-sm text-silt">
+          {method === "delivery"
+            ? "Delivery is a separate service. We'll quote the fee by distance and truck size."
+            : "Bring your own truck or car during opening hours; we load it for you."}
+        </p>
+      </fieldset>
+
+      <AnimatePresence initial={false}>
+        {method === "delivery" && (
+          <motion.div
+            key="delivery-fields"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={quick}
+            className="overflow-hidden sm:col-span-2"
+          >
+            <div className="grid gap-6 pt-1 pb-1 sm:grid-cols-[2fr_1fr]">
+              <div className="grid gap-2">
+                <Label htmlFor="address">Delivery address</Label>
+                <Textarea
+                  id="address"
+                  name="address"
+                  rows={3}
+                  autoComplete="street-address"
+                  placeholder="Street, barangay, town, and a landmark"
+                  className={cn(areaClass, "min-h-24")}
+                  aria-invalid={!!errors.address}
+                  aria-describedby={errors.address ? "address-error" : undefined}
+                />
+                <FieldError id="address-error" message={errors.address} />
+              </div>
+              <div className="grid content-start gap-2">
+                <Label htmlFor="date">Preferred day</Label>
+                <Input id="date" name="date" type="date" className={fieldClass} />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="grid gap-2 sm:col-span-2">
-        <Label htmlFor="message">Message</Label>
-        <Textarea
-          id="message"
-          name="message"
-          rows={5}
-          className="min-h-36 rounded-sm border-input bg-honed px-4 py-3 text-base shadow-none focus-visible:border-lichen focus-visible:ring-lichen/25"
-          aria-invalid={!!errors.message}
-          aria-describedby={errors.message ? "message-error" : undefined}
-        />
-        {errors.message && <p id="message-error" className="text-sm text-destructive">{errors.message}</p>}
+        <Label htmlFor="message">
+          Anything else <span className="font-normal text-silt">(optional)</span>
+        </Label>
+        <Textarea id="message" name="message" rows={4} className={cn(areaClass, "min-h-28")} placeholder="What it's for, sizes, access to the site…" />
       </div>
 
       <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:gap-6">
         <button
           type="submit"
-          className="inline-flex h-12 items-center justify-center rounded-full bg-bluestone px-8 text-honed transition-colors hover:bg-lichen"
+          className="press inline-flex h-12 items-center justify-center rounded-full bg-bluestone px-8 text-honed hover:bg-lichen"
         >
           Write the email
         </button>
@@ -139,5 +259,25 @@ export function InquiryForm({
         </p>
       </div>
     </form>
+  )
+}
+
+/** Error text that snaps in under its field. */
+function FieldError({ id, message }: { id: string; message?: string }) {
+  return (
+    <AnimatePresence initial={false}>
+      {message && (
+        <motion.p
+          id={id}
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={quick}
+          className="text-sm text-destructive"
+        >
+          {message}
+        </motion.p>
+      )}
+    </AnimatePresence>
   )
 }

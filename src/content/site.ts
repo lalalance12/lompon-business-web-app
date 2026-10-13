@@ -5,9 +5,9 @@
 export const site = {
   name: "Calcaria Stone Co.", // PLACEHOLDER
   shortName: "Calcaria", // PLACEHOLDER
-  tagline: "Natural limestone, cut and finished in our own yard.", // PLACEHOLDER
+  tagline: "Limestone by the slab, the ton and the sack.", // PLACEHOLDER
   description:
-    "A limestone yard supplying natural stone for floors, walls, paving and pool decks. Visit to see every slab in person.", // PLACEHOLDER
+    "A limestone yard selling cut stone, crushed aggregate and boulders by the ton, and fine and cooked limestone by the sack. Pick up at the yard or have it delivered by dump truck.", // PLACEHOLDER
   url: "https://www.example.com", // PLACEHOLDER — your real domain
   established: 1998, // PLACEHOLDER
 
@@ -35,13 +35,15 @@ export const site = {
   /** Short facts shown on the home page intro. */
   facts: [
     { value: "Since 1998", label: "Family-run limestone yard" }, // PLACEHOLDER
-    { value: "9 varieties", label: "Stocked as slabs and cut tiles" }, // PLACEHOLDER
-    { value: "4,000 m²", label: "Open yard you can walk through" }, // PLACEHOLDER
+    { value: "From 1 sack to 20 tons", label: "No order too small to collect" }, // PLACEHOLDER
+    { value: "3 dump trucks", label: "Delivering within 50 km" }, // PLACEHOLDER
   ],
 } as const
 
 export const nav = [
-  { label: "Stones", href: "/stones" },
+  { label: "Cut stone", href: "/stones" },
+  { label: "Tons & sacks", href: "/materials" },
+  { label: "Delivery", href: "/delivery" },
   { label: "Projects", href: "/projects" },
   { label: "About", href: "/about" },
   { label: "Visit", href: "/visit" },

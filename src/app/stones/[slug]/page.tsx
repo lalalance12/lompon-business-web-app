@@ -94,13 +94,13 @@ async function StoneContent({ params }: { params: PageProps<"/stones/[slug]">["p
           <div className="mt-10 flex flex-wrap gap-3">
             <Link
               href={`/visit?stone=${stone.slug}#inquiry`}
-              className="inline-flex h-12 items-center rounded-full bg-bluestone px-7 text-honed transition-colors hover:bg-lichen"
+              className="press inline-flex h-12 items-center rounded-full bg-bluestone px-7 text-honed hover:bg-lichen"
             >
               Ask about {stone.name}
             </Link>
             <a
               href={site.contact.phoneHref}
-              className="inline-flex h-12 items-center gap-2 rounded-full border border-bluestone/25 px-6 transition-colors hover:bg-bluestone hover:text-honed"
+              className="press inline-flex h-12 items-center gap-2 rounded-full border border-bluestone/25 px-6 hover:bg-bluestone hover:text-honed"
             >
               <Phone className="size-4" aria-hidden="true" />
               Call the yard
@@ -196,7 +196,7 @@ async function StoneContent({ params }: { params: PageProps<"/stones/[slug]">["p
                     alt={`${s.name} limestone`}
                     tone={s.tone}
                     sizes="(min-width: 640px) 33vw, 100vw"
-                    imageClassName="transition-transform duration-[1.2s] ease-settle group-hover:scale-[1.03]"
+                    imageClassName="transition-transform duration-500 ease-snap group-hover:scale-[1.04]"
                   />
                 </div>
                 <h3 className="type-h3 mt-5">{s.name}</h3>

@@ -6,13 +6,11 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import type { Media } from "@/lib/media"
 import { MediaFrame } from "@/components/media/media-frame"
 import { hero } from "@/content/home"
-
-const settle = [0.16, 1, 0.3, 1] as const
-const cut = [0.7, 0, 0.2, 1] as const
+import { easeCut as cut, easeSnap as snap } from "@/lib/motion"
 
 /**
- * The page's one orchestrated moment: a saw line is drawn across the frame,
- * the cut opens to reveal the stone, then the headline settles into place.
+ * The page's opening move, kept snappy: a saw line whips across the frame,
+ * the cut snaps open to reveal the stone, and the headline punches up.
  */
 export function Hero({ media }: { media: Media }) {
   const ref = useRef<HTMLElement>(null)
@@ -37,8 +35,8 @@ export function Hero({ media }: { media: Media }) {
         initial={{ scaleX: 0, opacity: 1 }}
         animate={{ scaleX: 1, opacity: 0 }}
         transition={{
-          scaleX: { ...t(0.8), ease: cut },
-          opacity: t(0.3, 0.85),
+          scaleX: { ...t(0.42), ease: cut },
+          opacity: t(0.18, 0.46),
         }}
       />
 
@@ -47,7 +45,7 @@ export function Hero({ media }: { media: Media }) {
         className="absolute inset-0 -z-10"
         initial={{ clipPath: "inset(50% 0% 50% 0%)" }}
         animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
-        transition={{ ...t(1.3, 0.7), ease: cut }}
+        transition={{ ...t(0.7, 0.36), ease: cut }}
       >
         <motion.div className="absolute inset-0" style={{ scale: mediaScale, y: mediaY }}>
           <MediaFrame
@@ -62,14 +60,14 @@ export function Hero({ media }: { media: Media }) {
       </motion.div>
 
       <div className="page-gutter page-width relative w-full pt-32 pb-14 md:pb-20">
-        <h1 className="type-display max-w-[15ch]">
+        <h1 className="type-display max-w-[17ch]">
           {hero.title.map((line, i) => (
             <span key={line} className="block overflow-hidden pb-[0.06em]">
               <motion.span
                 className="block"
                 initial={{ y: "105%" }}
                 animate={{ y: "0%" }}
-                transition={{ ...t(1.1, 1.35 + i * 0.09), ease: settle }}
+                transition={{ ...t(0.55, 0.72 + i * 0.06), ease: snap }}
               >
                 {line}
               </motion.span>
@@ -79,21 +77,21 @@ export function Hero({ media }: { media: Media }) {
 
         <motion.div
           className="mt-10 flex flex-col gap-8 md:mt-12 md:flex-row md:items-end md:justify-between"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={t(0.9, 1.9)}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...t(0.4, 1.0), ease: snap }}
         >
           <p className="type-lede max-w-[38ch] text-honed/85">{hero.body}</p>
           <div className="flex flex-wrap gap-3">
             <Link
               href={hero.primaryCta.href}
-              className="inline-flex h-12 items-center rounded-full bg-honed px-7 text-bluestone transition-colors hover:bg-lichen-light"
+              className="press inline-flex h-12 items-center rounded-full bg-honed px-7 text-bluestone hover:bg-lichen-light"
             >
               {hero.primaryCta.label}
             </Link>
             <Link
               href={hero.secondaryCta.href}
-              className="inline-flex h-12 items-center rounded-full border border-honed/40 px-7 transition-colors hover:border-honed hover:bg-honed/10"
+              className="press inline-flex h-12 items-center rounded-full border border-honed/40 px-7 hover:border-honed hover:bg-honed/10"
             >
               {hero.secondaryCta.label}
             </Link>

@@ -4,23 +4,28 @@ import { Mail, MapPin, Phone } from "lucide-react"
 import { image } from "@/lib/media"
 import { site } from "@/content/site"
 import { stones } from "@/content/stones"
+import { sackMaterials, tonMaterials } from "@/content/materials"
 import { MediaFrame } from "@/components/media/media-frame"
 import { PageIntro } from "@/components/shared/page-intro"
-import { InquiryForm } from "@/components/visit/inquiry-form"
+import { InquiryForm, type ProductGroup } from "@/components/visit/inquiry-form"
 
 export const metadata: Metadata = {
   title: "Visit the yard",
-  description: "Opening hours, directions and how to reach the yard.",
+  description: "Opening hours, directions, and how to order or book a dump-truck delivery.",
 }
 
 export default function VisitPage() {
-  const stoneOptions = stones.map((s) => ({ slug: s.slug, name: s.name }))
+  const groups: ProductGroup[] = [
+    { label: "By the ton", options: tonMaterials.map((m) => ({ value: `material:${m.slug}`, name: m.name, unit: "tons" })) },
+    { label: "By the sack", options: sackMaterials.map((m) => ({ value: `material:${m.slug}`, name: m.name, unit: "sacks" })) },
+    { label: "Cut stone", options: stones.map((s) => ({ value: `stone:${s.slug}`, name: s.name, unit: "m²" })) },
+  ]
 
   return (
     <>
       <PageIntro
         title="Visit the yard"
-        lede="Natural stone is best chosen in daylight. Walk the racks, see finished samples and talk through sizes with our team. No appointment needed during opening hours."
+        lede="See the slabs, the gravel sizes and the sacks in person, or drive in with your own truck and we'll load it. No appointment needed during opening hours."
       />
 
       <section className="page-gutter page-width grid gap-12 pb-24 md:grid-cols-12 md:gap-10 md:pb-32">
@@ -36,7 +41,7 @@ export default function VisitPage() {
               href={site.contact.directionsUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-5 inline-flex h-12 items-center gap-2 rounded-full bg-bluestone px-6 text-honed transition-colors hover:bg-lichen"
+              className="press mt-5 inline-flex h-12 items-center gap-2 rounded-full bg-bluestone px-6 text-honed hover:bg-lichen"
             >
               <MapPin className="size-4" aria-hidden="true" />
               Get directions
@@ -97,14 +102,14 @@ export default function VisitPage() {
       <section id="inquiry" className="scroll-mt-24 bg-honed py-24 md:py-32">
         <div className="page-gutter page-width grid gap-12 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-4">
-            <h2 className="type-h2">Ask about a stone</h2>
+            <h2 className="type-h2">Order, ask for a quote, or book a delivery</h2>
             <p className="type-lede mt-5 text-silt">
-              Tell us what you are building and roughly how much you need. We usually reply within one working day.
+              Tell us what you need, how much, and whether you&apos;ll collect it or want it delivered. We usually reply within one working day.
             </p>
           </div>
           <div className="md:col-span-7 md:col-start-6">
             <Suspense fallback={<div className="h-[36rem]" aria-hidden="true" />}>
-              <InquiryForm email={site.contact.email} stones={stoneOptions} />
+              <InquiryForm email={site.contact.email} groups={groups} />
             </Suspense>
           </div>
         </div>

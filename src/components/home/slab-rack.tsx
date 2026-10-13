@@ -28,7 +28,7 @@ export function SlabRack({ stones }: { stones: RackStone[] }) {
           return (
             <li
               key={stone.slug}
-              className="relative min-w-0 transition-[flex-grow] duration-700 ease-settle"
+              className="relative min-w-0 transition-[flex-grow] duration-[420ms] ease-snap"
               style={{ flexGrow: isActive ? 5 : 1, flexBasis: 0 }}
               onMouseEnter={() => setActive(i)}
             >
@@ -42,11 +42,11 @@ export function SlabRack({ stones }: { stones: RackStone[] }) {
                   alt={`${stone.name} slab`}
                   tone={stone.tone}
                   sizes="(min-width: 768px) 60vw, 100vw"
-                  imageClassName="transition-transform duration-[1.2s] ease-settle group-hover:scale-[1.03]"
+                  imageClassName="transition-transform duration-500 ease-snap group-hover:scale-[1.04]"
                 />
                 <div
                   className={cn(
-                    "absolute inset-0 bg-gradient-to-t from-bluestone/85 via-bluestone/20 to-transparent transition-opacity duration-500",
+                    "absolute inset-0 bg-gradient-to-t from-bluestone/85 via-bluestone/20 to-transparent transition-opacity duration-300",
                     isActive ? "opacity-100" : "opacity-60"
                   )}
                 />
@@ -56,7 +56,7 @@ export function SlabRack({ stones }: { stones: RackStone[] }) {
                   aria-hidden={isActive}
                   className={cn(
                     "absolute bottom-6 left-1/2 -translate-x-1/2 font-display text-2xl whitespace-nowrap transition-opacity duration-300 [writing-mode:vertical-rl] rotate-180",
-                    isActive ? "opacity-0" : "opacity-100 delay-200"
+                    isActive ? "opacity-0" : "opacity-100 delay-100"
                   )}
                 >
                   {stone.name}
@@ -65,8 +65,8 @@ export function SlabRack({ stones }: { stones: RackStone[] }) {
                 {/* Expanded: the details */}
                 <div
                   className={cn(
-                    "absolute inset-x-0 bottom-0 p-8 transition-[opacity,transform] duration-500 lg:p-10",
-                    isActive ? "translate-y-0 opacity-100 delay-300" : "pointer-events-none translate-y-3 opacity-0"
+                    "absolute inset-x-0 bottom-0 p-8 transition-[opacity,transform] duration-300 ease-snap lg:p-10",
+                    isActive ? "translate-y-0 opacity-100 delay-150" : "pointer-events-none translate-y-3 opacity-0"
                   )}
                 >
                   <p className="text-sm text-honed/75">
@@ -74,7 +74,7 @@ export function SlabRack({ stones }: { stones: RackStone[] }) {
                   </p>
                   <h3 className="type-h2 mt-2 whitespace-nowrap">{stone.name}</h3>
                   <p className="mt-3 max-w-[42ch] text-honed/85">{stone.summary}</p>
-                  <span className="mt-6 inline-flex h-11 items-center rounded-full border border-honed/40 px-5 text-sm transition-colors group-hover:bg-honed group-hover:text-bluestone">
+                  <span className="press mt-6 inline-flex h-11 items-center rounded-full border border-honed/40 px-5 text-sm group-hover:bg-honed group-hover:text-bluestone">
                     View {stone.name}
                   </span>
                 </div>

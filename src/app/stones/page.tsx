@@ -5,7 +5,7 @@ import { PageIntro } from "@/components/shared/page-intro"
 import { StoneCatalog } from "@/components/stones/stone-catalog"
 
 export const metadata: Metadata = {
-  title: "Stones",
+  title: "Cut stone",
   description: "Every limestone we stock, with finishes, formats and technical data.",
 }
 

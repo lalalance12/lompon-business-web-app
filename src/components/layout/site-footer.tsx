@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { nav, site } from "@/content/site"
-import { stones } from "@/content/stones"
+import { tonMaterials } from "@/content/materials"
 import { LogoMark } from "./logo"
 
 export function SiteFooter() {
@@ -13,13 +13,13 @@ export function SiteFooter() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/visit"
-                className="inline-flex h-12 items-center rounded-full bg-honed px-6 text-bluestone transition-colors hover:bg-lichen-light"
+                className="press inline-flex h-12 items-center rounded-full bg-honed px-6 text-bluestone hover:bg-lichen-light"
               >
                 Plan a visit
               </Link>
               <a
                 href={site.contact.phoneHref}
-                className="inline-flex h-12 items-center rounded-full border border-honed/30 px-6 transition-colors hover:border-honed"
+                className="press inline-flex h-12 items-center rounded-full border border-honed/30 px-6 hover:border-honed"
               >
                 {site.contact.phone}
               </a>
@@ -45,27 +45,27 @@ export function SiteFooter() {
             </div>
 
             <div>
-              <h2 className="mb-4 text-sm text-fossil">Stones</h2>
+              <h2 className="mb-4 text-sm text-fossil">What we sell</h2>
               <ul className="space-y-1">
-                {stones.slice(0, 6).map((s) => (
-                  <li key={s.slug}>
-                    <Link href={`/stones/${s.slug}`} className="inline-block py-1 transition-opacity hover:opacity-70">
-                      {s.name}
+                {[
+                  { label: "Cut stone", href: "/stones" },
+                  ...tonMaterials.slice(0, 5).map((m) => ({ label: m.name, href: `/materials#${m.slug}` })),
+                  { label: "Fine and cooked limestone", href: "/materials#sacks" },
+                  { label: "Dump-truck delivery", href: "/delivery" },
+                ].map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} className="inline-block py-1 transition-opacity duration-150 hover:opacity-70">
+                      {item.label}
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <Link href="/stones" className="inline-block py-1 text-lichen-light transition-opacity hover:opacity-70">
-                    All stones
-                  </Link>
-                </li>
               </ul>
             </div>
 
             <div>
               <h2 className="mb-4 text-sm text-fossil">Explore</h2>
               <ul className="space-y-1">
-                {nav.map((item) => (
+                {nav.filter((item) => !["/stones", "/materials", "/delivery"].includes(item.href)).map((item) => (
                   <li key={item.href}>
                     <Link href={item.href} className="inline-block py-1 transition-opacity hover:opacity-70">
                       {item.label}

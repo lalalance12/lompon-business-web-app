@@ -47,7 +47,7 @@ export function TextLink({
     >
       <span className="relative">
         {children}
-        <span className="absolute inset-x-0 -bottom-0.5 h-px bg-current group-hover:animate-[redraw_0.7s_var(--ease-settle)]" />
+        <span className="absolute inset-x-0 -bottom-0.5 h-px bg-current group-hover:animate-[redraw_0.4s_var(--ease-snap)]" />
       </span>
     </Link>
   )

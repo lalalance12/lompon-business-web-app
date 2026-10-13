@@ -95,7 +95,7 @@ export function StoneCatalog({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.22, ease: [0.2, 0.9, 0.1, 1] }}
             >
               <Link href={`/stones/${stone.slug}`} className="group block">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
@@ -104,7 +104,7 @@ export function StoneCatalog({
                     alt={`${stone.name} limestone`}
                     tone={stone.tone}
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    imageClassName="transition-transform duration-[1.2s] ease-settle group-hover:scale-[1.03]"
+                    imageClassName="transition-transform duration-500 ease-snap group-hover:scale-[1.04]"
                   />
                 </div>
                 <div className="mt-5 flex items-baseline justify-between gap-4">
@@ -129,7 +129,7 @@ export function StoneCatalog({
               setTone(ALL)
               setUse(ALL)
             }}
-            className="mt-4 inline-flex h-11 items-center rounded-full border border-bluestone/30 px-5 transition-colors hover:bg-bluestone hover:text-honed"
+            className="press mt-4 inline-flex h-11 items-center rounded-full border border-bluestone/30 px-5 hover:bg-bluestone hover:text-honed"
           >
             Clear filters
           </button>

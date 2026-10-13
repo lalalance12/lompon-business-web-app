@@ -82,7 +82,7 @@ export function Lightbox({
                 initial={{ opacity: 0, x: direction * 40 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: direction * -40 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.24, ease: [0.2, 0.9, 0.1, 1] }}
               >
                 <div className="relative size-full overflow-hidden rounded-sm">
                   <MediaFrame

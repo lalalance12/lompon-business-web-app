@@ -8,8 +8,8 @@ Everything below is temporary. Text lives in `src/content/`; photos and videos g
 |---|---|---|
 | Business name | Calcaria Stone Co. | Used in titles, footer, metadata |
 | Short name | Calcaria | Logo wordmark and big footer mark |
-| Tagline | Natural limestone, cut and finished in our own yard. | Footer headline |
-| Description | A limestone yard supplying natural stone… | Search engines and link previews |
+| Tagline | Limestone by the slab, the ton and the sack. | Footer headline |
+| Description | A limestone yard selling cut stone, crushed aggregate… | Search engines and link previews |
 | Website URL | https://www.example.com | Needed for sitemap and link previews |
 | Year established | 1998 | Footer, structured data |
 | Phone | +63 900 000 0000 (and `phoneHref`) | Header, footer, stone pages, Visit |
@@ -19,7 +19,7 @@ Everything below is temporary. Text lives in `src/content/`; photos and videos g
 | Map embed | *(empty)* | Google Maps → Share → Embed a map → copy the `src` URL |
 | Opening hours | Mon–Fri 8–5, Sat 8–12, Sun closed | |
 | Social links | facebook.com / instagram.com | Add, remove or rename |
-| Home facts | Since 1998 · 9 varieties · 4,000 m² | The three facts beside the intro |
+| Home facts | Since 1998 / From 1 sack to 20 tons / 3 dump trucks | The three facts beside the intro |
 
 ## 2. Logo — `src/components/layout/logo.tsx` and `src/app/icon.svg`
 
@@ -38,28 +38,47 @@ For each stone, confirm or replace:
 - `featured: true` puts a stone on the home page slab rack (six currently)
 - `tone` colours: only used for the generated texture until real photos exist
 
-If you add or remove stones, also update the "9 varieties" fact in `site.ts`.
+If you add or remove stones, also update "nine limestones" in `src/content/home.ts`.
 
-## 4. Finish descriptions — `src/content/finishes.ts`
+## 4. Tons and sacks — `src/content/materials.ts`
+
+**By the ton (6):** Limestone fines (0–5 mm), Pebbles (5–20 mm), Crushed gravel (20–40 mm), Road base (0–40 mm graded), Boulders (150–600 mm), Mixed fill.
+**By the sack (2):** Fine limestone (40 kg sack), Cooked limestone / quicklime (25 kg sack).
+
+For each, confirm or replace:
+- name and "also called" trade names (e.g. "3/4 gravel", "apog")
+- **size range** in mm (`sizeMm` drives the size bars)
+- uses, and how it is sold (minimum order, sack weight, bulk discount)
+- **price**: empty shows "Ask for today's price"; fill in `price` to show one
+- the quicklime safety note
+
+## 5. Delivery — `src/content/delivery.ts`
+
+- Pick-up and delivery descriptions and bullet points
+- **Truck sizes and capacities** (Mini dump 3 m³ / 5 t, 6-wheeler 6 m³ / 10 t, 10-wheeler 12 m³ / 20 t)
+- **Delivery area** ("Within 50 km of the yard")
+- The four delivery steps and the site checklist (road width, 7 m tipping height)
+
+## 6. Finish descriptions — `src/content/finishes.ts`
 
 Short plain-language descriptions of Honed, Brushed, Tumbled, Sandblasted, Bush-hammered and Split face.
 
-## 5. Projects — `src/content/projects.ts`
+## 7. Projects — `src/content/projects.ts`
 
 Six sample projects (Hillside residence, Harbour hotel lobby, Garden pool terrace, Parish church steps, Courtyard café, City apartment bathrooms) with made-up locations, years and summaries. Replace them with real jobs (with the client's permission to show them).
 
-## 6. Home page copy — `src/content/home.ts`
+## 8. Home page copy — `src/content/home.ts`
 
-Hero headline and text, intro statement, the six "Where it goes" applications, the four process steps, and the "Come and see the slabs" band.
+Hero headline and text, intro statement, the "Three ways to buy" cards, the six "Where it goes" applications, the four process steps, and the "Come to the yard" band.
 
-## 7. About page — `src/content/about.ts`
+## 9. About page — `src/content/about.ts`
 
 Title, lede, the founding story (invented), the timeline years (1998 / 2006 / 2014 / 2021), and three team members ("Placeholder Name").
 
-## 8. Visit page — `src/app/visit/page.tsx`
+## 10. Visit page — `src/app/visit/page.tsx`
 
 "No appointment needed during opening hours" and "We usually reply within one working day": confirm both are true.
 
-## 9. Photos and videos
+## 11. Photos and videos
 
 Every image and video slot shows a generated stone texture until a file is added. The full list of file names is in [public/media/README.md](public/media/README.md).

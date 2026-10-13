@@ -8,10 +8,10 @@ export default function NotFound() {
         The link may be old or mistyped. Try the stone catalog or head back to the start.
       </p>
       <div className="mt-10 flex flex-wrap gap-3">
-        <Link href="/stones" className="inline-flex h-12 items-center rounded-full bg-bluestone px-7 text-honed transition-colors hover:bg-lichen">
+        <Link href="/stones" className="press inline-flex h-12 items-center rounded-full bg-bluestone px-7 text-honed hover:bg-lichen">
           Browse the stones
         </Link>
-        <Link href="/" className="inline-flex h-12 items-center rounded-full border border-bluestone/25 px-7 transition-colors hover:bg-bluestone hover:text-honed">
+        <Link href="/" className="press inline-flex h-12 items-center rounded-full border border-bluestone/25 px-7 hover:bg-bluestone hover:text-honed">
           Go to the home page
         </Link>
       </div>

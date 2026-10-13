@@ -7,6 +7,7 @@ import { motion, useMotionValueEvent, useScroll } from "motion/react"
 import { Menu, Phone } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { nav, site } from "@/content/site"
+import { easeSnap, snapSpring } from "@/lib/motion"
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Logo } from "./logo"
 
@@ -34,7 +35,7 @@ export function SiteHeader() {
     <motion.header
       initial={false}
       animate={{ y: hidden ? "-100%" : "0%" }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.22, ease: easeSnap }}
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,color,border-color] duration-300",
         isOverMedia
@@ -47,7 +48,7 @@ export function SiteHeader() {
           <Logo />
         </Link>
 
-        <nav aria-label="Main" className="hidden md:block">
+        <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {nav.map((item) => {
               const active = pathname === item.href || pathname.startsWith(`${item.href}/`)
@@ -56,14 +57,14 @@ export function SiteHeader() {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className="relative inline-flex h-11 items-center px-4 text-[0.9375rem] transition-opacity hover:opacity-70"
+                    className="relative inline-flex h-11 items-center px-3.5 text-[0.9375rem] transition-opacity duration-150 hover:opacity-70"
                   >
                     {item.label}
                     {active && (
                       <motion.span
                         layoutId="nav-active"
-                        className="absolute inset-x-4 bottom-2 h-px bg-current"
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-x-3.5 bottom-2 h-px bg-current"
+                        transition={snapSpring}
                       />
                     )}
                   </Link>
@@ -77,7 +78,7 @@ export function SiteHeader() {
           <a
             href={site.contact.phoneHref}
             className={cn(
-              "hidden h-11 items-center gap-2 rounded-full border px-5 text-[0.9375rem] transition-colors lg:inline-flex",
+              "press hidden h-11 items-center gap-2 rounded-full border px-5 text-[0.9375rem] xl:inline-flex",
               isOverMedia
                 ? "border-honed/40 hover:bg-honed hover:text-bluestone"
                 : "border-bluestone/25 hover:bg-bluestone hover:text-honed"
@@ -89,7 +90,7 @@ export function SiteHeader() {
 
           <Sheet>
             <SheetTrigger
-              className="grid size-11 place-items-center rounded-full md:hidden"
+              className="press grid size-11 place-items-center rounded-full lg:hidden"
               aria-label="Open menu"
             >
               <Menu className="size-5" />
@@ -98,24 +99,27 @@ export function SiteHeader() {
               <SheetTitle className="sr-only">Menu</SheetTitle>
               <div className="flex h-full flex-col justify-between px-8 pt-20 pb-10">
                 <nav aria-label="Mobile">
-                  <ul className="space-y-2">
-                    <li>
-                      <SheetClose asChild>
-                        <Link href="/" className="type-h2 block py-1">Home</Link>
-                      </SheetClose>
-                    </li>
-                    {nav.map((item) => (
-                      <li key={item.href}>
+                  {/* Items snap in one after another as the sheet opens */}
+                  <ul className="space-y-1">
+                    {[{ label: "Home", href: "/" }, ...nav].map((item, i) => (
+                      <motion.li
+                        key={item.href}
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.28, ease: easeSnap, delay: 0.06 + i * 0.035 }}
+                      >
                         <SheetClose asChild>
                           <Link
                             href={item.href}
-                            aria-current={pathname.startsWith(item.href) ? "page" : undefined}
+                            aria-current={
+                              item.href === "/" ? (pathname === "/" ? "page" : undefined) : pathname.startsWith(item.href) ? "page" : undefined
+                            }
                             className="type-h2 block py-1 aria-[current=page]:text-lichen-light"
                           >
                             {item.label}
                           </Link>
                         </SheetClose>
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
                 </nav>

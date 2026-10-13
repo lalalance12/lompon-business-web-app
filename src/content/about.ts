@@ -4,7 +4,7 @@
  */
 export const about = {
   title: "A family yard, built one slab at a time.",
-  lede: "We started with a single cutting saw and a borrowed truck. Today we stock nine limestones and finish every piece on site.",
+  lede: "We started with a single cutting saw and a borrowed truck. Today we cut, crush and bag limestone on site, and run our own dump trucks.",
   /** /public/media/about/hero.(jpg|webp) */
   heroImage: "media/about/hero",
   /** /public/media/about/film.(mp4|webm) + film-poster.(jpg|webp) */
