@@ -39,8 +39,8 @@ export function SiteHeader() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-[background-color,color,border-color] duration-300",
         isOverMedia
-          ? "border-b border-transparent text-honed"
-          : "border-b border-border/70 bg-chalk/85 text-bluestone backdrop-blur-md"
+          ? "border-b border-transparent text-limewash"
+          : "border-b border-border/70 bg-chalk/85 text-slate backdrop-blur-md"
       )}
     >
       <div className="page-gutter page-width flex h-[4.5rem] items-center justify-between gap-6">
@@ -80,8 +80,8 @@ export function SiteHeader() {
             className={cn(
               "press hidden h-11 items-center gap-2 rounded-full border px-5 text-[0.9375rem] xl:inline-flex",
               isOverMedia
-                ? "border-honed/40 hover:bg-honed hover:text-bluestone"
-                : "border-bluestone/25 hover:bg-bluestone hover:text-honed"
+                ? "border-limewash/40 hover:bg-limewash hover:text-slate"
+                : "border-slate/25 hover:bg-slate hover:text-limewash"
             )}
           >
             <Phone className="size-4" aria-hidden="true" />
@@ -95,7 +95,7 @@ export function SiteHeader() {
             >
               <Menu className="size-5" />
             </SheetTrigger>
-            <SheetContent side="right" className="w-full max-w-sm border-l-0 bg-bluestone text-honed on-bluestone">
+            <SheetContent side="right" className="w-full max-w-sm border-l-0 bg-slate text-limewash on-slate">
               <SheetTitle className="sr-only">Menu</SheetTitle>
               <div className="flex h-full flex-col justify-between px-8 pt-20 pb-10">
                 <nav aria-label="Mobile">
@@ -114,7 +114,7 @@ export function SiteHeader() {
                             aria-current={
                               item.href === "/" ? (pathname === "/" ? "page" : undefined) : pathname.startsWith(item.href) ? "page" : undefined
                             }
-                            className="type-h2 block py-1 aria-[current=page]:text-lichen-light"
+                            className="type-h2 block py-1 aria-[current=page]:text-loader"
                           >
                             {item.label}
                           </Link>
@@ -124,10 +124,10 @@ export function SiteHeader() {
                   </ul>
                 </nav>
                 <div className="space-y-1 text-fossil">
-                  <a href={site.contact.phoneHref} className="block py-2 text-lg text-honed">
+                  <a href={site.contact.phoneHref} className="block py-2 text-lg text-limewash">
                     {site.contact.phone}
                   </a>
-                  <a href={`mailto:${site.contact.email}`} className="block py-2 text-honed/80">
+                  <a href={`mailto:${site.contact.email}`} className="block py-2 text-limewash/80">
                     {site.contact.email}
                   </a>
                 </div>

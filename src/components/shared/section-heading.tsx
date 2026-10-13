@@ -20,7 +20,7 @@ export function SectionHeading({
     <div className={cn("flex flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-12", className)}>
       <div className="max-w-3xl">
         <Tag id={id} className={Tag === "h1" ? "type-h1" : "type-h2"}>{title}</Tag>
-        {body && <p className="type-lede mt-5 max-w-[52ch] text-silt [.on-bluestone_&]:text-fossil">{body}</p>}
+        {body && <p className="type-lede mt-5 max-w-[52ch] text-silt [.on-slate_&]:text-fossil">{body}</p>}
       </div>
       {link && <TextLink href={link.href}>{link.label}</TextLink>}
     </div>

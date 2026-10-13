@@ -41,11 +41,11 @@ export function FulfilmentSwitch({
             onClick={() => setActive(key)}
             className={cn(
               "press relative h-11 rounded-full px-6 text-[0.9375rem]",
-              active === key ? "text-honed" : "text-silt hover:text-bluestone"
+              active === key ? "text-limewash" : "text-silt hover:text-slate"
             )}
           >
             {active === key && (
-              <motion.span layoutId="fulfilment-pill" className="absolute inset-0 rounded-full bg-bluestone" transition={snapSpring} />
+              <motion.span layoutId="fulfilment-pill" className="absolute inset-0 rounded-full bg-slate" transition={snapSpring} />
             )}
             <span className="relative">{options[key].label}</span>
           </button>
@@ -71,14 +71,14 @@ export function FulfilmentSwitch({
             <ul className="mt-8 space-y-3">
               {option.points.map((p) => (
                 <li key={p} className="flex gap-3">
-                  <Check className="mt-1 size-4 shrink-0 text-lichen" aria-hidden="true" />
+                  <Check className="mt-1 size-4 shrink-0 text-ochre" aria-hidden="true" />
                   <span>{p}</span>
                 </li>
               ))}
             </ul>
             <Link
               href={active === "delivery" ? "/visit?delivery=1#inquiry" : "/visit"}
-              className="press mt-8 inline-flex h-12 items-center rounded-full bg-bluestone px-7 text-honed hover:bg-lichen"
+              className="press mt-8 inline-flex h-12 items-center rounded-full bg-slate px-7 text-limewash hover:bg-loader hover:text-slate"
             >
               {active === "delivery" ? "Book a dump truck" : "See opening hours"}
             </Link>

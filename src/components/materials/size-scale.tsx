@@ -24,7 +24,7 @@ export function SizeScale({ range, className }: { range: [number, number]; class
     <div className={cn("relative", className)} aria-hidden="true">
       <div className="relative h-2 rounded-full bg-bedding">
         <motion.div
-          className="absolute inset-y-0 origin-left rounded-full bg-lichen"
+          className="absolute inset-y-0 origin-left rounded-full bg-ochre"
           style={{ left: `${left}%`, width: `${width}%` }}
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}

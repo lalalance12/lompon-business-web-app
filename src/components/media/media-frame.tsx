@@ -60,7 +60,7 @@ export function MediaFrame({
         <>
           <span className="sr-only">{alt}</span>
           {process.env.NODE_ENV === "development" && (
-            <span className="pointer-events-none absolute top-2 left-2 z-10 max-w-[calc(100%-1rem)] rounded-sm bg-bluestone/80 px-2 py-1 text-[11px] leading-tight break-all text-honed opacity-0 transition-opacity group-hover/media:opacity-100">
+            <span className="pointer-events-none absolute top-2 left-2 z-10 max-w-[calc(100%-1rem)] rounded-sm bg-slate/80 px-2 py-1 text-[11px] leading-tight break-all text-limewash opacity-0 transition-opacity group-hover/media:opacity-100">
               {media.hint}
             </span>
           )}

@@ -54,7 +54,7 @@ export function Lightbox({
     <Dialog open={open} onOpenChange={(o) => !o && onIndexChange(null)}>
       <DialogContent
         showCloseButton={false}
-        className="on-bluestone flex h-[100svh] w-screen max-w-none flex-col gap-0 rounded-none border-0 bg-bluestone p-0 text-honed ring-0 sm:max-w-none"
+        className="on-slate flex h-[100svh] w-screen max-w-none flex-col gap-0 rounded-none border-0 bg-slate p-0 text-limewash ring-0 sm:max-w-none"
       >
         <div className="page-gutter flex h-16 shrink-0 items-center justify-between gap-4">
           <DialogTitle className="truncate font-sans text-base font-normal">{title}</DialogTitle>
@@ -65,7 +65,7 @@ export function Lightbox({
             <span className="text-sm text-fossil tabular-nums" aria-hidden="true">
               {index !== null ? index + 1 : 0} / {count}
             </span>
-            <DialogClose className="grid size-11 place-items-center rounded-full transition-colors hover:bg-honed/10">
+            <DialogClose className="grid size-11 place-items-center rounded-full transition-colors hover:bg-limewash/10">
               <X className="size-5" />
               <span className="sr-only">Close</span>
             </DialogClose>
@@ -103,7 +103,7 @@ export function Lightbox({
                 type="button"
                 onClick={() => step(-1)}
                 aria-label="Previous image"
-                className="absolute top-1/2 left-2 z-10 grid size-12 -translate-y-1/2 place-items-center rounded-full bg-bluestone/60 backdrop-blur-sm transition-colors hover:bg-honed hover:text-bluestone md:left-5"
+                className="absolute top-1/2 left-2 z-10 grid size-12 -translate-y-1/2 place-items-center rounded-full bg-slate/60 backdrop-blur-sm transition-colors hover:bg-limewash hover:text-slate md:left-5"
               >
                 <ChevronLeft className="size-5" />
               </button>
@@ -111,7 +111,7 @@ export function Lightbox({
                 type="button"
                 onClick={() => step(1)}
                 aria-label="Next image"
-                className="absolute top-1/2 right-2 z-10 grid size-12 -translate-y-1/2 place-items-center rounded-full bg-bluestone/60 backdrop-blur-sm transition-colors hover:bg-honed hover:text-bluestone md:right-5"
+                className="absolute top-1/2 right-2 z-10 grid size-12 -translate-y-1/2 place-items-center rounded-full bg-slate/60 backdrop-blur-sm transition-colors hover:bg-limewash hover:text-slate md:right-5"
               >
                 <ChevronRight className="size-5" />
               </button>

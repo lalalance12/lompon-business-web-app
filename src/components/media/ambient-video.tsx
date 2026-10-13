@@ -72,7 +72,7 @@ export function AmbientVideo({
         type="button"
         onClick={toggle}
         aria-label={playing ? "Pause video" : "Play video"}
-        className="absolute right-3 bottom-3 z-10 grid size-11 place-items-center rounded-full bg-bluestone/55 text-honed backdrop-blur-sm transition-colors hover:bg-bluestone/80"
+        className="absolute right-3 bottom-3 z-10 grid size-11 place-items-center rounded-full bg-slate/55 text-limewash backdrop-blur-sm transition-colors hover:bg-slate/80"
       >
         {playing ? <Pause className="size-4" /> : <Play className="size-4" />}
       </button>
