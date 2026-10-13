@@ -2,6 +2,7 @@ import Link from "next/link"
 import { nav, site } from "@/content/site"
 import { tonMaterials } from "@/content/materials"
 import { LogoMark } from "./logo"
+import { cta } from "@/lib/cta"
 
 export function SiteFooter() {
   return (
@@ -13,13 +14,13 @@ export function SiteFooter() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/visit"
-                className="press inline-flex h-12 items-center rounded-full bg-limewash px-6 text-slate hover:bg-loader"
+                className={cta({ tone: "light", size: "md" })}
               >
                 Plan a visit
               </Link>
               <a
                 href={site.contact.phoneHref}
-                className="press inline-flex h-12 items-center rounded-full border border-limewash/30 px-6 hover:border-limewash"
+                className={cta({ tone: "outline-dark", size: "md" })}
               >
                 {site.contact.phone}
               </a>

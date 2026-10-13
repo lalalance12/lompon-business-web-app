@@ -9,6 +9,7 @@ import { SectionHeading } from "@/components/shared/section-heading"
 import { MediaFrame } from "@/components/media/media-frame"
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal"
 import { FulfilmentSwitch } from "@/components/delivery/fulfilment-switch"
+import { cta } from "@/lib/cta"
 
 export const metadata: Metadata = {
   title: "Delivery",
@@ -112,10 +113,10 @@ export default function DeliveryPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/visit?delivery=1#inquiry" className="press inline-flex h-12 items-center rounded-full bg-slate px-7 text-limewash hover:bg-loader hover:text-slate">
+            <Link href="/visit?delivery=1#inquiry" className={cta({ tone: "primary", size: "md" })}>
               Request a delivery
             </Link>
-            <a href={site.contact.phoneHref} className="press inline-flex h-12 items-center rounded-full border border-slate/25 px-7 hover:bg-slate hover:text-limewash">
+            <a href={site.contact.phoneHref} className={cta({ tone: "outline", size: "md" })}>
               Call {site.contact.phone}
             </a>
           </div>

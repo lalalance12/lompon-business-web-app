@@ -7,6 +7,7 @@ import { PageIntro } from "@/components/shared/page-intro"
 import { SectionHeading } from "@/components/shared/section-heading"
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal"
 import { Estimator } from "@/components/prices/estimator"
+import { cta } from "@/lib/cta"
 
 export const metadata: Metadata = {
   title: "Price list",
@@ -36,11 +37,7 @@ export default function PricesPage() {
             <a
               key={l.href}
               href={l.href}
-              className={
-                i === 3
-                  ? "press inline-flex h-11 items-center rounded-full bg-loader px-5 text-slate hover:bg-slate hover:text-limewash"
-                  : "press inline-flex h-11 items-center rounded-full border border-slate/25 px-5 hover:border-slate"
-              }
+              className={cta({ tone: i === 3 ? "accent" : "outline", size: "sm" })}
             >
               {l.label}
             </a>

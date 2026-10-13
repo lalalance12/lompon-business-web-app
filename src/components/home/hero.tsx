@@ -8,6 +8,7 @@ import type { Media } from "@/lib/media"
 import { MediaFrame } from "@/components/media/media-frame"
 import { hero } from "@/content/home"
 import { easeCut as cut, easeSnap as snap } from "@/lib/motion"
+import { cta } from "@/lib/cta"
 
 /**
  * The page's opening move, kept snappy: the picture pours in from the top
@@ -74,13 +75,13 @@ export function Hero({ media }: { media: Media }) {
           <div className="flex flex-wrap gap-3">
             <Link
               href={hero.primaryCta.href}
-              className="press inline-flex h-12 items-center rounded-full bg-loader px-7 text-slate hover:bg-limewash"
+              className={cta({ tone: "accent", size: "md" })}
             >
               {hero.primaryCta.label}
             </Link>
             <Link
               href={hero.secondaryCta.href}
-              className="press inline-flex h-12 items-center rounded-full border border-limewash/40 px-7 hover:border-limewash hover:bg-limewash/10"
+              className={cta({ tone: "outline-dark", size: "md" })}
             >
               {hero.secondaryCta.label}
             </Link>

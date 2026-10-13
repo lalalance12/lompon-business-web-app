@@ -9,6 +9,7 @@ import { quick, snapSpring } from "@/lib/motion"
 import type { Media } from "@/lib/media"
 import { MediaFrame } from "@/components/media/media-frame"
 import { DumpTruck } from "@/components/materials/dump-truck"
+import { cta } from "@/lib/cta"
 
 type Option = { label: string; title: string; body: string; points: string[] }
 type Key = "delivery" | "pickup"
@@ -78,7 +79,7 @@ export function FulfilmentSwitch({
             </ul>
             <Link
               href={active === "delivery" ? "/visit?delivery=1#inquiry" : "/visit"}
-              className="press mt-8 inline-flex h-12 items-center rounded-full bg-slate px-7 text-limewash hover:bg-loader hover:text-slate"
+              className={cta({ tone: "primary", size: "md", className: "mt-8" })}
             >
               {active === "delivery" ? "Book a dump truck" : "See opening hours"}
             </Link>

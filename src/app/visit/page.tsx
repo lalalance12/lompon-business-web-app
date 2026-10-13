@@ -7,6 +7,7 @@ import { sackMaterials, tonMaterials } from "@/content/materials"
 import { MediaFrame } from "@/components/media/media-frame"
 import { PageIntro } from "@/components/shared/page-intro"
 import { InquiryForm, type ProductGroup } from "@/components/visit/inquiry-form"
+import { cta } from "@/lib/cta"
 
 export const metadata: Metadata = {
   title: "Visit the yard",
@@ -39,7 +40,7 @@ export default function VisitPage() {
               href={site.contact.directionsUrl}
               target="_blank"
               rel="noreferrer"
-              className="press mt-5 inline-flex h-12 items-center gap-2 rounded-full bg-slate px-6 text-limewash hover:bg-loader hover:text-slate"
+              className={cta({ tone: "primary", size: "md", className: "mt-5" })}
             >
               <MapPin className="size-4" aria-hidden="true" />
               Get directions

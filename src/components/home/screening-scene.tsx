@@ -13,6 +13,7 @@ import {
 } from "motion/react"
 import { cn } from "@/lib/utils"
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion"
+import { cta } from "@/lib/cta"
 
 export type ScreenDeck = {
   slug: string
@@ -127,7 +128,7 @@ export function ScreeningScene({
               <button
                 type="button"
                 onClick={() => sort()}
-                className="press mt-6 inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm text-silt ring-1 ring-border hover:text-slate"
+                className={cta({ tone: "ghost", size: "sm", className: "mt-6" })}
               >
                 <RotateCcw className="size-4" aria-hidden="true" />
                 Sort again

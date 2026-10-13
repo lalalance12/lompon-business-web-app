@@ -9,6 +9,7 @@ import type { Media } from "@/lib/media"
 import type { Tone } from "@/lib/texture"
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion"
 import { MediaFrame } from "@/components/media/media-frame"
+import { cta } from "@/lib/cta"
 
 export type ExplorerUse = {
   slug: string
@@ -154,7 +155,7 @@ export function UseCaseExplorer({ uses }: { uses: ExplorerUse[] }) {
                 <li key={prod.slug}>
                   <Link
                     href={`/materials#${prod.slug}`}
-                    className="press inline-flex h-11 items-center gap-2 rounded-full bg-limewash px-4 text-[0.9375rem] ring-1 ring-border hover:bg-loader hover:ring-loader"
+                    className={cta({ tone: "chip", size: "sm" })}
                   >
                     <span>{prod.name}</span>
                     <span className="text-silt">{prod.price}</span>

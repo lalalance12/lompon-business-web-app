@@ -8,6 +8,7 @@ import { RevealGroup } from "@/components/motion/reveal"
 import { SackPanel, TonRow } from "@/components/materials/material-entries"
 import { SizeAxis, SizeScale } from "@/components/materials/size-scale"
 import { DumpTruck } from "@/components/materials/dump-truck"
+import { cta } from "@/lib/cta"
 
 export const metadata: Metadata = {
   title: "Tons and sacks",
@@ -23,16 +24,16 @@ export default function MaterialsPage() {
         lede="Crushed and screened at the yard: from fine dust for paver beds to boulders for sea walls, plus fine and cooked limestone in sacks. Every load is weighed before it leaves."
       >
         <nav aria-label="On this page" className="mt-10 flex flex-wrap gap-2">
-          <a href="#tons" className="press inline-flex h-11 items-center rounded-full bg-slate px-5 text-limewash hover:bg-loader hover:text-slate">
+          <a href="#tons" className={cta({ tone: "primary", size: "sm" })}>
             By the ton ({tonMaterials.length})
           </a>
-          <a href="#sacks" className="press inline-flex h-11 items-center rounded-full border border-slate/25 px-5 hover:border-slate">
+          <a href="#sacks" className={cta({ tone: "outline", size: "sm" })}>
             By the sack ({sackMaterials.length})
           </a>
-          <Link href="/prices" className="press inline-flex h-11 items-center rounded-full border border-slate/25 px-5 hover:border-slate">
+          <Link href="/prices" className={cta({ tone: "outline", size: "sm" })}>
             Price list
           </Link>
-          <Link href="/delivery" className="press inline-flex h-11 items-center rounded-full border border-slate/25 px-5 hover:border-slate">
+          <Link href="/delivery" className={cta({ tone: "outline", size: "sm" })}>
             Delivery
           </Link>
         </nav>
@@ -98,10 +99,10 @@ export default function MaterialsPage() {
             <h2 className="type-h2 max-w-[16ch]">{delivery.title}</h2>
             <p className="type-lede mt-5 max-w-[46ch] text-fossil">{delivery.lede}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/delivery" className="press inline-flex h-12 items-center rounded-full bg-limewash px-7 text-slate hover:bg-loader">
+              <Link href="/delivery" className={cta({ tone: "light", size: "md" })}>
                 How delivery works
               </Link>
-              <Link href="/visit?delivery=1#inquiry" className="press inline-flex h-12 items-center rounded-full border border-limewash/40 px-7 hover:border-limewash">
+              <Link href="/visit?delivery=1#inquiry" className={cta({ tone: "outline-dark", size: "md" })}>
                 Book a dump truck
               </Link>
             </div>

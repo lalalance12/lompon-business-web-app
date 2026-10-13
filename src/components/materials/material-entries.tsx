@@ -6,6 +6,7 @@ import { formatPeso, priceList } from "@/content/prices"
 import { MediaFrame } from "@/components/media/media-frame"
 import { RevealItem } from "@/components/motion/reveal"
 import { SizeScale } from "./size-scale"
+import { cta } from "@/lib/cta"
 
 const askHref = (m: Material) => `/visit?product=${m.slug}#inquiry`
 
@@ -79,7 +80,7 @@ export function TonRow({ material }: { material: Material }) {
         <Price material={material} />
         <Link
           href={askHref(material)}
-          className="press mt-auto inline-flex h-11 w-fit items-center rounded-full border border-slate/25 px-5 text-[0.9375rem] hover:border-slate hover:bg-slate hover:text-limewash"
+          className={cta({ tone: "outline", size: "sm", className: "mt-auto" })}
         >
           Ask about {material.name.toLowerCase()}
         </Link>
@@ -122,7 +123,7 @@ export function SackPanel({ material }: { material: Material }) {
         </div>
         <Link
           href={askHref(material)}
-          className="press mt-6 inline-flex h-12 w-fit items-center rounded-full bg-slate px-6 text-limewash hover:bg-loader hover:text-slate"
+          className={cta({ tone: "primary", size: "md", className: "mt-6" })}
         >
           Order {material.name.toLowerCase()}
         </Link>

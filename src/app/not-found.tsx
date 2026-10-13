@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { cta } from "@/lib/cta"
 
 export default function NotFound() {
   return (
@@ -8,10 +9,10 @@ export default function NotFound() {
         The link may be old or mistyped. Try the product list or head back to the start.
       </p>
       <div className="mt-10 flex flex-wrap gap-3">
-        <Link href="/materials" className="press inline-flex h-12 items-center rounded-full bg-slate px-7 text-limewash hover:bg-loader hover:text-slate">
+        <Link href="/materials" className={cta({ tone: "primary", size: "md" })}>
           See tons and sacks
         </Link>
-        <Link href="/" className="press inline-flex h-12 items-center rounded-full border border-slate/25 px-7 hover:bg-slate hover:text-limewash">
+        <Link href="/" className={cta({ tone: "outline", size: "md" })}>
           Go to the home page
         </Link>
       </div>

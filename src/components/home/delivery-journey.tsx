@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils"
 import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion"
 import { TruckParts } from "@/components/graphics/truck-parts"
+import { cta } from "@/lib/cta"
 
 type Stage = { title: string; body: string }
 
@@ -200,7 +201,7 @@ export function DeliveryJourney({
                 type="button"
                 onClick={() => setPaused((v) => !v)}
                 aria-pressed={paused}
-                className="press ml-auto inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm text-fossil ring-1 ring-limewash/20 hover:text-limewash"
+                className={cta({ tone: "ghost-dark", size: "sm", className: "ml-auto" })}
               >
                 {paused ? <Play className="size-4" aria-hidden="true" /> : <Pause className="size-4" aria-hidden="true" />}
                 {paused ? "Play" : "Pause"}
@@ -270,10 +271,10 @@ export function DeliveryJourney({
           </div>
 
           <div className="mt-6 flex flex-wrap gap-2 lg:mt-8 lg:gap-3">
-            <Link href="/delivery" className="press inline-flex h-11 items-center rounded-full bg-loader px-5 text-slate hover:bg-limewash lg:h-12 lg:px-7">
+            <Link href="/delivery" className={cta({ tone: "accent", size: "responsive" })}>
               How delivery works
             </Link>
-            <Link href="/prices#delivery" className="press inline-flex h-11 items-center rounded-full border border-limewash/40 px-5 hover:border-limewash lg:h-12 lg:px-7">
+            <Link href="/prices#delivery" className={cta({ tone: "outline-dark", size: "responsive" })}>
               Delivery fees
             </Link>
           </div>
