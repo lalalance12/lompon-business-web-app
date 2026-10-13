@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "preferences": {
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "hero-loop"
+      ],
+      "updated_at": "2026-10-13T10:21:57.872Z"
+    },
+    "storyboard": {
+      "value": "no",
+      "confirmed_in": [
+        "hero-loop"
+      ],
+      "updated_at": "2026-10-13T10:21:58.438Z"
+    }
+  },
+  "sightings": {}
+}

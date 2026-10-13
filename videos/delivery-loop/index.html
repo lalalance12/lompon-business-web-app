@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /*
+       * Delivery loop for the limestone yard website (Delivery page). The site
+       * shows it cropped to 4:3, so all action stays inside x 240–1680.
+       * One delivery per loop: drive in, tip, pour, weigh, drive off, reset.
+       * Palette: chalk #EDEBE5, slate #1D2427, loader yellow #F4B400.
+       */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #edebe5;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #edebe5;
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-gxr6" id="root" data-composition-id="main" data-start="0" data-duration="8" data-width="1920" data-height="1080">
+      <svg data-hf-id="hf-khtn" id="scene" class="clip layer" data-layout-allow-overflow="" data-start="0" data-duration="8" data-track-index="0" viewBox="0 0 1920 1080">
+        <!-- Distant quarry ridge -->
+        <path data-hf-id="hf-d058" d="M0 700 L180 640 L360 668 L560 600 L760 642 L980 590 L1220 636 L1420 604 L1660 650 L1920 610 V860 H0 Z" fill="#dedbd3" />
+        <path data-hf-id="hf-mvl0" d="M0 760 L240 730 L520 752 L820 718 L1100 748 L1400 724 L1700 750 L1920 732 V860 H0 Z" fill="#d3cfc4" />
+
+        <!-- Ground -->
+        <rect data-hf-id="hf-y765" x="0" y="860" width="1920" height="220" fill="#cfcabe" />
+        <rect data-hf-id="hf-am8n" x="0" y="856" width="1920" height="6" fill="#1d2427" opacity="0.85" />
+
+        <!-- The site: a building frame waiting for its stone -->
+        <g data-hf-id="hf-unti" stroke="#1d2427" stroke-width="7" fill="none" stroke-linejoin="round">
+          <path data-hf-id="hf-jrkw" d="M1470 858 V600 H1680 V858" />
+          <path data-hf-id="hf-is28" d="M1450 604 L1575 500 L1700 604" />
+          <path data-hf-id="hf-deg2" d="M1540 858 V740 H1610 V858" />
+          <path data-hf-id="hf-8slg" d="M1490 650 H1660 M1490 700 H1660" stroke-opacity="0.35" stroke-width="5" />
+        </g>
+        <rect data-hf-id="hf-bkri" x="1452" y="852" width="250" height="10" fill="#f4b400" />
+
+        <!-- Weighbridge readout: seven-segment LED digits -->
+        <g data-hf-id="hf-m0r2" id="readout" transform="translate(300 150)">
+          <rect data-hf-id="hf-q714" width="420" height="190" rx="14" fill="#1d2427" />
+          <rect data-hf-id="hf-casi" x="10" y="10" width="400" height="170" rx="8" fill="#283135" />
+          <g data-hf-id="hf-h1gl" id="digits" transform="translate(40 40)" />
+          <rect data-hf-id="hf-ve4c" x="198" y="138" width="12" height="12" rx="2" fill="#f4b400" id="dp" />
+        </g>
+
+        <!-- Delivered pile, behind the truck's tail -->
+        <path data-hf-id="hf-n89m" id="pile" d="M560 860 C 600 770, 680 718, 760 708 C 840 718, 900 770, 940 860 Z" fill="#b7b0a1" />
+        <path data-hf-id="hf-rd63" id="pile-light" d="M690 760 C 720 728, 748 716, 770 714 C 756 740, 730 770, 710 800 Z" fill="#e3ded3" />
+
+        <!-- Stones pouring off the tipped bed -->
+        <g data-hf-id="hf-5lj9" id="pour" />
+
+        <!-- The truck (the site's dump truck drawing at 2x) -->
+        <g data-hf-id="hf-fcrc" id="truck">
+          <g data-hf-id="hf-hb57" transform="translate(0 434) scale(2)">
+            <rect data-hf-id="hf-vs98" x="132" y="184" width="262" height="12" rx="2" fill="#1d2427" />
+            <g data-hf-id="hf-gkqk" id="bed">
+              <path data-hf-id="hf-f2a4" id="load" d="M152 108 C 180 76, 258 76, 292 108 Z" fill="#c9c3b6" />
+              <path data-hf-id="hf-bzvk" d="M140 108 H 300 L 296 182 H 146 Z" fill="#f4b400" />
+              <path data-hf-id="hf-oica" d="M140 108 H 300" stroke="#1d2427" stroke-width="4" stroke-linecap="round" />
+              <path data-hf-id="hf-5i08" d="M184 122 V 170 M 220 122 V 170 M 256 122 V 170" stroke="#1d2427" stroke-opacity="0.2" stroke-width="3" />
+            </g>
+            <rect data-hf-id="hf-88ic" x="304" y="112" width="6" height="74" rx="2" fill="#1d2427" />
+            <path data-hf-id="hf-4mh7" d="M312 120 H 362 L 392 154 V 186 H 312 Z" fill="#f4b400" />
+            <path data-hf-id="hf-cljz" d="M322 130 H 358 L 380 154 H 322 Z" fill="#1d2427" />
+            <rect data-hf-id="hf-0ezh" x="384" y="166" width="10" height="6" rx="1" fill="#1d2427" opacity="0.7" />
+            <g data-hf-id="hf-7rl3" class="wheel"><circle data-hf-id="hf-8vxf" cx="176" cy="198" r="15" fill="#1d2427" /><circle data-hf-id="hf-6fe3" cx="176" cy="198" r="6" fill="#a29f95" /></g>
+            <g data-hf-id="hf-4b9j" class="wheel"><circle data-hf-id="hf-1pmz" cx="226" cy="198" r="15" fill="#1d2427" /><circle data-hf-id="hf-xq77" cx="226" cy="198" r="6" fill="#a29f95" /></g>
+            <g data-hf-id="hf-3wyi" class="wheel"><circle data-hf-id="hf-4b26" cx="360" cy="198" r="15" fill="#1d2427" /><circle data-hf-id="hf-xcm0" cx="360" cy="198" r="6" fill="#a29f95" /></g>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <script>
+      const NS = "http://www.w3.org/2000/svg";
+      const prand = (n) => {
+        const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+        return x - Math.floor(x);
+      };
+
+      // ---- Seven-segment digits: "18.4" then a small "t"
+      const SEG = {
+        // segment rects in a 60 × 110 cell: [x, y, w, h]
+        a: [10, 0, 40, 10], b: [50, 10, 10, 40], c: [50, 60, 10, 40],
+        d: [10, 100, 40, 10], e: [0, 60, 10, 40], f: [0, 10, 10, 40], g: [10, 50, 40, 10],
+      };
+      const GLYPH = {
+        0: "abcdef", 1: "bc", 2: "abdeg", 3: "abcdg", 4: "bcfg", 5: "acdfg",
+        6: "acdefg", 7: "abc", 8: "abcdefg", 9: "abcdfg", t: "defg", " ": "",
+      };
+      const digitsG = document.getElementById("digits");
+      const cells = [0, 1, 2, 3].map((i) => {
+        const g = document.createElementNS(NS, "g");
+        // positions: tens, ones, (decimal point), tenths, unit
+        const x = [0, 80, 190, 300][i];
+        const s = i === 3 ? 0.55 : 1;
+        g.setAttribute("transform", `translate(${x} ${i === 3 ? 50 : 0}) scale(${s})`);
+        const segs = {};
+        for (const k in SEG) {
+          const r = document.createElementNS(NS, "rect");
+          const [sx, sy, w, h] = SEG[k];
+          r.setAttribute("x", sx);
+          r.setAttribute("y", sy);
+          r.setAttribute("width", w);
+          r.setAttribute("height", h);
+          r.setAttribute("rx", 3);
+          g.appendChild(r);
+          segs[k] = r;
+        }
+        digitsG.appendChild(g);
+        return segs;
+      });
+      const ON = "#f4b400";
+      const OFF = "#33403f";
+      function showWeight(tenths) {
+        // tenths: 0..184 → "18.4"
+        const v = Math.max(0, Math.round(tenths));
+        const chars = [Math.floor(v / 100) % 10 || " ", Math.floor(v / 10) % 10, v % 10, "t"];
+        chars.forEach((ch, i) => {
+          const lit = GLYPH[String(ch)] || "";
+          for (const k in cells[i]) cells[i][k].setAttribute("fill", lit.includes(k) ? ON : OFF);
+        });
+      }
+
+      // ---- Stones for the pour: ballistic, index-seeded (particle-burst)
+      const pourG = document.getElementById("pour");
+      const STONES = Array.from({ length: 34 }, (_, i) => {
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("r", (6 + prand(i * 3 + 1) * 10).toFixed(1));
+        c.setAttribute("fill", i % 3 ? "#c9c3b6" : "#a29f95");
+        c.setAttribute("opacity", "0");
+        pourG.appendChild(c);
+        return {
+          c,
+          start: 2.05 + (i / 34) * 1.5, // released over 1.5 s while tipped
+          vx: -(60 + prand(i * 5 + 2) * 180),
+          landY: 760 + prand(i * 7 + 3) * 90,
+        };
+      });
+      // Tail of the tipped bed, in scene px (truck stops at x = TRUCK_STOP)
+      const TRUCK_STOP = 560;
+      const TRUCK_SCALE = 2;
+      const TAIL = { x: TRUCK_STOP + 140 * TRUCK_SCALE - 10, y: 434 + 175 * TRUCK_SCALE - 40 };
+
+      // ---- Timeline
+      const tl = gsap.timeline({ paused: true });
+
+      // Drive in and brake hard
+      tl.fromTo("#truck", { x: -900 }, { x: TRUCK_STOP, duration: 1.6, ease: "power3.out" }, 0);
+      // Tip the bed about its rear-bottom corner, then lower it
+      tl.fromTo("#bed", { rotation: 0, svgOrigin: "140 182" }, { rotation: -34, svgOrigin: "140 182", duration: 0.45, ease: "power2.inOut" }, 1.65);
+      tl.to("#bed", { rotation: 0, svgOrigin: "140 182", duration: 0.4, ease: "power2.inOut" }, 3.9);
+      // Load empties as the pile grows
+      // (fade, not scale: the load rides the tipping bed, so it keeps the bed's pivot)
+      tl.fromTo("#load", { opacity: 1 }, { opacity: 0, duration: 1.2, ease: "power1.in" }, 2.1);
+      tl.fromTo(["#pile", "#pile-light"], { scaleY: 0, opacity: 1, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 1.7, ease: "power2.out" }, 2.15);
+      // Drive off
+      tl.to("#truck", { x: 2300, duration: 1.6, ease: "power2.in" }, 4.5);
+      // Clear the pile and the readout before the next truck arrives
+      tl.to(["#pile", "#pile-light"], { opacity: 0, duration: 0.7, ease: "power1.inOut" }, 6.9);
+
+      // Weighbridge counts what has been tipped (counting-dynamic-scale, number only)
+      const weight = { v: 0 };
+      tl.fromTo(weight, { v: 0 }, { v: 184, duration: 1.7, ease: "power2.out", onUpdate: () => showWeight(weight.v) }, 2.1);
+      tl.to(weight, { v: 0, duration: 0.5, ease: "power1.in", onUpdate: () => showWeight(weight.v) }, 7.0);
+      tl.fromTo("#digits", { scale: 0.94, transformOrigin: "50% 50%" }, { scale: 1, duration: 1.7, ease: "power2.out" }, 2.1);
+
+      // Pour: one driver, every stone a pure function of time
+      const clock = { t: 0 };
+      tl.fromTo(
+        clock,
+        { t: 0 },
+        {
+          t: 8,
+          duration: 8,
+          ease: "none",
+          onUpdate: () => {
+            const t = clock.t;
+            STONES.forEach((s) => {
+              const age = t - s.start;
+              if (age < 0 || age > 1.0) {
+                s.c.setAttribute("opacity", "0");
+                return;
+              }
+              const x = TAIL.x + s.vx * age;
+              const y = Math.min(TAIL.y + 0.5 * 1500 * age * age, s.landY);
+              const fade = age > 0.8 ? (1 - age) / 0.2 : 1;
+              s.c.setAttribute("cx", x.toFixed(1));
+              s.c.setAttribute("cy", y.toFixed(1));
+              s.c.setAttribute("opacity", fade.toFixed(2));
+            });
+          },
+        },
+        0,
+      );
+
+      showWeight(0);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

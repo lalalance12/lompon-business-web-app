@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      /*
+       * Hero loop: the quarry at work. On the limestone mountain a breaker
+       * excavator hammers the rock face; broken rock tumbles down, a backhoe
+       * loads it into the crusher, and the crusher sends fines up a conveyor
+       * onto the stockpile. Plays muted behind the home headline, so the
+       * lower-left stays calm. Seamless 10 s: every motion is periodic in it.
+       */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #1d2427;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #1d2427;
+      }
+      .layer {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      #glow {
+        position: absolute;
+        right: -200px;
+        top: -360px;
+        width: 1500px;
+        height: 1100px;
+        border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(244, 180, 0, 0.22), rgba(138, 98, 0, 0.1) 55%, rgba(29, 36, 39, 0) 100%);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="10"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="scene" class="clip layer" data-start="0" data-duration="10" data-track-index="0">
+        <div id="glow"></div>
+        <svg id="world" class="layer" data-layout-allow-overflow viewBox="0 0 1920 1080">
+          <!-- Far ridge -->
+          <path d="M520 880 L760 640 L900 700 L1060 560 L1180 600 L1320 470 L1480 520 L1640 380 L1920 300 V880 Z" fill="#262e32" />
+
+          <!-- The limestone mountain, quarried in benches on its left face -->
+          <path id="mountain" d="M820 880 L960 760 L1040 700 L1040 470 L1262 470 L1280 300 L1400 300 L1420 170 L1560 120 L1720 160 L1920 220 V880 Z" fill="#4b5153" />
+          <!-- lit cut faces (pale limestone) -->
+          <path d="M1262 470 L1280 300 L1300 300 L1284 470 Z" fill="#9b968c" />
+          <path d="M1400 300 L1420 170 L1440 170 L1420 300 Z" fill="#8f8a7f" />
+          <path d="M1040 700 L1040 470 L1058 470 L1058 700 Z" fill="#7f7a70" />
+          <!-- bench tops -->
+          <path d="M1040 470 H1262 M1280 300 H1400 M1420 170 H1560" stroke="#a29f95" stroke-width="4" stroke-opacity="0.6" />
+          <!-- strata in the rock -->
+          <g stroke="#a29f95" stroke-opacity="0.16" stroke-width="2" fill="none">
+            <path d="M1300 360 C1460 352 1640 368 1920 356" />
+            <path d="M1290 420 C1500 412 1700 430 1920 418" />
+            <path d="M1070 540 C1300 530 1600 548 1920 534" />
+            <path d="M1060 620 C1320 610 1640 628 1920 614" />
+            <path d="M1440 230 C1600 224 1760 236 1920 228" />
+          </g>
+
+          <!-- Ground of the processing site -->
+          <rect x="0" y="880" width="1920" height="200" fill="#232b2f" />
+          <rect x="0" y="878" width="1920" height="4" fill="#a29f95" opacity="0.3" />
+
+          <!-- Broken rock at the foot of the cliff -->
+          <path d="M960 882 C 990 830, 1040 800, 1080 800 C 1120 806, 1150 846, 1170 882 Z" fill="#7d786e" />
+          <g fill="#9b968c"><circle cx="1010" cy="850" r="12" /><circle cx="1060" cy="826" r="15" /><circle cx="1110" cy="842" r="11" /><circle cx="1140" cy="866" r="9" /></g>
+
+          <!-- Fines stockpile, right -->
+          <path d="M1660 882 C 1720 800, 1780 742, 1820 736 C 1860 742, 1900 790, 1940 882 Z" fill="#c9c3b6" />
+          <path d="M1770 790 C 1790 760, 1808 744, 1820 742 C 1812 770, 1798 800, 1786 830 Z" fill="#e3ded3" opacity="0.5" />
+
+          <!-- Crusher: hopper + shaking body -->
+          <g id="crusher">
+            <path d="M1440 700 H1580 L1550 760 H1470 Z" fill="#f4b400" />
+            <rect x="1450" y="760" width="120" height="104" rx="6" fill="#283135" />
+            <rect x="1466" y="776" width="88" height="30" rx="3" fill="#f4b400" opacity="0.85" />
+            <rect x="1452" y="862" width="116" height="18" fill="#1d2427" />
+          </g>
+          <!-- Fines conveyor -->
+          <path d="M1560 852 L1800 712" stroke="#f4b400" stroke-width="12" stroke-linecap="round" />
+          <path d="M1640 880 L1660 806 M1740 880 L1750 748" stroke="#f4b400" stroke-width="7" stroke-linecap="round" />
+          <circle cx="1800" cy="712" r="11" fill="#1d2427" stroke="#f4b400" stroke-width="5" />
+
+          <g id="rockfall"></g>
+          <g id="hopperfall"></g>
+          <g id="fines"></g>
+          <g id="chips"></g>
+          <g id="dust"></g>
+
+          <!-- Machines (built in script) -->
+          <g id="breaker"></g>
+          <g id="backhoe"></g>
+        </svg>
+      </div>
+    </div>
+
+    <script>
+      const D = 10;
+      const NS = "http://www.w3.org/2000/svg";
+      const YEL = "#f4b400";
+      const SLATE = "#1d2427";
+      const prand = (n) => {
+        const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+        return x - Math.floor(x);
+      };
+      const mod = (a, n) => ((a % n) + n) % n;
+      const smooth = (x) => x * x * (3 - 2 * x);
+      const make = (tag, attrs, parent) => {
+        const e = document.createElementNS(NS, tag);
+        for (const k in attrs) e.setAttribute(k, attrs[k]);
+        parent.appendChild(e);
+        return e;
+      };
+      // rotate point p about c by deg (SVG sense: positive = clockwise on screen)
+      const rot = (p, c, deg) => {
+        const r = (deg * Math.PI) / 180;
+        const dx = p[0] - c[0];
+        const dy = p[1] - c[1];
+        return [c[0] + dx * Math.cos(r) - dy * Math.sin(r), c[1] + dx * Math.sin(r) + dy * Math.cos(r)];
+      };
+
+      // ---------- Excavator: drawn facing LEFT, origin at the middle of the tracks' base
+      const B0 = [-40, -70]; // boom pivot
+      const E = [-170, -200]; // boom / stick joint
+      const T = [-210, -60]; // stick tip (tool mount)
+      function excavator(parent, tool) {
+        const root = make("g", {}, parent);
+        make("rect", { x: -95, y: -30, width: 190, height: 30, rx: 15, fill: "#2b3438" }, root);
+        [-70, -25, 20, 65].forEach((x) => make("circle", { cx: x, cy: -15, r: 8, fill: "#a29f95" }, root));
+        const upper = make("g", {}, root);
+        make("rect", { x: 56, y: -84, width: 36, height: 46, rx: 8, fill: "#283135" }, upper);
+        make("rect", { x: -60, y: -82, width: 130, height: 50, rx: 6, fill: YEL }, upper);
+        make("rect", { x: -64, y: -130, width: 58, height: 50, rx: 6, fill: YEL }, upper);
+        make("rect", { x: -58, y: -124, width: 40, height: 30, rx: 3, fill: SLATE }, upper);
+        const boom = make("g", {}, upper);
+        make("path", { d: `M${B0} L${E}`, stroke: YEL, "stroke-width": 24, "stroke-linecap": "round" }, boom);
+        make("circle", { cx: B0[0], cy: B0[1], r: 9, fill: SLATE }, boom);
+        const stick = make("g", {}, boom);
+        make("path", { d: `M${E} L${T}`, stroke: YEL, "stroke-width": 17, "stroke-linecap": "round" }, stick);
+        make("circle", { cx: E[0], cy: E[1], r: 7, fill: SLATE }, stick);
+        const toolG = make("g", {}, stick);
+        if (tool === "breaker") {
+          // hydraulic hammer along the stick's axis, with a steel chisel
+          make("path", { d: `M-200 -95 L-219 -28`, stroke: SLATE, "stroke-width": 20, "stroke-linecap": "round" }, toolG);
+          make("path", { d: `M-219 -28 L-226 2`, stroke: "#a29f95", "stroke-width": 7, "stroke-linecap": "round" }, toolG);
+        } else {
+          make("path", { d: `M${T} L-252 -40 Q-258 -6 -226 -2 L-200 -32 Z`, fill: SLATE }, toolG);
+          make("path", { d: "M-252 -40 L-262 -34 M-246 -16 L-258 -10", stroke: "#a29f95", "stroke-width": 4 }, toolG);
+        }
+        return { root, upper, boom, stick, toolG };
+      }
+
+      const breaker = excavator(document.getElementById("breaker"), "breaker");
+      const backhoe = excavator(document.getElementById("backhoe"), "bucket");
+
+      // Placement: breaker on the lower bench facing the cut face (right),
+      // backhoe at the foot of the cliff between the rock pile and crusher.
+      const BREAKER_POS = [1110, 470];
+      const BACKHOE_POS = [1290, 880];
+      breaker.root.setAttribute("transform", `translate(${BREAKER_POS}) scale(-0.8 0.8)`);
+
+      // ---------- Particles
+      const chipsG = document.getElementById("chips");
+      const chips = Array.from({ length: 28 }, (_, i) => ({
+        c: make("circle", { r: 2 + prand(i * 3) * 4, fill: i % 3 ? "#c9c3b6" : "#9b968c", opacity: 0 }, chipsG),
+        offset: prand(i * 7 + 1) * 2.5,
+        vx: -(40 + prand(i * 5) * 140),
+        vy: -(80 + prand(i * 11) * 180),
+      }));
+      const dustG = document.getElementById("dust");
+      const puffs = Array.from({ length: 10 }, (_, i) => ({
+        c: make("circle", { r: 10, fill: "#c9c3b6", opacity: 0 }, dustG),
+        offset: (i / 10) * 2.5,
+      }));
+      const rockG = document.getElementById("rockfall");
+      const rocks = Array.from({ length: 8 }, (_, i) => ({
+        c: make("circle", { r: 7 + prand(i * 13) * 9, fill: i % 2 ? "#9b968c" : "#7d786e", opacity: 0 }, rockG),
+        offset: (i / 8) * D,
+        dx: -(20 + prand(i * 17) * 70),
+      }));
+      const hopperG = document.getElementById("hopperfall");
+      const hopperStones = Array.from({ length: 10 }, (_, i) => ({
+        c: make("circle", { r: 6 + prand(i * 19) * 7, fill: i % 2 ? "#9b968c" : "#c9c3b6", opacity: 0 }, hopperG),
+        dx: (prand(i * 23) - 0.5) * 50,
+        delay: (i / 10) * 0.08,
+      }));
+      const finesG = document.getElementById("fines");
+      const BELT0 = [1560, 852];
+      const BELT1 = [1800, 712];
+      const fines = Array.from({ length: 46 }, (_, i) => ({
+        c: make("circle", { r: 2 + prand(i * 29) * 2.5, fill: i % 4 ? "#e3ded3" : "#c9c3b6" }, finesG),
+        phase: i / 46,
+        jitter: (prand(i * 31) - 0.5) * 6,
+      }));
+
+      // ---------- Backhoe keyframes over one 5 s cycle (two cycles per loop)
+      // [p, boom, stick, bucket, swing(1 = facing the rock pile, -1 = facing the crusher)]
+      // Angles solved so the bucket lands on the rock pile (dig) and over the
+      // crusher hopper (dump); boom/stick in degrees, + is clockwise on screen.
+      const KEYS = [
+        [0.0, 8, -4, -20, 1], // rest
+        [0.2, -6, -13, 60, 1], // dig into the pile, bucket curls
+        [0.36, 33, 27, 70, 1], // lift full
+        [0.52, 33, 27, 70, -1], // swing to the crusher
+        [0.64, 33, 27, -45, -1], // dump into the hopper
+        [0.8, 33, 27, -45, 1], // swing back
+        [1.0, 8, -4, -20, 1], // lower to rest
+      ];
+      function backhoeAt(p) {
+        let i = 0;
+        while (i < KEYS.length - 2 && p > KEYS[i + 1][0]) i++;
+        const a = KEYS[i];
+        const b = KEYS[i + 1];
+        const k = smooth(Math.min(1, Math.max(0, (p - a[0]) / (b[0] - a[0]))));
+        return a.slice(1).map((v, j) => v + (b[j + 1] - v) * k);
+      }
+
+      function render(t) {
+        // --- Breaker: slow reposition, hammering in bursts (4 per loop)
+        const burst = mod(t, 2.5) / 2.5; // 0..1 within a burst cycle
+        const on = burst < 0.68 ? 1 : 0;
+        const hammer = on * Math.sin(2 * Math.PI * 9 * t) * 5; // 90 cycles per loop
+        const bBoom = -4 + Math.sin((2 * Math.PI * t) / 5) * 3;
+        const bStick = -18 + Math.sin((2 * Math.PI * t) / 5 + 1) * 3;
+        breaker.boom.setAttribute("transform", `rotate(${bBoom} ${B0})`);
+        breaker.stick.setAttribute("transform", `rotate(${bStick} ${E})`);
+        // vibrate along the stick axis
+        const axis = [(T[0] - E[0]) / 146, (T[1] - E[1]) / 146];
+        breaker.toolG.setAttribute("transform", `translate(${axis[0] * hammer} ${axis[1] * hammer})`);
+        // chisel tip in world space (tip local -226,2 → stick → boom → root)
+        let tip = rot([-226, 2], E, bStick);
+        tip = rot(tip, B0, bBoom);
+        const tipW = [BREAKER_POS[0] - tip[0] * 0.8, BREAKER_POS[1] + tip[1] * 0.8];
+
+        chips.forEach((ch) => {
+          const age = mod(t - ch.offset, 2.5);
+          if (age > 1.2 || age > 1.7 * 0.68) {
+            ch.c.setAttribute("opacity", 0);
+            return;
+          }
+          const x = tipW[0] + ch.vx * age;
+          const y = tipW[1] + ch.vy * age + 0.5 * 900 * age * age;
+          ch.c.setAttribute("cx", x.toFixed(1));
+          ch.c.setAttribute("cy", Math.min(y, 466).toFixed(1));
+          ch.c.setAttribute("opacity", (1 - age / 1.2).toFixed(2));
+        });
+        puffs.forEach((pf) => {
+          const age = mod(t - pf.offset, 2.5);
+          const life = age / 1.6;
+          if (life > 1) {
+            pf.c.setAttribute("opacity", 0);
+            return;
+          }
+          pf.c.setAttribute("cx", (tipW[0] - 20 - life * 60).toFixed(1));
+          pf.c.setAttribute("cy", (tipW[1] - life * 70).toFixed(1));
+          pf.c.setAttribute("r", (8 + life * 40).toFixed(1));
+          pf.c.setAttribute("opacity", ((1 - life) * 0.22).toFixed(3));
+        });
+
+        // --- Broken rock tumbling off the bench to the pile
+        rocks.forEach((r) => {
+          const age = mod(t - r.offset, D);
+          if (age > 1.1) {
+            r.c.setAttribute("opacity", 0);
+            return;
+          }
+          const x = 1060 + r.dx * age;
+          const y = Math.min(476 + 0.5 * 700 * age * age, 820);
+          r.c.setAttribute("cx", x.toFixed(1));
+          r.c.setAttribute("cy", y.toFixed(1));
+          r.c.setAttribute("opacity", age > 0.9 ? ((1.1 - age) / 0.2).toFixed(2) : 1);
+        });
+
+        // --- Backhoe
+        const p = mod(t, 5) / 5;
+        const [boomA, stickA, bucketA, swing] = backhoeAt(p);
+        backhoe.root.setAttribute("transform", `translate(${BACKHOE_POS})`);
+        backhoe.upper.setAttribute("transform", `scale(${swing.toFixed(3)} 1)`);
+        backhoe.boom.setAttribute("transform", `rotate(${boomA} ${B0})`);
+        backhoe.stick.setAttribute("transform", `rotate(${stickA} ${E})`);
+        backhoe.toolG.setAttribute("transform", `rotate(${bucketA} ${T})`);
+
+        // stone dropping into the hopper during the dump (p 0.56–0.75)
+        hopperStones.forEach((s) => {
+          const age = p - 0.56 - s.delay;
+          if (age < 0 || age > 0.16) {
+            s.c.setAttribute("opacity", 0);
+            return;
+          }
+          const sec = age * 5;
+          s.c.setAttribute("cx", (1505 + s.dx).toFixed(1));
+          s.c.setAttribute("cy", Math.min(640 + 0.5 * 900 * sec * sec, 730).toFixed(1));
+          s.c.setAttribute("opacity", 1);
+        });
+
+        // --- Crusher shakes while it works
+        const shake = Math.sin(2 * Math.PI * 12 * t) * 1.6; // 120 cycles per loop
+        document.getElementById("crusher").setAttribute("transform", `translate(${shake.toFixed(2)} 0)`);
+
+        // --- Fines riding the conveyor (one trip per 2.5 s), pouring onto the pile
+        fines.forEach((f) => {
+          const q = mod(t / 2.5 + f.phase, 1);
+          let x, y;
+          if (q < 0.78) {
+            const k = q / 0.78;
+            x = BELT0[0] + (BELT1[0] - BELT0[0]) * k;
+            y = BELT0[1] + (BELT1[1] - BELT0[1]) * k - 9 + f.jitter * 0.3;
+          } else {
+            const age = (q - 0.78) * 2.5;
+            x = BELT1[0] + 12 + age * 30 + f.jitter;
+            y = Math.min(BELT1[1] + 0.5 * 900 * age * age, 760);
+          }
+          f.c.setAttribute("cx", x.toFixed(1));
+          f.c.setAttribute("cy", y.toFixed(1));
+          f.c.setAttribute("opacity", q > 0.97 ? ((1 - q) / 0.03).toFixed(2) : 1);
+        });
+      }
+
+      const tl = gsap.timeline({ paused: true });
+      const clock = { t: 0 };
+      tl.to(clock, { t: D, duration: D, ease: "none", onUpdate: () => render(clock.t) }, 0);
+      tl.fromTo("#glow", { scale: 1, opacity: 0.85 }, { scale: 1.06, opacity: 1, duration: D / 4, ease: "sine.inOut", yoyo: true, repeat: 3 }, 0);
+      render(0);
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

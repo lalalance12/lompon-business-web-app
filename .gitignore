@@ -43,3 +43,8 @@ next-env.d.ts
 # agent skills: .claude/skills holds machine-local symlinks into .agents/skills
 /.claude/skills/
 __pycache__/
+
+# HyperFrames working files
+videos/*/snaps/
+videos/*/.hyperframes/
+videos/*/renders/
