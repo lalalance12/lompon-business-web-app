@@ -69,7 +69,7 @@ export function ProjectEntry({ project, flip }: { project: ProjectEntryData; fli
           <dt className="text-silt">Material</dt>
           <dd>
             {project.material ? (
-              <Link href={`/materials#${project.material.slug}`} className="underline decoration-slate/30 underline-offset-4 transition-colors hover:decoration-slate">
+              <Link href={`/materials#${project.material.slug}`} className="inline-block py-1 underline decoration-slate/30 underline-offset-4 transition-colors hover:decoration-slate">
                 {project.material.name}
               </Link>
             ) : (
