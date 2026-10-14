@@ -165,7 +165,7 @@ export function DeliveryJourney({
             <p className="type-lede mt-4 max-w-[42ch] text-fossil">{body}</p>
           </div>
 
-          <ol className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4 lg:col-span-7">
+          <ol className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4 lg:col-span-7 lg:grid-cols-2 xl:grid-cols-4">
             {stages.map((s, i) => (
               <li key={s.title} className="relative pt-4">
                 <span className="absolute inset-x-0 top-0 h-0.5 bg-limewash/15" aria-hidden="true">

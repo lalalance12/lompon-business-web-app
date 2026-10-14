@@ -8,8 +8,8 @@ export function SiteFooter() {
   return (
     <footer className="on-slate bg-slate text-limewash">
       <div className="page-gutter page-width pt-20 pb-10 md:pt-28">
-        <div className="grid gap-14 md:grid-cols-12 md:gap-8">
-          <div className="md:col-span-5">
+        <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-5">
             <p className="type-h2 max-w-[14ch]">{site.tagline}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -27,7 +27,7 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 md:col-span-7">
+          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-7">
             <div>
               <h2 className="mb-4 text-sm text-fossil">The yard</h2>
               <address className="not-italic leading-relaxed">
@@ -79,7 +79,7 @@ export function SiteFooter() {
                   </a>
                 </li>
               </ul>
-              <ul className="mt-5 flex gap-4 text-sm">
+              <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                 {site.social.map((s) => (
                   <li key={s.label}>
                     <a href={s.href} target="_blank" rel="noreferrer" className="inline-block py-1 text-fossil transition-colors hover:text-limewash">
