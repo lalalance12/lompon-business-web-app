@@ -6,10 +6,11 @@ import { animate, motion, useMotionValue, useTransform } from "motion/react"
 import { TriangleAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cta } from "@/lib/cta"
-import { easeSnap, snapSpring } from "@/lib/motion"
+import { easeSnap } from "@/lib/motion"
 import { formatPeso, planTrips, priceList } from "@/content/prices"
 import { Input } from "@/components/ui/input"
 import { Field } from "@/components/shared/field"
+import { Segmented } from "@/components/shared/segmented"
 import {
   Select,
   SelectContent,
@@ -26,39 +27,6 @@ export type EstimatorProduct = {
   unit: "ton" | "sack"
   /** Sack weight in kg, to work out the truck size for sacks. */
   sackKg?: number
-}
-
-/** A pill switch with a sliding highlight. */
-function Segmented<T extends string | number>({
-  label,
-  id,
-  value,
-  options,
-  onChange,
-}: {
-  label: string
-  id: string
-  value: T
-  options: { value: T; label: string }[]
-  onChange: (v: T) => void
-}) {
-  return (
-    <div role="radiogroup" aria-label={label} className="inline-flex w-fit flex-wrap rounded-full bg-bedding p-1">
-      {options.map((o) => (
-        <button
-          key={String(o.value)}
-          type="button"
-          role="radio"
-          aria-checked={value === o.value}
-          onClick={() => onChange(o.value)}
-          className={cn("press relative h-11 rounded-full px-4 text-[0.9375rem]", value === o.value ? "text-limewash" : "text-silt hover:text-slate")}
-        >
-          {value === o.value && <motion.span layoutId={`${id}-pill`} className="absolute inset-0 rounded-full bg-slate" transition={snapSpring} />}
-          <span className="relative">{o.label}</span>
-        </button>
-      ))}
-    </div>
-  )
 }
 
 /** A peso amount that rolls quickly to its new value. */

@@ -5,9 +5,10 @@ import { useSearchParams } from "next/navigation"
 import { AnimatePresence, motion } from "motion/react"
 import { cn } from "@/lib/utils"
 import { cta } from "@/lib/cta"
-import { quick, snapSpring } from "@/lib/motion"
+import { quick } from "@/lib/motion"
 import { Input } from "@/components/ui/input"
 import { Field } from "@/components/shared/field"
+import { Segmented } from "@/components/shared/segmented"
 import { Textarea } from "@/components/ui/textarea"
 import {
   Select,
@@ -173,26 +174,13 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
 
       <fieldset className="grid gap-3 sm:col-span-2">
         <legend className="mb-3 text-sm font-medium">How you&apos;ll get it</legend>
-        <div role="radiogroup" aria-label="How you'll get it" className="inline-flex w-fit flex-wrap rounded-full bg-bedding p-1">
-          {methods.map((m) => (
-            <button
-              key={m.value}
-              type="button"
-              role="radio"
-              aria-checked={method === m.value}
-              onClick={() => setMethod(m.value)}
-              className={cn(
-                "press relative h-11 rounded-full px-5 text-[0.9375rem]",
-                method === m.value ? "text-limewash" : "text-silt hover:text-slate"
-              )}
-            >
-              {method === m.value && (
-                <motion.span layoutId="method-pill" className="absolute inset-0 rounded-full bg-slate" transition={snapSpring} />
-              )}
-              <span className="relative">{m.label}</span>
-            </button>
-          ))}
-        </div>
+        <Segmented
+          label="How you'll get it"
+          id="method"
+          value={method}
+          options={methods.map((m) => ({ value: m.value, label: m.label }))}
+          onChange={setMethod}
+        />
         <p className="text-sm text-silt">
           {method === "delivery"
             ? "Delivery is a separate service. We'll quote the fee by distance and truck size."
