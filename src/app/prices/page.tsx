@@ -14,8 +14,10 @@ export const metadata: Metadata = {
   description: "General prices for limestone aggregate by the ton, fine and cooked limestone by the sack, and dump-truck delivery fees.",
 }
 
-const th = "py-3 pr-6 text-left text-sm font-normal text-silt"
-const td = "py-4 pr-6 tabular-nums"
+const th = "py-3 pr-3 text-left text-sm font-normal text-silt sm:pr-6"
+const td = "py-4 pr-3 tabular-nums sm:pr-6"
+/** Columns that only show from tablet up; phones get the essentials. */
+const wide = "hidden sm:table-cell"
 
 export default function PricesPage() {
   const [, six, ten] = priceList.trucks
@@ -53,15 +55,15 @@ export default function PricesPage() {
           body="Loaded onto your truck at the yard. Full truckloads are shown for comparison; delivery is charged separately."
           className="mb-8"
         />
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[40rem]">
+        <div className="overflow-x-auto overflow-y-hidden">
+          <table className="w-full md:min-w-[40rem]">
             <thead>
               <tr className="border-b border-slate/30">
                 <th scope="col" className={th}>Product</th>
-                <th scope="col" className={th}>Piece size</th>
+                <th scope="col" className={`${th} ${wide}`}>Piece size</th>
                 <th scope="col" className={`${th} text-right`}>Per ton</th>
-                <th scope="col" className={`${th} text-right`}>{six.name} load ({six.tons} t)</th>
-                <th scope="col" className={`${th} pr-0 text-right`}>{ten.name} load ({ten.tons} t)</th>
+                <th scope="col" className={`${th} ${wide} text-right`}>{six.name} load <span className="block text-xs">{six.tons} t</span></th>
+                <th scope="col" className={`${th} pr-0 text-right`}>{ten.name} load <span className="block text-xs">{ten.tons} t</span></th>
               </tr>
             </thead>
             <RevealGroup as="tbody" stagger={0.04}>
@@ -70,13 +72,14 @@ export default function PricesPage() {
                 return (
                   <RevealItem as="tr" key={m.slug} className="border-b border-border">
                     <th scope="row" className={`${td} text-left font-normal`}>
-                      <Link href={`/materials#${m.slug}`} className="underline decoration-slate/25 underline-offset-4 hover:decoration-slate">
+                      <Link href={`/materials#${m.slug}`} className="inline-block py-1 underline decoration-slate/25 underline-offset-4 hover:decoration-slate">
                         {m.name}
                       </Link>
+                      <span className="block text-sm text-silt sm:hidden">{m.size}</span>
                     </th>
-                    <td className={`${td} text-silt`}>{m.size}</td>
+                    <td className={`${td} ${wide} text-silt`}>{m.size}</td>
                     <td className={`${td} text-right type-figure text-xl`}>{formatPeso(perTon)}</td>
-                    <td className={`${td} text-right`}>{formatPeso(perTon * six.tons)}</td>
+                    <td className={`${td} ${wide} text-right`}>{formatPeso(perTon * six.tons)}</td>
                     <td className={`${td} pr-0 text-right`}>{formatPeso(perTon * ten.tons)}</td>
                   </RevealItem>
                 )
@@ -95,12 +98,12 @@ export default function PricesPage() {
             body={`Bagged at the yard. The lower price applies from ${priceList.bulkFrom} sacks of the same product.`}
             className="mb-8"
           />
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[34rem]">
+          <div className="overflow-x-auto overflow-y-hidden">
+            <table className="w-full sm:min-w-[34rem]">
               <thead>
                 <tr className="border-b border-slate/30">
                   <th scope="col" className={th}>Product</th>
-                  <th scope="col" className={th}>Sack</th>
+                  <th scope="col" className={`${th} ${wide}`}>Sack</th>
                   <th scope="col" className={`${th} text-right`}>Per sack</th>
                   <th scope="col" className={`${th} pr-0 text-right`}>From {priceList.bulkFrom} sacks</th>
                 </tr>
@@ -111,11 +114,12 @@ export default function PricesPage() {
                   return (
                     <RevealItem as="tr" key={m.slug} className="border-b border-border">
                       <th scope="row" className={`${td} text-left font-normal`}>
-                        <Link href={`/materials#${m.slug}`} className="underline decoration-slate/25 underline-offset-4 hover:decoration-slate">
+                        <Link href={`/materials#${m.slug}`} className="inline-block py-1 underline decoration-slate/25 underline-offset-4 hover:decoration-slate">
                           {m.name}
                         </Link>
+                        <span className="block text-sm text-silt sm:hidden">{m.size}</span>
                       </th>
-                      <td className={`${td} text-silt`}>{m.size}</td>
+                      <td className={`${td} ${wide} text-silt`}>{m.size}</td>
                       <td className={`${td} text-right type-figure text-xl`}>{formatPeso(sack.each)}</td>
                       <td className={`${td} pr-0 text-right`}>{formatPeso(sack.bulk)}</td>
                     </RevealItem>
@@ -136,8 +140,8 @@ export default function PricesPage() {
           link={{ href: "/delivery", label: "How delivery works" }}
           className="mb-8"
         />
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[36rem]">
+        <div className="overflow-x-auto overflow-y-hidden">
+          <table className="w-full sm:min-w-[36rem]">
             <thead>
               <tr className="border-b border-slate/30">
                 <th scope="col" className={th}>Distance</th>
@@ -153,7 +157,7 @@ export default function PricesPage() {
                 <RevealItem as="tr" key={z.label} className="border-b border-border">
                   <th scope="row" className={`${td} text-left font-normal`}>{z.label}</th>
                   {priceList.trucks.map((t, i) => (
-                    <td key={t.key} className={`${td} text-right type-figure text-xl ${i === priceList.trucks.length - 1 ? "pr-0" : ""}`}>
+                    <td key={t.key} className={`${td} text-right type-figure text-lg sm:text-xl ${i === priceList.trucks.length - 1 ? "pr-0" : ""}`}>
                       {formatPeso(z.fees[t.key])}
                     </td>
                   ))}
