@@ -3,8 +3,8 @@
  * Everything marked PLACEHOLDER is temporary — see PLACEHOLDERS.md.
  */
 export const site = {
-  name: "Calcaria Stone Co.", // PLACEHOLDER
-  shortName: "Calcaria", // PLACEHOLDER
+  name: "Lompon Limestone Quarrying",
+  shortName: "Lompon Limestone",
   tagline: "Limestone by the kilo and by the sack, delivered.", // PLACEHOLDER
   description:
     "A limestone yard selling fines, grits, coarse, pebbles and crushed gravel by the kilo, boulders by the cubic metre, and cooked limestone by the sack. Pick up at the yard or have it delivered by dump truck.", // PLACEHOLDER
@@ -12,8 +12,8 @@ export const site = {
   established: 1998, // PLACEHOLDER
 
   contact: {
-    phone: "+63 900 000 0000", // PLACEHOLDER
-    phoneHref: "tel:+639000000000", // PLACEHOLDER
+    phone: "+63 906 813 0792",
+    phoneHref: "tel:+639068130792",
     email: "hello@example.com", // PLACEHOLDER
     addressLines: ["Lot 00, Quarry Road", "Barangay Placeholder", "City, Province 0000"], // PLACEHOLDER
     directionsUrl: "https://maps.google.com/?q=limestone+yard", // PLACEHOLDER

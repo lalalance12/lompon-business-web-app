@@ -6,13 +6,13 @@ Everything below is temporary. Text lives in `src/content/`; photos and videos g
 
 | Field | Placeholder | Notes |
 |---|---|---|
-| Business name | Calcaria Stone Co. | Used in titles, footer, metadata |
-| Short name | Calcaria | Logo wordmark and big footer mark |
+| Business name | ✅ Lompon Limestone Quarrying (done) | Used in titles, footer, metadata |
+| Short name | ✅ Lompon Limestone (done) | Logo wordmark and big footer mark |
 | Tagline | Limestone by the kilo and by the sack, delivered. | Footer headline |
 | Description | A limestone yard selling fines, grits, pebbles and crushed gravel by the kilo… | Search engines and link previews |
 | Website URL | https://www.example.com | Needed for sitemap and link previews |
 | Year established | 1998 | Footer, structured data |
-| Phone | +63 900 000 0000 (and `phoneHref`) | Header, footer, stone pages, Visit |
+| Phone | ✅ +63 906 813 0792 (done) | Header, footer, stone pages, Visit |
 | Email | hello@example.com | Inquiry form sends to this address |
 | Address | Lot 00, Quarry Road / Barangay Placeholder / City, Province 0000 | |
 | Directions link | Google Maps search link | Paste your real Google Maps link |
