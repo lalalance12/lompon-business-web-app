@@ -11,7 +11,7 @@ export type Project = {
   /** Material slug from materials.ts. */
   materialSlug: string
   quantity: string
-  /** "delivery" if our dump trucks hauled it, "pickup" if the client collected. */
+  /** "delivery" if our dump truck hauled it, "pickup" if the client collected. */
   method: "delivery" | "pickup"
   summary: string
   imageCount: number

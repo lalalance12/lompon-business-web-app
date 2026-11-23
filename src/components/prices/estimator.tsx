@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { animate, motion, useMotionValue, useTransform } from "motion/react"
-import { TriangleAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { cta } from "@/lib/cta"
 import { easeSnap } from "@/lib/motion"
@@ -47,7 +46,7 @@ const amounts: Record<PriceUnit, { quick: number[]; start: string; one: string; 
 }
 
 /** Quick distances in km. */
-const quickKm = [5, 10, 20, 30]
+const quickKm = [5, 10, 20, 50]
 
 /**
  * Pick a product and amount, choose pick-up or delivery, and get a rough
@@ -75,7 +74,6 @@ export function Estimator({ products }: { products: EstimatorProduct[] }) {
     return { material, delivery, total: material + (delivery?.fee ?? 0) }
   }, [price, qty, unit, product, method, km])
 
-  const beyondArea = method === "delivery" && km > priceList.maxKm
   const unitWord = qty === 1 ? words.one : words.many
   const rate = price ? (unit === "kg" ? formatRate(price.amount) : formatPeso(price.amount)) : null
 
@@ -226,12 +224,6 @@ export function Estimator({ products }: { products: EstimatorProduct[] }) {
         {result.delivery && (
           <p className="mt-4 text-sm text-fossil">
             The limestone and the delivery are paid for separately. One truck holds up to {truck.cubicMetres} m³.
-          </p>
-        )}
-        {beyondArea && (
-          <p className="mt-4 flex gap-2 text-sm text-loader">
-            <TriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-            Beyond {priceList.maxKm} km we quote delivery on request.
           </p>
         )}
         <p className="mt-4 text-sm text-fossil">A guide from our general prices. We confirm the exact price before you pay.</p>

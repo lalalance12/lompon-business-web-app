@@ -79,7 +79,7 @@ export function ProjectEntry({ project, flip }: { project: ProjectEntryData; fli
           <dt className="text-silt">Amount</dt>
           <dd>{project.quantity}</dd>
           <dt className="text-silt">Got there by</dt>
-          <dd>{project.method === "delivery" ? "Our dump trucks" : "Collected by the client"}</dd>
+          <dd>{project.method === "delivery" ? "Our dump truck" : "Collected by the client"}</dd>
         </dl>
       </div>
 

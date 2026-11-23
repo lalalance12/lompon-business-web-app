@@ -1,10 +1,10 @@
 /**
  * How customers get their order: collect it themselves, or have it delivered
- * by our dump trucks. All values are PLACEHOLDERS — see PLACEHOLDERS.md.
+ * by our dump truck. All values are PLACEHOLDERS — see PLACEHOLDERS.md.
  */
 export const delivery = {
   title: "Collect it, or we dump it on site",
-  lede: "Bring your own truck and we load it at the yard, or book one of our dump trucks and we tip the load exactly where you need it.",
+  lede: "Bring your own truck and we load it at the yard, or book our dump truck and we tip the load exactly where you need it.",
 
   options: {
     pickup: {
@@ -23,7 +23,7 @@ export const delivery = {
       title: "Dump-truck delivery",
       body: "A separate service, paid separately from the limestone. Tell us the address and the day; our driver tips the load where you point, or unloads sacks by hand.",
       points: [
-        "Delivered within the delivery area, farther on request",
+        "Delivered anywhere in Mindanao",
         "₱1,500 for every kilometre from the yard, per truckload",
         "One truck holds up to 20 m³",
         "Scheduled to the day, with a call before arrival",
@@ -34,7 +34,7 @@ export const delivery = {
   /** Shown wherever delivery is priced. */
   payNote: "The limestone and the delivery are paid for separately: one price for the stone, one for the truck.",
 
-  area: "Within 50 km of the yard. Farther deliveries on request.",
+  area: "Anywhere in Mindanao.",
 
   /** A real sequence, so it is numbered on the page. */
   steps: [

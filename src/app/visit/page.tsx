@@ -28,7 +28,7 @@ export default function VisitPage() {
     <>
       <PageIntro
         title="Visit the yard"
-        lede="See the gravel sizes and the sacks in person, or drive in with your own truck and we'll load it. No appointment needed during opening hours."
+        lede="See the gravel sizes and the sacks in person, or drive in with your own truck and we'll load it. No appointment needed: just come during opening hours."
       />
 
       <section className="page-gutter page-width grid gap-12 pb-24 md:grid-cols-12 md:gap-10 md:pb-32">
@@ -98,7 +98,7 @@ export default function VisitPage() {
           <div className="md:col-span-4">
             <h2 className="type-h2">Order, ask for a quote, or book a delivery</h2>
             <p className="type-lede mt-5 text-silt">
-              Tell us what you need, how much, and whether you&apos;ll collect it or want it delivered. We usually reply within one working day.
+              Tell us what you need, how much, and whether you&apos;ll collect it or want it delivered. We reply within 1–2 working days.
             </p>
           </div>
           <div className="md:col-span-7 md:col-start-6">

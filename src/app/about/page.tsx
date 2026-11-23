@@ -74,7 +74,7 @@ export default function AboutPage() {
       <section className="page-gutter page-width py-24 md:py-36">
         <SectionHeading
           title="The yard"
-          body="A crusher, screens, a lime kiln and our own dump trucks, all in one place."
+          body="A crusher, screens, a lime kiln and our own dump truck, all in one place."
           link={{ href: "/visit", label: "Plan a visit" }}
           className="mb-12"
         />

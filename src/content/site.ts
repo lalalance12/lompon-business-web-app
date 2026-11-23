@@ -5,9 +5,9 @@
 export const site = {
   name: "Lompon Limestone Quarrying",
   shortName: "Lompon Limestone",
-  tagline: "Limestone by the kilo and by the sack, delivered.", // PLACEHOLDER
+  tagline: "From our quarry to your site, by the kilo.",
   description:
-    "A limestone yard selling fines, grits, coarse, pebbles and crushed gravel by the kilo, boulders by the cubic metre, and cooked limestone by the sack. Pick up at the yard or have it delivered by dump truck.", // PLACEHOLDER
+    "Limestone quarried in Manolo Fortich, Bukidnon. Sold by the kilo, the cubic metre and the sack, and delivered anywhere in Mindanao.",
   url: "https://lompon-limestone.com",
   established: 2015,
 
@@ -58,8 +58,8 @@ export const site = {
   /** Short facts shown on the home page intro. */
   facts: [
     { value: "Since 2015", label: "Family-run limestone yard" },
-    { value: "From 1 sack to a 20 m³ truck", label: "No order too small to collect" }, // PLACEHOLDER
-    { value: "3 dump trucks", label: "Delivering within 50 km" }, // PLACEHOLDER
+    { value: "From 1 sack to a 20 m³ truck", label: "No order too small to collect" },
+    { value: "Our own dump truck", label: "Delivering anywhere in Mindanao" },
   ],
 } as const
 

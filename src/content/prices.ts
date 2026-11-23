@@ -34,22 +34,19 @@ export const priceList = {
     cubicMetres: 20,
     /** Delivery fee for every kilometre from the yard, per trip. */
     feePerKm: 1500,
-    /**
-     * PLACEHOLDER: weight of one cubic metre of loose crushed limestone,
-     * used only to estimate how many trips a kilo order needs.
-     */
+    /** Weight of one cubic metre of loose crushed limestone, used to work out truckloads. */
     kgPerCubicMetre: 1500,
   },
 
-  /** Farthest we deliver without a special quote. */
-  maxKm: 50,
+  /** Where we deliver. */
+  area: "anywhere in Mindanao",
 
   notes: [
     "The limestone and the delivery are paid for separately: one price for the stone, one for the truck.",
     "Prices are a general guide and can change with fuel and quarry costs. We confirm the exact price before you pay.",
     "Loading at the yard is free.",
     "Delivery is ₱1,500 for every kilometre from the yard, for each truckload of up to 20 m³.",
-    "Deliveries beyond 50 km are quoted on request.",
+    "We deliver anywhere in Mindanao.",
   ],
 }
 

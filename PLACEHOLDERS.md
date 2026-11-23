@@ -8,8 +8,8 @@ Everything below is temporary. Text lives in `src/content/`; photos and videos g
 |---|---|---|
 | Business name | ✅ Lompon Limestone Quarrying (done) | Used in titles, footer, metadata |
 | Short name | ✅ Lompon Limestone (done) | Logo wordmark and big footer mark |
-| Tagline | Limestone by the kilo and by the sack, delivered. | Footer headline |
-| Description | A limestone yard selling fines, grits, pebbles and crushed gravel by the kilo… | Search engines and link previews |
+| Tagline | ✅ From our quarry to your site, by the kilo. (done) | Footer headline |
+| Description | ✅ Limestone quarried in Manolo Fortich, Bukidnon… delivered anywhere in Mindanao. (done) | Search engines and link previews |
 | Website URL | ✅ https://lompon-limestone.com (done) | Needed for sitemap and link previews |
 | Year established | ✅ 2015 (done) | Footer, structured data, About timeline |
 | Phone | ✅ +63 906 813 0792 (done) | Header, footer, stone pages, Visit |
@@ -20,7 +20,7 @@ Everything below is temporary. Text lives in `src/content/`; photos and videos g
 | Map | ✅ Live Google map of both places on the Visit page (done) | Built from the coordinates in `locations` |
 | Opening hours | ✅ 6:00 am – 6:00 pm; after hours by agreement (done) | |
 | Facebook link | *(empty, icon shown greyed out)* | Paste the page link into `channels` in site.ts. WhatsApp and Viber use the phone number. |
-| Home facts | Since 2015 / From 1 sack to a 20 m³ truck / 3 dump trucks | The three facts beside the intro |
+| Home facts | ✅ Since 2015 / From 1 sack to a 20 m³ truck / Our own dump truck (done) | The three facts beside the intro |
 
 ## 2. Logo — `src/components/layout/logo.tsx` and `src/app/icon.svg`
 
@@ -44,8 +44,8 @@ Prices from the owner (November 2026):
 - **Per cubic metre**: boulders ₱400
 - **Per sack**: cooked limestone, 50 kg sack, ₱110 per sack (50 kg × ₱2.20)
 - **Delivery**: one dump truck holding up to 20 m³, ₱1,500 per km from the yard, per trip. Paid separately from the limestone.
-- **Still a placeholder**: `kgPerCubicMetre` (1,500 kg per m³), used only to estimate how many trips a kilo order needs and the "full truck" column
-- "Prices updated" month, and the notes (beyond 50 km on request)
+- ✅ `kgPerCubicMetre`: 1,500 kg per m³ (confirmed), used to work out truckloads and the "full truck" column
+- "Prices updated" month, and the notes. Delivery area: anywhere in Mindanao (confirmed)
 
 The price list page, the estimator, the product rows and the home page all read from this one file.
 
@@ -56,7 +56,7 @@ The eight jobs on the home page (roads, concrete, river and sea walls, filling l
 ## 6. Delivery — `src/content/delivery.ts`
 
 - Pick-up and delivery descriptions and bullet points
-- **Delivery area** ("Within 50 km of the yard")
+- ✅ **Delivery area**: anywhere in Mindanao (done). One dump truck (confirmed)
 - The four delivery steps and the site checklist (road width, 7 m tipping height)
 
 ## 7. Projects — `src/content/projects.ts`
@@ -73,7 +73,7 @@ Title, lede, the founding story (invented: first crusher, screens, lime kiln, tr
 
 ## 10. Visit page — `src/app/visit/page.tsx`
 
-"No appointment needed during opening hours" and "We usually reply within one working day": confirm both are true.
+✅ No appointment needed; replies within 1–2 working days (confirmed).
 
 ## 11. Photos and videos
 

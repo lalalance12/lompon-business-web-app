@@ -150,7 +150,7 @@ export function InquiryForm({ email, groups, formKey }: { email: string; groups:
       >
         <h3 className="type-h3">Thank you, your inquiry is sent.</h3>
         <p className="mt-3 text-silt">
-          It&apos;s in our inbox now. We usually reply within one working day, by phone or email, whichever you gave us.
+          It&apos;s in our inbox now. We reply within 1–2 working days, by phone or email, whichever you gave us.
         </p>
         <button type="button" onClick={() => setStatus("idle")} className={cta({ tone: "outline", size: "md", className: "mt-6" })}>
           Send another

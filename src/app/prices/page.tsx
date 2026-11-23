@@ -21,7 +21,7 @@ const td = "py-4 pr-3 tabular-nums sm:pr-6"
 const wide = "hidden sm:table-cell"
 
 /** Example distances for the delivery fee table. */
-const exampleKm = [5, 10, 20, 30, 50]
+const exampleKm = [5, 10, 20, 50, 100]
 
 export default function PricesPage() {
   const { truck } = priceList
@@ -193,7 +193,7 @@ export default function PricesPage() {
               </RevealGroup>
             </table>
             <p className="mt-4 text-sm text-silt">
-              Orders over {truck.cubicMetres} m³ need more than one trip, and each trip is charged. Beyond {priceList.maxKm} km we quote on request.
+              Orders over {truck.cubicMetres} m³ need more than one trip, and each trip is charged. We deliver {priceList.area}.
             </p>
           </div>
         </div>
