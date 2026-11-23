@@ -16,7 +16,7 @@ export const site = {
     phoneHref: "tel:+639068130792",
     email: "llompon412@gmail.com",
     /** Where to inquire and order. Shown as "the address" across the site. */
-    addressLines: ["Lingion Road, Lower Sosohon", "Mangima, Lingion", "Manolo Fortich, Bukidnon 8703"],
+    addressLines: ["Zone 3, Lingion", "Manolo Fortich, Bukidnon 8703"],
     directionsUrl: "https://maps.app.goo.gl/pJrPxuH4ZRVcFgoq9",
   },
 
@@ -26,7 +26,7 @@ export const site = {
       key: "office",
       label: "Inquiries",
       title: "Where to inquire",
-      addressLines: ["Lingion Road, Lower Sosohon", "Mangima, Lingion", "Manolo Fortich, Bukidnon 8703"],
+      addressLines: ["Zone 3, Lingion", "Manolo Fortich, Bukidnon 8703"],
       lat: 8.386391,
       lng: 124.881077,
       directionsUrl: "https://maps.app.goo.gl/pJrPxuH4ZRVcFgoq9",

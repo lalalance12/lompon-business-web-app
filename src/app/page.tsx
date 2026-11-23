@@ -63,7 +63,7 @@ export default function HomePage() {
     email: site.contact.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Lingion Road, Lower Sosohon, Mangima",
+      streetAddress: "Zone 3, Lingion",
       addressLocality: "Manolo Fortich",
       addressRegion: "Bukidnon",
       postalCode: "8703",
