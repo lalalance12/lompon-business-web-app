@@ -9,6 +9,7 @@ import { MediaFrame } from "@/components/media/media-frame"
 import { PageIntro } from "@/components/shared/page-intro"
 import { InquiryForm, type ProductGroup } from "@/components/visit/inquiry-form"
 import { cta } from "@/lib/cta"
+import { SocialLinks } from "@/components/shared/social-links"
 
 export const metadata: Metadata = {
   title: "Visit the yard",
@@ -79,6 +80,8 @@ export default function VisitPage() {
                 </a>
               </li>
             </ul>
+            <p className="mt-4 text-sm text-silt">Message us on WhatsApp or Viber, same number.</p>
+            <SocialLinks className="mt-3" />
           </div>
         </div>
 

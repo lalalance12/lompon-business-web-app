@@ -26,9 +26,11 @@ export const site = {
     { days: "After 6:00 pm", time: "By agreement" },
   ],
 
-  social: [
-    { label: "Facebook", href: "https://facebook.com/" }, // PLACEHOLDER
-    { label: "Instagram", href: "https://instagram.com/" }, // PLACEHOLDER
+  /** Icon links in the footer, menu and Visit page. Leave href empty to show the icon without a link. */
+  channels: [
+    { key: "facebook", label: "Facebook", hint: "page coming soon", href: "" }, // PLACEHOLDER — paste the page link
+    { key: "whatsapp", label: "WhatsApp", hint: "+63 906 813 0792", href: "https://wa.me/639068130792" },
+    { key: "viber", label: "Viber", hint: "+63 906 813 0792", href: "viber://chat?number=%2B639068130792" },
   ],
 
   /** Short facts shown on the home page intro. */

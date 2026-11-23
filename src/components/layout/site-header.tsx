@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { nav, site } from "@/content/site"
 import { easeSnap, snapSpring } from "@/lib/motion"
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { SocialLinks } from "@/components/shared/social-links"
 import { Logo } from "./logo"
 
 /** Pages that open with full-bleed media; the header sits transparently over it. */
@@ -130,6 +131,7 @@ export function SiteHeader() {
                   <a href={`mailto:${site.contact.email}`} className="block py-2 text-limewash/80">
                     {site.contact.email}
                   </a>
+                  <SocialLinks tone="dark" className="pt-3" />
                 </div>
               </div>
             </SheetContent>

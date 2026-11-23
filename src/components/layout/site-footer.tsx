@@ -3,6 +3,7 @@ import { nav, site } from "@/content/site"
 import { bulkMaterials } from "@/content/materials"
 import { LogoMark } from "./logo"
 import { cta } from "@/lib/cta"
+import { SocialLinks } from "@/components/shared/social-links"
 
 export function SiteFooter() {
   return (
@@ -74,20 +75,14 @@ export function SiteFooter() {
                   </li>
                 ))}
                 <li>
-                  <a href={`mailto:${site.contact.email}`} className="inline-block py-1 break-all transition-opacity hover:opacity-70">
-                    {site.contact.email}
+                  <a href={`mailto:${site.contact.email}`} className="inline-block py-1 transition-opacity hover:opacity-70">
+                    {/* Wrap after the @ rather than mid-word in a narrow column */}
+                    {site.contact.email.split("@")[0]}@<wbr />
+                    {site.contact.email.split("@")[1]}
                   </a>
                 </li>
               </ul>
-              <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm">
-                {site.social.map((s) => (
-                  <li key={s.label}>
-                    <a href={s.href} target="_blank" rel="noreferrer" className="inline-block py-1 text-fossil transition-colors hover:text-limewash">
-                      {s.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <SocialLinks tone="dark" className="mt-5" />
             </div>
           </div>
         </div>
