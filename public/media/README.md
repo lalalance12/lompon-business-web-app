@@ -15,7 +15,7 @@ While running `npm run dev`, hover a placeholder to see the exact file path it i
 |---|---|---|
 | `hero.mp4` | Full-screen opening video | 16:9, landscape |
 | `hero-poster.jpg` | Shown before the video loads, or instead of it | Same frame as the video |
-| `buy-tons.jpg`, `buy-sacks.jpg` | "How to buy" cards | Landscape 16:10 |
+| `buy-kilos.jpg`, `buy-sacks.jpg` | "How to buy" cards | Landscape 16:10 |
 | `visit.jpg` | "Come to the yard" band | Landscape |
 
 ## Uses — `media/uses/`
@@ -24,7 +24,7 @@ One photo per job in the home page "What limestone is used for" section, landsca
 
 ## Tons and sacks — `media/materials/`
 
-One photo per product, named by its slug: `limestone-fines.jpg`, `pebbles.jpg`, `gravel.jpg`, `road-base.jpg`, `boulders.jpg`, `fill-spall.jpg` (4:3 close-ups of the pile, ideally with a hand or coin for scale), and `fine-limestone.jpg`, `cooked-limestone.jpg` (4:3, the sack).
+One photo per product, named by its slug: `limestone-fines.jpg`, `grits.jpg`, `coarse.jpg`, `pebbles.jpg`, `gravel.jpg`, `boulders.jpg` (4:3 close-ups of the pile, ideally with a hand or coin for scale), and `cooked-limestone.jpg` (4:3, the sack).
 
 ## Delivery — `media/delivery/`
 
