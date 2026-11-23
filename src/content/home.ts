@@ -16,7 +16,7 @@ export const hero = {
 
 export const intro = {
   statement:
-    "We have quarried, crushed and screened limestone for over two decades. From a single sack of lime to a full truck of gravel, everything is ready at our yard the same day.",
+    "We have quarried, crushed and screened limestone since 2015. From a single sack of lime to a full truck of gravel, everything is ready at our yard the same day.",
 }
 
 export const usesSection = {

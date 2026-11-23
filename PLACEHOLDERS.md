@@ -10,16 +10,16 @@ Everything below is temporary. Text lives in `src/content/`; photos and videos g
 | Short name | ✅ Lompon Limestone (done) | Logo wordmark and big footer mark |
 | Tagline | Limestone by the kilo and by the sack, delivered. | Footer headline |
 | Description | A limestone yard selling fines, grits, pebbles and crushed gravel by the kilo… | Search engines and link previews |
-| Website URL | https://www.example.com | Needed for sitemap and link previews |
-| Year established | 1998 | Footer, structured data |
+| Website URL | ✅ https://lompon-limestone.com (done) | Needed for sitemap and link previews |
+| Year established | ✅ 2015 (done) | Footer, structured data, About timeline |
 | Phone | ✅ +63 906 813 0792 (done) | Header, footer, stone pages, Visit |
-| Email | hello@example.com | Inquiry form sends to this address |
+| Email | ✅ llompon412@gmail.com (done) | Inquiry form sends to this address |
 | Address | Lot 00, Quarry Road / Barangay Placeholder / City, Province 0000 | |
 | Directions link | Google Maps search link | Paste your real Google Maps link |
 | Map embed | *(empty)* | Google Maps → Share → Embed a map → copy the `src` URL |
-| Opening hours | Mon–Fri 8–5, Sat 8–12, Sun closed | |
-| Social links | facebook.com / instagram.com | Add, remove or rename |
-| Home facts | Since 1998 / From 1 sack to a 20 m³ truck / 3 dump trucks | The three facts beside the intro |
+| Opening hours | ✅ 6:00 am – 6:00 pm; after hours by agreement (done) | |
+| Facebook link | *(empty, icon shown greyed out)* | Paste the page link into `channels` in site.ts. WhatsApp and Viber use the phone number. |
+| Home facts | Since 2015 / From 1 sack to a 20 m³ truck / 3 dump trucks | The three facts beside the intro |
 
 ## 2. Logo — `src/components/layout/logo.tsx` and `src/app/icon.svg`
 
@@ -68,7 +68,7 @@ Hero headline and text, intro statement, section titles, the "How to buy" cards,
 
 ## 9. About page — `src/content/about.ts`
 
-Title, lede, the founding story (invented: first crusher, screens, lime kiln, trucks), the timeline years (1998 / 2006 / 2014 / 2021), and three team members ("Placeholder Name").
+Title, lede, the founding story (invented: first crusher, screens, lime kiln, trucks), the timeline years (2015 / 2017 / 2019 / 2022; only 2015 is confirmed), and three team members ("Placeholder Name").
 
 ## 10. Visit page — `src/app/visit/page.tsx`
 
