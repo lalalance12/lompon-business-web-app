@@ -48,3 +48,4 @@ __pycache__/
 videos/*/snaps/
 videos/*/.hyperframes/
 videos/*/renders/
+!.env.example

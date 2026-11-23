@@ -14,7 +14,8 @@ Everything below is temporary. Text lives in `src/content/`; photos and videos g
 | Year established | ✅ 2015 (done) | Footer, structured data, About timeline |
 | Phone | ✅ +63 906 813 0792 (done) | Header, footer, stone pages, Visit |
 | Email | ✅ llompon412@gmail.com (done) | Inquiry form sends to this address |
-| Address | ✅ Lingion Road, Lower Sosohon, Mangima, Lingion, Manolo Fortich, Bukidnon 8703 (done) | Inquiry office. The quarry site is listed separately in `locations` in site.ts |
+| Form key | *(empty)* | Web3Forms access key in `.env.local` as `NEXT_PUBLIC_WEB3FORMS_KEY` (see `.env.example`). Without it the form opens the visitor's email app instead |
+| Address | ✅ Zone 3, Lingion, Manolo Fortich, Bukidnon 8703 (done) | Inquiry office. The quarry site is listed separately in `locations` in site.ts |
 | Directions link | ✅ Google Maps links for the office and the quarry (done) | |
 | Map | ✅ Live Google map of both places on the Visit page (done) | Built from the coordinates in `locations` |
 | Opening hours | ✅ 6:00 am – 6:00 pm; after hours by agreement (done) | |

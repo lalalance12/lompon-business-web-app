@@ -39,13 +39,16 @@ const methods: { value: Method; label: string }[] = [
   { value: "delivery", label: "Deliver by dump truck" },
 ]
 
+type Status = "idle" | "sending" | "sent" | "error"
+
 /**
- * The site has no backend, so the form composes an email in the visitor's
- * own mail app, addressed to the yard and ready to send.
+ * With a Web3Forms access key (NEXT_PUBLIC_WEB3FORMS_KEY), the form sends the
+ * inquiry straight to the yard's inbox. Without one, it falls back to writing
+ * the email in the visitor's own mail app.
  *
  * Prefill from links: ?product=<slug>, ?delivery=1
  */
-export function InquiryForm({ email, groups }: { email: string; groups: ProductGroup[] }) {
+export function InquiryForm({ email, groups, formKey }: { email: string; groups: ProductGroup[]; formKey?: string }) {
   const params = useSearchParams()
   const all = groups.flatMap((g) => g.options)
   const wanted = params.get("product")
@@ -55,13 +58,17 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
   const [method, setMethod] = useState<Method>(params.get("delivery") === "1" ? "delivery" : "pickup")
   const [errors, setErrors] = useState<Errors>({})
   const [composed, setComposed] = useState(false)
+  const [status, setStatus] = useState<Status>("idle")
+  const [mailto, setMailto] = useState(`mailto:${email}`)
 
   const chosen = all.find((o) => o.value === product)
   const unit = chosen?.unit ?? "amount"
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const data = new FormData(e.currentTarget)
+    if (status === "sending") return
+    const form = e.currentTarget
+    const data = new FormData(form)
     const get = (k: string) => String(data.get(k) ?? "").trim()
     const name = get("name")
     const phone = get("phone")
@@ -97,8 +104,59 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
     ].filter(Boolean)
     const body = message ? `${details.join("\n")}\n\n${message}` : details.join("\n")
 
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-    setComposed(true)
+    const link = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    setMailto(link)
+
+    if (!formKey) {
+      window.location.href = link
+      setComposed(true)
+      return
+    }
+
+    // Hidden field only bots fill in
+    if (data.get("botcheck")) return
+
+    setStatus("sending")
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: formKey,
+          subject,
+          from_name: `${name} (website)`,
+          ...(from ? { replyto: from } : {}),
+          message: body,
+        }),
+      })
+      const json = (await res.json().catch(() => null)) as { success?: boolean } | null
+      if (!res.ok || !json?.success) throw new Error("Not sent")
+      setStatus("sent")
+      form.reset()
+      setProduct(UNDECIDED)
+    } catch {
+      setStatus("error")
+    }
+  }
+
+  if (status === "sent") {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={quick}
+        role="status"
+        className="rounded-sm bg-chalk p-8 ring-1 ring-border md:p-10"
+      >
+        <h3 className="type-h3">Thank you, your inquiry is sent.</h3>
+        <p className="mt-3 text-silt">
+          It&apos;s in our inbox now. We usually reply within one working day, by phone or email, whichever you gave us.
+        </p>
+        <button type="button" onClick={() => setStatus("idle")} className={cta({ tone: "outline", size: "md", className: "mt-6" })}>
+          Send another
+        </button>
+      </motion.div>
+    )
   }
 
   return (
@@ -112,6 +170,7 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
       noValidate
       className="grid gap-6 sm:grid-cols-2"
     >
+      <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       <Field label="Name" htmlFor="name" className="sm:col-span-2">
         <Input id="name" name="name" autoComplete="name" className={fieldClass} aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
         <FieldError id="name-error" message={errors.name} />
@@ -183,7 +242,7 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
         />
         <p className="text-sm text-silt">
           {method === "delivery"
-            ? "Delivery is a separate service. We'll quote the fee by distance and truck size."
+            ? "Delivery is a separate service, paid separately. We'll quote the fee by distance."
             : "Bring your own truck or car during opening hours; we load it for you."}
         </p>
       </fieldset>
@@ -227,14 +286,24 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
       <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center sm:gap-6">
         <button
           type="submit"
-          className={cta({ tone: "primary", size: "md" })}
+          disabled={status === "sending"}
+          className={cta({ tone: "primary", size: "md", className: "disabled:opacity-60" })}
         >
-          Write the email
+          {formKey ? (status === "sending" ? "Sending…" : "Send inquiry") : "Write the email"}
         </button>
-        <p className="text-sm text-silt" aria-live="polite">
-          {composed
-            ? `Your email app should now be open with the message ready. If it isn't, write to ${email}.`
-            : "Opens your email app with the message filled in, ready to send."}
+        <p className={cn("text-sm", status === "error" ? "text-destructive" : "text-silt")} aria-live="polite">
+          {status === "error" ? (
+            <>
+              It didn&apos;t go through. Try again, or{" "}
+              <a href={mailto} className="underline underline-offset-4">send it from your email app</a>.
+            </>
+          ) : formKey ? (
+            "Goes straight to our inbox. No email app needed."
+          ) : composed ? (
+            `Your email app should now be open with the message ready. If it isn't, write to ${email}.`
+          ) : (
+            "Opens your email app with the message filled in, ready to send."
+          )}
         </p>
       </div>
     </form>

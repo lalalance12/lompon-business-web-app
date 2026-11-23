@@ -103,7 +103,7 @@ export default function VisitPage() {
           </div>
           <div className="md:col-span-7 md:col-start-6">
             <Suspense fallback={<div className="h-[36rem]" aria-hidden="true" />}>
-              <InquiryForm email={site.contact.email} groups={groups} />
+              <InquiryForm email={site.contact.email} groups={groups} formKey={process.env.NEXT_PUBLIC_WEB3FORMS_KEY} />
             </Suspense>
           </div>
         </div>
