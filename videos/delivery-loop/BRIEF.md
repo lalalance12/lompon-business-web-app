@@ -2,7 +2,7 @@
 workflow: general-video
 flow: automation
 storyboard: no
-message: "We deliver by dump truck, weighed to the tenth of a ton."
+message: "We deliver by dump truck, right to your site."
 destination: website-background
 aspect: 1920x1080
 length: 8s
@@ -11,7 +11,7 @@ length: 8s
 ## Intent
 
 Silent, seamless 8 s loop for the Delivery page: a yellow dump truck drives in,
-tips its load, the pile forms while the weighbridge readout counts to 18.4 t,
+tips its load, the pile forms,
 then the truck drives off and the scene resets.
 
 ## Notes
