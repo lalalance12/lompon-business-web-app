@@ -61,7 +61,16 @@ export default function HomePage() {
     url: site.url,
     telephone: site.contact.phone,
     email: site.contact.email,
-    address: site.contact.addressLines.join(", "),
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Lingion Road, Lower Sosohon, Mangima",
+      addressLocality: "Manolo Fortich",
+      addressRegion: "Bukidnon",
+      postalCode: "8703",
+      addressCountry: "PH",
+    },
+    geo: { "@type": "GeoCoordinates", latitude: site.locations[0].lat, longitude: site.locations[0].lng },
+    hasMap: site.contact.directionsUrl,
     foundingDate: String(site.established),
   }
 

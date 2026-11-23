@@ -51,4 +51,4 @@ Folders: `barangay-access-road`, `riverbank-riprap`, `subdivision-lot-filling`, 
 
 ## Visit — `media/visit/`
 
-`map.jpg`: a static map or yard-entrance photo, used only when no Google Maps embed URL is set in `src/content/site.ts`.
+`map.jpg`: no longer used; the Visit page shows a live Google map of the office and the quarry.

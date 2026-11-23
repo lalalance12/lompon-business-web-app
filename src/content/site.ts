@@ -15,11 +15,33 @@ export const site = {
     phone: "+63 906 813 0792",
     phoneHref: "tel:+639068130792",
     email: "llompon412@gmail.com",
-    addressLines: ["Lot 00, Quarry Road", "Barangay Placeholder", "City, Province 0000"], // PLACEHOLDER
-    directionsUrl: "https://maps.google.com/?q=limestone+yard", // PLACEHOLDER
-    /** Paste a Google Maps "Embed a map" src URL here to show a live map on the Visit page. */
-    mapEmbedUrl: "" as string, // PLACEHOLDER
+    /** Where to inquire and order. Shown as "the address" across the site. */
+    addressLines: ["Lingion Road, Lower Sosohon", "Mangima, Lingion", "Manolo Fortich, Bukidnon 8703"],
+    directionsUrl: "https://maps.app.goo.gl/pJrPxuH4ZRVcFgoq9",
   },
+
+  /** The two places on the Visit page map: the inquiry office and the quarry itself. */
+  locations: [
+    {
+      key: "office",
+      label: "Inquiries",
+      title: "Where to inquire",
+      addressLines: ["Lingion Road, Lower Sosohon", "Mangima, Lingion", "Manolo Fortich, Bukidnon 8703"],
+      lat: 8.386391,
+      lng: 124.881077,
+      directionsUrl: "https://maps.app.goo.gl/pJrPxuH4ZRVcFgoq9",
+    },
+    {
+      key: "quarry",
+      label: "Quarry site",
+      title: "The quarry",
+      addressLines: ["Lingion, Manolo Fortich", "Bukidnon 8703"],
+      lat: 8.390474,
+      lng: 124.876948,
+      directionsUrl: "https://maps.app.goo.gl/WJpocMew6zeUNw1G9",
+    },
+  ],
+
 
   hours: [
     { days: "Regular hours", time: "6:00 am – 6:00 pm" },
