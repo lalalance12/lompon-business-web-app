@@ -4,8 +4,8 @@ import { image, video } from "@/lib/media"
 import { cn } from "@/lib/utils"
 import { site } from "@/content/site"
 import { hero, intro, journey, pricesTeaser, screening, usesSection, visitBand, waysToBuy } from "@/content/home"
-import { materials, sackMaterials, tonMaterials } from "@/content/materials"
-import { cheapestDelivery, formatPeso, fromPrice, priceList } from "@/content/prices"
+import { bulkMaterials, materials, sackMaterials } from "@/content/materials"
+import { formatPeso, formatRate, priceLabel, priceList, unitPrice } from "@/content/prices"
 import { useCases, jobMedia } from "@/content/uses"
 import { projectMedia, projects } from "@/content/projects"
 import { Hero } from "@/components/home/hero"
@@ -20,11 +20,8 @@ import { cta } from "@/lib/cta"
 
 const byMaterial = (slug: string) => materials.find((m) => m.slug === slug)!
 
-/** "₱750 a ton" / "₱200 a sack" */
-function priceLabel(slug: string) {
-  const p = fromPrice(slug)
-  return p ? `${formatPeso(p.amount)} a ${p.unit}` : "Ask for price"
-}
+/** "₱2.20 per kg" / "₱400 per m³" / "₱110 per sack" */
+const priceOf = (slug: string) => priceLabel(slug)
 
 export default function HomePage() {
   const explorerUses = useCases.map((u) => ({
@@ -33,25 +30,25 @@ export default function HomePage() {
     body: u.body,
     tone: u.tone,
     media: image(jobMedia(u.slug)),
-    products: u.products.map((slug) => ({ slug, name: byMaterial(slug).name, price: priceLabel(slug) })),
+    products: u.products.map((slug) => ({ slug, name: byMaterial(slug).name, price: priceOf(slug) })),
   }))
 
   // Screen decks, top to bottom: what each screen holds back, then what falls through
   const decks = ["boulders", "gravel", "pebbles", "limestone-fines"].map((slug) => {
     const m = byMaterial(slug)
-    return { slug, name: m.name, size: m.size, price: formatPeso(priceList.perTon[slug]) }
+    return { slug, name: m.name, size: m.size, price: priceOf(slug) }
   })
 
-  const tonFrom = Math.min(...tonMaterials.map((m) => priceList.perTon[m.slug]))
-  const sackFrom = Math.min(...sackMaterials.map((m) => priceList.perSack[m.slug].bulk))
-  const buyFrom = { ton: tonFrom, sack: sackFrom }
-  const buyLists = { ton: tonMaterials, sack: sackMaterials }
+  const kiloFrom = Math.min(...Object.values(priceList.perKg))
+  const sackFrom = Math.min(...sackMaterials.map((m) => unitPrice(m.slug)?.amount ?? Infinity))
+  const buyFrom = { bulk: `From ${formatRate(kiloFrom)} per kg`, sack: `${formatPeso(sackFrom)} per sack` }
+  const buyLists = { bulk: bulkMaterials, sack: sackMaterials }
 
   const highlights = [
-    { label: "Road base", value: formatPeso(priceList.perTon["road-base"]), unit: "per ton", href: "/prices#tons" },
-    { label: "Crushed gravel", value: formatPeso(priceList.perTon.gravel), unit: "per ton", href: "/prices#tons" },
-    { label: "Fine limestone", value: formatPeso(priceList.perSack["fine-limestone"].each), unit: "per 40 kg sack", href: "/prices#sacks" },
-    { label: "Delivery", value: formatPeso(cheapestDelivery), unit: "per trip, from", href: "/prices#delivery" },
+    { label: "Limestone fines", value: formatRate(priceList.perKg["limestone-fines"]), unit: "per kg", href: "/prices#bulk" },
+    { label: "Crushed gravel", value: formatRate(priceList.perKg.gravel), unit: "per kg", href: "/prices#bulk" },
+    { label: "Boulders", value: formatPeso(priceList.perCubicMetre.boulders), unit: "per m³", href: "/prices#bulk" },
+    { label: "Delivery", value: formatPeso(priceList.truck.feePerKm), unit: "per km, paid separately", href: "/prices#delivery" },
   ]
 
   const recent = projects.slice(0, 3)
@@ -128,8 +125,8 @@ export default function HomePage() {
                 href={way.href}
                 media={image(way.media)}
                 alt={way.title}
-                tone={byMaterial(way.unit === "ton" ? "gravel" : "fine-limestone").tone}
-                badge={`From ${formatPeso(buyFrom[way.unit])} a ${way.unit}`}
+                tone={byMaterial(way.group === "bulk" ? "gravel" : "cooked-limestone").tone}
+                badge={buyFrom[way.group]}
                 title={way.title}
                 titleSize="h2"
                 description={way.body}
@@ -137,7 +134,7 @@ export default function HomePage() {
                 cta={way.cta}
               >
                 <ul className="mt-5 flex flex-wrap gap-1.5">
-                  {buyLists[way.unit].map((m) => (
+                  {buyLists[way.group].map((m) => (
                     <li key={m.slug} className="rounded-full border border-border px-3 py-1 text-sm text-silt">
                       {m.name}
                     </li>
@@ -153,7 +150,7 @@ export default function HomePage() {
             <Warehouse className="mt-1 size-6 shrink-0 text-ochre" aria-hidden="true" />
             <div>
               <h3 className="text-lg">Pick up at the yard</h3>
-              <p className="mt-1 text-silt">Drive in during opening hours. We load your truck for free and weigh it on the way out.</p>
+              <p className="mt-1 text-silt">Drive in during opening hours. We load your truck for free.</p>
             </div>
           </RevealItem>
           <RevealItem as="div" className="flex gap-4">
@@ -161,7 +158,7 @@ export default function HomePage() {
             <div>
               <h3 className="text-lg">Delivery by dump truck</h3>
               <p className="mt-1 text-silt">
-                A separate service, from {formatPeso(cheapestDelivery)} a trip. Watch a load go from our yard to a site just below.
+                A separate service, paid apart from the limestone: {formatPeso(priceList.truck.feePerKm)} per km, up to {priceList.truck.cubicMetres} m³ a trip. Watch a load go from our yard to a site just below.
               </p>
             </div>
           </RevealItem>
@@ -169,7 +166,7 @@ export default function HomePage() {
       </section>
 
       {/* Scroll scene: a delivery from yard to site */}
-      <DeliveryJourney title={journey.title} body={journey.body} stages={journey.stages} tons={journey.exampleTons} />
+      <DeliveryJourney title={journey.title} body={journey.body} stages={journey.stages} />
 
       {/* 3. What it costs */}
       <section id="prices" aria-labelledby="prices-heading" className="page-gutter page-width scroll-mt-24 py-24 md:py-32">

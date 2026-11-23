@@ -1,5 +1,6 @@
 /**
- * Bulk limestone: aggregate sold by the ton and lime sold by the sack.
+ * Bulk limestone: crushed stone sold loose by the kilo (boulders by the
+ * cubic metre), and lime sold by the sack.
  * Every name, size and use is a PLACEHOLDER — see PLACEHOLDERS.md.
  * Prices live in prices.ts.
  *
@@ -8,18 +9,21 @@
  */
 import type { Tone } from "@/lib/texture"
 
-export type SaleUnit = "ton" | "sack"
+/** "bulk" is loose stone (by the kilo, boulders by the m³); "sack" is bagged lime. */
+export type SaleGroup = "bulk" | "sack"
 
 export type Material = {
   slug: string
-  unit: SaleUnit
+  group: SaleGroup
   name: string
   /** Local or trade name customers may ask for, e.g. "3/4 gravel". */
   alsoCalled?: string
-  /** Size range shown on the card, e.g. "20–40 mm" or "40 kg sack". */
+  /** Size shown on the card, e.g. "Mesh 20" or "50 kg sack". Empty to show none. */
   size: string
   /** For aggregates: smallest and largest piece in mm, used for the size scale. */
   sizeMm?: [number, number]
+  /** For sacks: weight of one sack in kg, used to work out truckloads. */
+  sackKg?: number
   summary: string
   uses: string[]
   /** How it is sold, e.g. minimum order or sack weight. */
@@ -30,112 +34,99 @@ export type Material = {
 }
 
 export const materials: Material[] = [
-  // ——— By the ton ———
+  // ——— Loose, by the kilo (boulders by the cubic metre) ———
   {
     slug: "limestone-fines",
-    unit: "ton",
+    group: "bulk",
     name: "Limestone fines",
     alsoCalled: "Screenings, crusher dust",
-    size: "0–5 mm",
-    sizeMm: [0.5, 5],
+    size: "Mesh 20",
+    sizeMm: [0.1, 0.84],
     summary: "Fine crushed limestone that packs down hard and level.",
     uses: ["Bedding under pavers", "Backfill around pipes", "Paths and floor sub-base"],
-    sold: "By the ton. Minimum 1 ton for pick-up.",
+    sold: "By the kilo, loaded at the yard.",
     tone: { base: "#d9d4c8", vein: "#bdb6a6", grain: "#8f887a" },
   },
   {
-    slug: "pebbles",
-    unit: "ton",
-    name: "Pebbles",
-    alsoCalled: "3/8 and 1/2 gravel",
-    size: "5–20 mm",
-    sizeMm: [5, 20],
-    summary: "Small, clean crushed stone for concrete, drainage and gardens.",
-    uses: ["Concrete mixes", "French drains", "Garden beds and walkways"],
-    sold: "By the ton. Minimum 1 ton for pick-up.",
+    slug: "grits",
+    group: "bulk",
+    name: "Grits",
+    alsoCalled: "Limestone grit, coarse screenings",
+    size: "Mesh 10",
+    sizeMm: [0.84, 2],
+    summary: "Coarse, gritty crushed limestone between fines and coarse.",
+    uses: ["Hollow blocks and plaster", "Poultry grit", "Topping for paths"],
+    sold: "By the kilo, loaded at the yard.",
+    tone: { base: "#d3cdc0", vein: "#b2ab9b", grain: "#7f786b" },
+  },
+  {
+    slug: "coarse",
+    group: "bulk",
+    name: "Coarse",
+    alsoCalled: "Coarse aggregate",
+    size: "Mesh 8",
+    sizeMm: [2, 2.38],
+    summary: "Coarse crushed limestone, a step up from grits, that drains and compacts well.",
+    uses: ["Concrete and hollow blocks", "Drainage beds", "Driveway topping"],
+    sold: "By the kilo, loaded at the yard.",
     tone: { base: "#cfc9bb", vein: "#a69f8f", grain: "#6f695c" },
   },
   {
+    slug: "pebbles",
+    group: "bulk",
+    name: "Pebbles",
+    size: "Mesh 6",
+    sizeMm: [2.38, 3.36],
+    summary: "Small, clean crushed stone for concrete, drainage and gardens.",
+    uses: ["Concrete mixes", "French drains", "Garden beds and walkways"],
+    sold: "By the kilo, loaded at the yard.",
+    tone: { base: "#cbc5b7", vein: "#a29b8a", grain: "#6a6457" },
+  },
+  {
     slug: "gravel",
-    unit: "ton",
+    group: "bulk",
     name: "Crushed gravel",
     alsoCalled: "3/4 gravel",
-    size: "20–40 mm",
-    sizeMm: [20, 40],
+    size: "",
     summary: "Angular crushed limestone that locks together under load.",
-    uses: ["Structural concrete", "Footings and slabs", "Drainage layers"],
-    sold: "By the ton. Minimum 1 ton for pick-up.",
+    uses: ["Structural concrete", "Footings and slabs", "Roads and driveways"],
+    sold: "By the kilo, loaded at the yard.",
     tone: { base: "#c7c1b3", vein: "#9b9485", grain: "#625c50" },
   },
   {
-    slug: "road-base",
-    unit: "ton",
-    name: "Road base",
-    alsoCalled: "Base course, sub-base, G1",
-    size: "0–40 mm, graded",
-    sizeMm: [1, 40],
-    summary: "A graded mix of fines and stone that compacts into a firm road bed.",
-    uses: ["Road and driveway sub-base", "Parking areas", "Building pads"],
-    sold: "By the ton or by the truckload.",
-    tone: { base: "#c9c1ae", vein: "#a1977f", grain: "#6c6453" },
-  },
-  {
     slug: "boulders",
-    unit: "ton",
+    group: "bulk",
     name: "Boulders",
     alsoCalled: "Riprap, armour stone",
-    size: "150–600 mm",
-    sizeMm: [150, 600],
+    size: "",
     summary: "Large, heavy pieces for holding back soil and water.",
     uses: ["Slope and riverbank protection", "Sea walls and riprap", "Retaining walls and landscaping"],
-    sold: "By the ton or by the truckload. Delivery only for loads over 5 tons.",
+    sold: "By the cubic metre, measured in the truck bed.",
     tone: { base: "#bdb6a7", vein: "#8d8676", grain: "#57524a" },
-  },
-  {
-    slug: "fill-spall",
-    unit: "ton",
-    name: "Mixed fill",
-    alsoCalled: "Spall, run-of-quarry",
-    size: "Mixed, up to 150 mm",
-    sizeMm: [5, 150],
-    summary: "Ungraded quarry stone for raising and firming low ground.",
-    uses: ["Filling low lots", "Temporary site roads", "Backfill behind walls"],
-    sold: "By the truckload.",
-    tone: { base: "#c4bcab", vein: "#968d7b", grain: "#5f584b" },
   },
 
   // ——— By the sack ———
   {
-    slug: "fine-limestone",
-    unit: "sack",
-    name: "Fine limestone",
-    alsoCalled: "Agricultural lime, limestone powder",
-    size: "40 kg sack",
-    summary: "Finely ground raw limestone. Gentle to handle and slow-acting.",
-    uses: ["Sweetening acidic soil", "Poultry and feed grit", "Filler for mortar and paint"],
-    sold: "By the sack. Bulk discounts from 20 sacks.",
-    tone: { base: "#ece9e1", vein: "#d6d1c4", grain: "#b3ad9e" },
-  },
-  {
     slug: "cooked-limestone",
-    unit: "sack",
+    group: "sack",
     name: "Cooked limestone",
     alsoCalled: "Burnt lime, quicklime, apog",
-    size: "25 kg sack",
+    size: "50 kg sack",
+    sackKg: 50,
     summary: "Limestone burned in a kiln. Strong and fast-acting.",
     uses: ["Lime plaster and mortar", "Soil stabilisation", "Water and waste treatment"],
-    sold: "By the sack. Bulk discounts from 20 sacks.",
+    sold: "By the 50 kg sack, ₱110 per sack.",
     note: "Gets hot and caustic when wet. Keep sacks dry and wear gloves and eye protection.",
     tone: { base: "#f0eee8", vein: "#dcd8cd", grain: "#c0baab" },
   },
 ]
 
-export const tonMaterials = materials.filter((m) => m.unit === "ton")
-export const sackMaterials = materials.filter((m) => m.unit === "sack")
+export const bulkMaterials = materials.filter((m) => m.group === "bulk")
+export const sackMaterials = materials.filter((m) => m.group === "sack")
 
 export const materialMedia = (slug: string) => `media/materials/${slug}`
 
-export const unitLabel: Record<SaleUnit, { title: string; plural: string }> = {
-  ton: { title: "By the ton", plural: "tons" },
-  sack: { title: "By the sack", plural: "sacks" },
+export const groupLabel: Record<SaleGroup, { title: string; short: string }> = {
+  bulk: { title: "By the kilo", short: "kilo" },
+  sack: { title: "By the sack", short: "sack" },
 }

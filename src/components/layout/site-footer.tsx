@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { nav, site } from "@/content/site"
-import { tonMaterials } from "@/content/materials"
+import { bulkMaterials } from "@/content/materials"
 import { LogoMark } from "./logo"
 import { cta } from "@/lib/cta"
 
@@ -49,8 +49,8 @@ export function SiteFooter() {
               <h2 className="mb-4 text-sm text-fossil">What we sell</h2>
               <ul className="space-y-1">
                 {[
-                  ...tonMaterials.slice(0, 5).map((m) => ({ label: m.name, href: `/materials#${m.slug}` })),
-                  { label: "Fine and cooked limestone", href: "/materials#sacks" },
+                  ...bulkMaterials.map((m) => ({ label: m.name, href: `/materials#${m.slug}` })),
+                  { label: "Cooked limestone (sacks)", href: "/materials#sacks" },
                   { label: "Dump-truck delivery", href: "/delivery" },
                   { label: "Price list", href: "/prices" },
                 ].map((item) => (

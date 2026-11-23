@@ -4,12 +4,12 @@ import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 import { quick } from "@/lib/motion"
 
-/** Shared log axis: 0.5 mm to 1,000 mm covers dust to boulders. */
-const MIN = Math.log10(0.5)
-const MAX = Math.log10(1000)
+/** Shared log axis: 0.1 mm to 5 mm covers fines to pebbles (mesh 20 to mesh 6). */
+const MIN = Math.log10(0.1)
+const MAX = Math.log10(5)
 const pos = (mm: number) => ((Math.log10(mm) - MIN) / (MAX - MIN)) * 100
 
-const TICKS = [1, 10, 100, 1000]
+const TICKS = [0.1, 0.5, 1, 2, 5]
 
 /**
  * A piece-size range drawn on a shared logarithmic scale, so every aggregate
@@ -42,7 +42,7 @@ export function SizeAxis({ className }: { className?: string }) {
     <div className={cn("relative h-4 text-[11px] text-silt tabular-nums", className)} aria-hidden="true">
       {TICKS.map((t) => (
         <span key={t} className="absolute -translate-x-1/2 whitespace-nowrap" style={{ left: `${pos(t)}%` }}>
-          {t >= 1000 ? "1 m" : `${t} mm`}
+          {`${t} mm`}
         </span>
       ))}
     </div>

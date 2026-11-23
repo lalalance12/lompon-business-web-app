@@ -4,6 +4,7 @@ import { Check, MapPin } from "lucide-react"
 import { image, video } from "@/lib/media"
 import { delivery } from "@/content/delivery"
 import { site } from "@/content/site"
+import { formatPeso, priceList } from "@/content/prices"
 import { PageIntro } from "@/components/shared/page-intro"
 import { SectionHeading } from "@/components/shared/section-heading"
 import { MediaFrame } from "@/components/media/media-frame"
@@ -13,16 +14,14 @@ import { cta } from "@/lib/cta"
 
 export const metadata: Metadata = {
   title: "Delivery",
-  description: "Pick up at the yard with your own truck, or book our dump trucks to deliver limestone to your site.",
+  description: "Pick up at the yard with your own truck, or book our 20 m³ dump truck at ₱1,500 per km. Delivery is paid separately from the limestone.",
 }
-
-// Truck silhouettes scale with capacity, so the sizes read at a glance.
-const truckScale = [0.62, 0.8, 1]
 
 export default function DeliveryPage() {
   // Use the delivery video when one has been added, otherwise the photo slot.
   const film = video(delivery.video, delivery.videoPoster)
   const onSite = film.video ? film : image(delivery.photo)
+  const { truck } = priceList
 
   return (
     <>
@@ -48,24 +47,33 @@ export default function DeliveryPage() {
         </div>
       </section>
 
-      {/* Trucks */}
+      {/* The truck and its fee */}
       <section className="page-gutter page-width py-24 md:py-32">
         <SectionHeading
-          title="Our trucks"
-          body="We send the right size for the load and the road. Not sure how much you need? Tell us the area and depth and we'll work it out."
+          title="Our dump truck"
+          body="One truck, priced by distance. Not sure how much you need? Tell us the area and depth and we'll work it out."
           className="mb-12"
         />
-        <RevealGroup className="grid gap-x-6 gap-y-12 sm:grid-cols-3" stagger={0.07}>
-          {delivery.trucks.map((truck, i) => (
-            <RevealItem key={truck.name} className="border-t border-slate/30 pt-6">
-              <div className="flex h-24 items-end">
-                <TruckSilhouette scale={truckScale[i] ?? 1} />
-              </div>
-              <h3 className="type-h3 mt-6">{truck.name}</h3>
-              <p className="mt-1 text-lg">{truck.capacity}</p>
-              <p className="mt-2 text-silt">{truck.bestFor}</p>
-            </RevealItem>
-          ))}
+        <RevealGroup className="grid gap-x-6 gap-y-10 border-t border-slate/30 pt-8 sm:grid-cols-3" stagger={0.07}>
+          <RevealItem>
+            <div className="flex h-24 items-end">
+              <TruckSilhouette />
+            </div>
+            <h3 className="type-h3 mt-6">Holds up to {truck.cubicMetres} m³</h3>
+            <p className="mt-2 text-silt">Bigger orders go in more than one trip.</p>
+          </RevealItem>
+          <RevealItem>
+            <p className="flex h-24 items-end">
+              <span className="type-figure text-5xl text-ochre">{formatPeso(truck.feePerKm)}</span>
+            </p>
+            <h3 className="type-h3 mt-6">Per km, per trip</h3>
+            <p className="mt-2 text-silt">For every kilometre from the yard to your site. 10 km is {formatPeso(10 * truck.feePerKm)} a trip.</p>
+          </RevealItem>
+          <RevealItem>
+            <p className="flex h-24 items-end font-display text-5xl text-ochre" aria-hidden="true">+</p>
+            <h3 className="type-h3 mt-6">Paid separately</h3>
+            <p className="mt-2 text-silt">{delivery.payNote}</p>
+          </RevealItem>
         </RevealGroup>
       </section>
 
@@ -109,7 +117,7 @@ export default function DeliveryPage() {
           <div>
             <h2 className="type-h2 max-w-[18ch]">Book a delivery or ask for a quote</h2>
             <p className="type-lede mt-4 max-w-[48ch] text-silt">
-              Tell us the material, the amount and the address. We reply with the price, delivery fee and the earliest day.
+              Tell us the material, the amount and the address. We reply with the limestone price and the delivery fee, each on its own, and the earliest day.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -126,9 +134,9 @@ export default function DeliveryPage() {
   )
 }
 
-function TruckSilhouette({ scale }: { scale: number }) {
+function TruckSilhouette() {
   return (
-    <svg viewBox="0 0 160 80" aria-hidden="true" className="h-auto origin-bottom-left" style={{ width: `${scale * 11}rem` }}>
+    <svg viewBox="0 0 160 80" aria-hidden="true" className="h-auto w-44">
       <path d="M6 22 H 92 L 90 58 H 10 Z" fill="#f4b400" />
       <path d="M100 30 H 128 L 150 50 V 62 H 100 Z" fill="#f4b400" />
       <path d="M106 36 H 126 L 140 50 H 106 Z" fill="#1d2427" />

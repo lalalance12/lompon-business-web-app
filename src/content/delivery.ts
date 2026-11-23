@@ -10,41 +10,37 @@ export const delivery = {
     pickup: {
       label: "You collect",
       title: "Pick up at the yard",
-      body: "Drive in with your own truck, pick-up or trailer. Our loader fills it, the weighbridge prints your ticket, and you pay at the office.",
+      body: "Drive in with your own truck, pick-up or trailer. Our loader fills it and you pay at the office.",
       points: [
         "No booking needed during opening hours",
         "Loaded by front loader, or by hand for sacks",
-        "Weighbridge ticket with every load",
+        "Receipt with every load",
         "Sacks fit in any car or pick-up",
       ],
     },
     delivery: {
       label: "We deliver",
       title: "Dump-truck delivery",
-      body: "A separate service from your order. Tell us the address and the day; our driver tips the load where you point, or unloads sacks by hand.",
+      body: "A separate service, paid separately from the limestone. Tell us the address and the day; our driver tips the load where you point, or unloads sacks by hand.",
       points: [
         "Delivered within the delivery area, farther on request",
-        "Delivery fee based on distance and truck size",
+        "₱1,500 for every kilometre from the yard, per truckload",
+        "One truck holds up to 20 m³",
         "Scheduled to the day, with a call before arrival",
-        "Bulk and sacks can ride together on one truck",
       ],
     },
   },
 
-  /** Truck sizes. Capacities are placeholders — confirm with the fleet. */
-  trucks: [
-    { name: "Mini dump truck", capacity: "About 3 m³ / 5 tons", bestFor: "Narrow streets, small jobs, sacks" },
-    { name: "6-wheeler", capacity: "About 6 m³ / 10 tons", bestFor: "Homes and small builds" },
-    { name: "10-wheeler", capacity: "About 12 m³ / 20 tons", bestFor: "Roads, fill and large sites" },
-  ],
+  /** Shown wherever delivery is priced. */
+  payNote: "The limestone and the delivery are paid for separately: one price for the stone, one for the truck.",
 
   area: "Within 50 km of the yard. Farther deliveries on request.",
 
   /** A real sequence, so it is numbered on the page. */
   steps: [
-    { title: "Tell us what and how much", body: "Call, message, or use the form. We help you work out tons or truckloads." },
-    { title: "Confirm price and day", body: "We quote the material and the delivery fee, then book a delivery day." },
-    { title: "Loaded and weighed", body: "Your load is weighed at the yard so you get exactly what you paid for." },
+    { title: "Tell us what and how much", body: "Call, message, or use the form. We help you work out kilos, cubic metres or truckloads." },
+    { title: "Confirm price and day", body: "We quote the limestone and the delivery separately, then book a delivery day." },
+    { title: "Loaded at the yard", body: "Our loader fills the truck with exactly what you ordered, up to 20 m³ a trip." },
     { title: "Tipped where you point", body: "The driver calls ahead, then dumps the load or unloads sacks on site." },
   ],
 

@@ -152,7 +152,7 @@ export function InquiryForm({ email, groups }: { email: string; groups: ProductG
             id="quantity"
             name="quantity"
             inputMode="decimal"
-            placeholder={chosen ? "e.g. 10" : "e.g. 10 tons or 20 sacks"}
+            placeholder={chosen ? "e.g. 10" : "e.g. 1,000 kg or 20 sacks"}
             className={cn(fieldClass, chosen && "pr-20")}
           />
           <AnimatePresence initial={false}>

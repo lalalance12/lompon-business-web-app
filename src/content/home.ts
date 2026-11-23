@@ -4,8 +4,8 @@
  * All text is PLACEHOLDER copy — see PLACEHOLDERS.md.
  */
 export const hero = {
-  title: ["Limestone by", "the ton and", "by the sack."],
-  body: "Crushed aggregate, road base and boulders by the ton. Fine and cooked limestone by the sack. Collect it at the yard or have our dump trucks deliver.",
+  title: ["Limestone by", "the kilo and", "by the sack."],
+  body: "Fines, grits, coarse, pebbles and crushed gravel by the kilo, boulders by the cubic metre, and cooked limestone by the 50 kg sack. Collect it at the yard or have our dump truck deliver.",
   primaryCta: { label: "See the price list", href: "/prices" },
   secondaryCta: { label: "Book a delivery", href: "/delivery" },
   /** /public/media/home/hero.(mp4|webm) — muted, looping background video. */
@@ -16,7 +16,7 @@ export const hero = {
 
 export const intro = {
   statement:
-    "We have quarried, crushed and screened limestone for over two decades. From a single sack of lime to a convoy of road base, everything is weighed at our yard and ready the same day.",
+    "We have quarried, crushed and screened limestone for over two decades. From a single sack of lime to a full truck of gravel, everything is ready at our yard the same day.",
 }
 
 export const usesSection = {
@@ -32,19 +32,19 @@ export const screening = {
 /** The two ways the yard sells limestone. */
 export const waysToBuy = [
   {
-    unit: "ton" as const,
-    title: "By the ton",
-    body: "Crushed and screened aggregate, weighed on our weighbridge. Collect from one ton, or order by the truckload.",
-    href: "/materials#tons",
+    group: "bulk" as const,
+    title: "By the kilo",
+    body: "Crushed and screened limestone, sold by the kilo, and boulders by the cubic metre. Collect it yourself, or order by the truckload.",
+    href: "/materials#bulk",
     cta: "See every size",
-    media: "media/home/buy-tons",
+    media: "media/home/buy-kilos",
   },
   {
-    unit: "sack" as const,
+    group: "sack" as const,
     title: "By the sack",
-    body: "Fine and cooked limestone, bagged at the yard. Fits in any car; cheaper from 20 sacks.",
+    body: "Cooked limestone in 50 kg sacks, bagged at the yard at ₱110 per sack. Fits in any car.",
     href: "/materials#sacks",
-    cta: "See sacked lime",
+    cta: "See cooked limestone",
     media: "media/home/buy-sacks",
   },
 ]
@@ -55,17 +55,14 @@ export const journey = {
   body: "Collect it yourself, or book a dump truck and follow your load the whole way.",
   stages: [
     { title: "Loaded at the yard", body: "Our loader fills the truck with exactly what you ordered." },
-    { title: "Weighed", body: "Across the weighbridge, so you pay for the weight you get." },
     { title: "On the road", body: "The driver calls ahead with an arrival time." },
     { title: "Tipped on your site", body: "Dumped right where you point. Sacks are unloaded by hand." },
   ],
-  /** Example load shown on the weighbridge readout. */
-  exampleTons: 18.4,
 }
 
 export const pricesTeaser = {
-  title: "Straight prices, by weight",
-  body: "Our general price list is public. Pick a product, add delivery, and you have a good idea of the total before you call.",
+  title: "Straight prices, by the kilo",
+  body: "Our general price list is public. The limestone and the delivery are priced separately, so you see what each costs before you call.",
 }
 
 export const visitBand = {

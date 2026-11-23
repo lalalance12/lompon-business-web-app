@@ -11,14 +11,14 @@ export const about = {
   film: "media/about/film",
   filmPoster: "media/about/film-poster",
   story: [
-    "Our founder grew up beside a limestone quarry and spent his first wages on a second-hand crusher. In 1998 he started selling gravel and fill to local builders, loaded by hand onto their trucks.",
-    "The crusher became a yard, the yard got screens, a weighbridge and a lime kiln, and the next generation joined. We still work the same way: honest weight, clean stone, and a straight answer on price.",
+    "Our founder grew up beside a limestone quarry and spent his first wages on a second-hand crusher. In 1998 he started selling gravel to local builders, loaded by hand onto their trucks.",
+    "The crusher became a yard, the yard got screens and a lime kiln, and the next generation joined. We still work the same way: honest measure, clean stone, and a straight answer on price.",
   ],
   timeline: [
-    { year: "1998", text: "First crusher opens; gravel and fill sold by the truckload." },
+    { year: "1998", text: "First crusher opens; gravel sold by the truckload." },
     { year: "2006", text: "Screening line added, sorting stone into every size." },
-    { year: "2014", text: "Lime kiln built; fine and cooked limestone sold by the sack." },
-    { year: "2021", text: "Weighbridge and our own fleet of dump trucks." },
+    { year: "2014", text: "Lime kiln built; cooked limestone sold by the sack." },
+    { year: "2021", text: "Our own fleet of dump trucks." },
   ],
   yardImages: ["media/about/yard-1", "media/about/yard-2", "media/about/yard-3"],
   team: [

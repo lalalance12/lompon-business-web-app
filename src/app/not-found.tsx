@@ -10,7 +10,7 @@ export default function NotFound() {
       </p>
       <div className="mt-10 flex flex-wrap gap-3">
         <Link href="/materials" className={cta({ tone: "primary", size: "md" })}>
-          See tons and sacks
+          See kilos and sacks
         </Link>
         <Link href="/" className={cta({ tone: "outline", size: "md" })}>
           Go to the home page

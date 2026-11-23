@@ -2,7 +2,7 @@ import Link from "next/link"
 import { TriangleAlert } from "lucide-react"
 import { image } from "@/lib/media"
 import { materialMedia, type Material } from "@/content/materials"
-import { formatPeso, priceList } from "@/content/prices"
+import { formatPeso, formatRate, unitPrice } from "@/content/prices"
 import { MediaFrame } from "@/components/media/media-frame"
 import { RevealItem } from "@/components/motion/reveal"
 import { SizeScale } from "./size-scale"
@@ -11,22 +11,14 @@ import { cta } from "@/lib/cta"
 const askHref = (m: Material) => `/visit?product=${m.slug}#inquiry`
 
 function Price({ material }: { material: Material }) {
-  if (material.unit === "ton") {
-    const perTon = priceList.perTon[material.slug]
-    if (perTon === undefined) return <p className="text-[0.9375rem]">Ask for today&apos;s price</p>
-    return (
-      <p>
-        <span className="type-figure text-2xl">{formatPeso(perTon)}</span>
-        <span className="text-silt"> per ton at the yard</span>
-      </p>
-    )
-  }
-  const sack = priceList.perSack[material.slug]
-  if (!sack) return <p className="text-[0.9375rem]">Ask for today&apos;s price</p>
+  const p = unitPrice(material.slug)
+  if (!p) return <p className="text-[0.9375rem]">Price to be determined</p>
+  const amount = p.unit === "kg" ? formatRate(p.amount) : formatPeso(p.amount)
+  const per = p.unit === "kg" ? "per kg at the yard" : p.unit === "m3" ? "per m³ at the yard" : "per sack"
   return (
     <p>
-      <span className="type-figure text-2xl">{formatPeso(sack.each)}</span>
-      <span className="text-silt"> per sack, {formatPeso(sack.bulk)} from {priceList.bulkFrom} sacks</span>
+      <span className="type-figure text-2xl">{amount}</span>
+      <span className="text-silt"> {per}</span>
     </p>
   )
 }
@@ -44,7 +36,7 @@ function Uses({ uses }: { uses: string[] }) {
 }
 
 /** One aggregate as a row of the price list: photo, description, size and how it's sold. */
-export function TonRow({ material }: { material: Material }) {
+export function BulkRow({ material }: { material: Material }) {
   return (
     <RevealItem
       id={material.slug}
@@ -53,7 +45,7 @@ export function TonRow({ material }: { material: Material }) {
       <div className="relative aspect-[4/3] overflow-hidden rounded-sm md:col-span-3">
         <MediaFrame
           media={image(materialMedia(material.slug))}
-          alt={`${material.name}, ${material.size}`}
+          alt={material.size ? `${material.name}, ${material.size}` : material.name}
           tone={material.tone}
           sizes="(min-width: 768px) 25vw, 100vw"
         />
@@ -67,13 +59,15 @@ export function TonRow({ material }: { material: Material }) {
       </div>
 
       <div className="flex flex-col gap-4 md:col-span-4">
-        <div>
-          <p className="flex items-baseline justify-between gap-4">
-            <span className="text-sm text-silt">Piece size</span>
-            <span className="type-figure text-xl">{material.size}</span>
-          </p>
-          {material.sizeMm && <SizeScale range={material.sizeMm} className="mt-2" />}
-        </div>
+        {material.size && (
+          <div>
+            <p className="flex items-baseline justify-between gap-4">
+              <span className="text-sm text-silt">Size</span>
+              <span className="type-figure text-xl">{material.size}</span>
+            </p>
+            {material.sizeMm && <SizeScale range={material.sizeMm} className="mt-2" />}
+          </div>
+        )}
         <div className="space-y-1 text-sm text-silt">
           <p>{material.sold}</p>
         </div>

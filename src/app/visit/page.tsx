@@ -3,7 +3,8 @@ import { Suspense } from "react"
 import { Mail, MapPin, Phone } from "lucide-react"
 import { image } from "@/lib/media"
 import { site } from "@/content/site"
-import { sackMaterials, tonMaterials } from "@/content/materials"
+import { bulkMaterials, sackMaterials } from "@/content/materials"
+import { unitName, unitPrice } from "@/content/prices"
 import { MediaFrame } from "@/components/media/media-frame"
 import { PageIntro } from "@/components/shared/page-intro"
 import { InquiryForm, type ProductGroup } from "@/components/visit/inquiry-form"
@@ -16,7 +17,10 @@ export const metadata: Metadata = {
 
 export default function VisitPage() {
   const groups: ProductGroup[] = [
-    { label: "By the ton", options: tonMaterials.map((m) => ({ value: `material:${m.slug}`, name: m.name, unit: "tons" })) },
+    {
+      label: "By the kilo",
+      options: bulkMaterials.map((m) => ({ value: `material:${m.slug}`, name: m.name, unit: unitName[unitPrice(m.slug)?.unit ?? "kg"] })),
+    },
     { label: "By the sack", options: sackMaterials.map((m) => ({ value: `material:${m.slug}`, name: m.name, unit: "sacks" })) },
   ]
 

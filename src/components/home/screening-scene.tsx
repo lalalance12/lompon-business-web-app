@@ -221,7 +221,7 @@ function DeckLegend({
       >
         <span className="text-lg transition-colors group-hover:text-ochre">{deck.name}</span>
         <span className="text-sm text-silt lg:text-right">
-          {deck.size}, from {deck.price} a ton
+          {deck.size ? `${deck.size}, ` : ""}{deck.price}
         </span>
       </Link>
       <motion.span
